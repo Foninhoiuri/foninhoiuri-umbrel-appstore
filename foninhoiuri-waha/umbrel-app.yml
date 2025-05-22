@@ -2,7 +2,7 @@ manifestVersion: 1
 id: foninhoiuri-waha
 name: Waha Bot
 tagline: Envie, receba e automatize mensagens com liberdade total, múltiplas sessões e integração fácil com qualquer sistema.
-icon: https://i.imgur.com/jQrNiEn.png
+icon: https://i.imgur.com/EMy9UKw.png
 category: communication
 version: "1.0.1"
 port: 3000

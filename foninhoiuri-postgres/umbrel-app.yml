@@ -10,6 +10,7 @@ description: >-
   PostgreSQL é um banco de dados relacional avançado, amplamente usado para armazenar dados estruturados.
 developer: Foninhoiuri
 website: https://www.postgresql.org/
+submitter: foninho
 repo: https://github.com/postgres/postgres
 support: https://www.postgresql.org/support/
 dependencies:

@@ -1,16 +1,38 @@
+# Minha Loja Umbrel
+
+Este repositório é a **minha loja comunitária de apps para o Umbrel**.
+
+Aqui você encontrará uma seleção personalizada de aplicativos que uso e recomendo, prontos para serem instalados diretamente no seu Umbrel via App Store Comunitária.
+
+> **💡 Dica:** Para adicionar esta loja ao seu Umbrel, vá em *App Store > Custom App Stores > Add Store* e cole o link deste repositório.
+
+---
+
 ## Template de App Store Comunitária do Umbrel
 
-Este repositório é um template para criar uma App Store Comunitária do Umbrel. Essas app stores adicionais permitem que desenvolvedores distribuam aplicativos sem precisar enviá-los para a [App Store Oficial do Umbrel](https://github.com/getumbrel/umbrel-apps).
+Este repositório segue o template oficial para criar uma App Store Comunitária do Umbrel. Essas app stores adicionais permitem que desenvolvedores distribuam aplicativos sem precisar enviá-los para a [App Store Oficial do Umbrel](https://github.com/getumbrel/umbrel-apps).
 
-## Como usar:
+---
 
-1. Comece clicando no botão "Use this template" localizado acima.
-2. Defina um ID e um nome para sua app store no arquivo `umbrel-app-store.yml`. Este arquivo especifica dois atributos importantes:
-    - `id` – Atua como um prefixo único para cada app dentro da sua App Store Comunitária. Você deve iniciar o ID do seu aplicativo com o ID da sua app store. Por exemplo, neste template, o ID da app store é `sparkles`, e há um app chamado `hello world`. Consequentemente, o ID do app deve ser: `sparkles-hello-world`.
-    - `name` – Este é o nome da App Store Comunitária exibido na interface do umbrelOS.
-3. Renomeie a pasta `sparkles-hello-world` para corresponder ao ID do seu aplicativo. O ID do app é você quem define. Por exemplo, se o ID da sua app store for `whistles`, e seu app se chamar "My Video Downloader", você pode definir o ID do app como `whistles-my-video-downloader` e renomear a pasta de acordo.
-4. Em seguida, preencha os detalhes do seu app no arquivo `whistles-my-video-downloader/umbrel-app.yml`. Esses dados serão exibidos na interface do umbrelOS.
-5. Inclua os serviços Docker necessários em `whistles-my-video-downloader/docker-compose.yml`.
-6. Pronto! Sua App Store Comunitária, com seu app exclusivo, está configurada e pronta para uso. Para utilizar sua App Store Comunitária, basta adicionar sua URL do GitHub na interface do usuário do umbrelOS como mostrado na demonstração a seguir:
+## Aplicativos Disponíveis
+
+| Serviço            | Imagem Docker                                           | Portas Expostas                                                                        | 
+| ------------------ | ------------------------------------------------------- | -------------------------------------------------------------------------------------- | 
+| **Crafty**         | `registry.gitlab.com/crafty-controller/crafty-4:latest` | `18000:8000`, `18443:8443`, `18123:8123`, `19132:19132/udp`, `25500-25565:25500-25565` | 
+| **Waha**           | `ghcr.io/joaomgcd/waha:latest`                          | `19981:19981`                                                                          | 
+
+## Outros aplicativos para referencia de porta
+
+| Serviço            | Imagem Docker                                           | Portas Expostas                                                                        | 
+| ------------------ | ------------------------------------------------------- | -------------------------------------------------------------------------------------- | 
+| **n8n**            | `n8nio/n8n`                                             | `5678:5678`                                                                            | 
+| **Home Assistant** | `ghcr.io/home-assistant/home-assistant:stable`          | `8123:8123`                                                                            |
+| **Portainer**      | `portainer/portainer-ce`                                | `9000:9000`                                                                            | 
+| **Tailscale**      | `tailscale/tailscale`                                   | `8240` (via `network_mode: host`)                                                      | 
+
+
+---
+
+## como adiconar
 
 https://user-images.githubusercontent.com/10330103/197889452-e5cd7e96-3233-4a09-b475-94b754adc7a3.mp4

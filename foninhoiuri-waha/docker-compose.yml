@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  waha:
+    image: devlikeapro/waha:latest
+    platform: linux/amd64
+    environment:
+      WHATSAPP_HOOK_URL: http://host.docker.internal:5678/webhook/webhook
+      WHATSAPP_DEFAULT_ENGINE: GOWS
+      WHATSAPP_HOOK_EVENTS: message
+    volumes:
+      - ${APP_DATA_DIR}/sessions:/app/.sessions
+      - ${APP_DATA_DIR}/media:/app/.media
+    ports:
+      - "3000:3000"

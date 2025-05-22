@@ -1,0 +1,19 @@
+manifestVersion: 1
+id: foninhoiuri-waha
+name: Waha WhatsApp Bot
+tagline: Bot para WhatsApp com webhook e armazenamento local
+icon: https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg
+category: communication
+version: "1.0.0"
+port: 3000
+description: >-
+  Waha é um bot para WhatsApp que utiliza webhooks para receber mensagens e pode ser configurado com diferentes engines.
+  Ele armazena sessões e mídias localmente e é compatível com múltiplas engines, incluindo GOWS.
+developer: Foninhoiuri
+website: https://github.com/devlikeapro/waha
+repo: https://github.com/devlikeapro/waha
+support: https://github.com/devlikeapro/waha/issues
+dependencies:
+path: "http://umbrel.local:3000"
+defaultUsername: ""
+defaultPassword: ""

@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    platform: linux/amd64
+    environment:
+      POSTGRES_USER: default
+      POSTGRES_PASSWORD: default
+      POSTGRES_DB: default
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${APP_DATA_DIR}/pgdata:/var/lib/postgresql/data

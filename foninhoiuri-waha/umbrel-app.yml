@@ -4,7 +4,7 @@ name: Waha Bot
 tagline: Envie, receba e automatize mensagens com liberdade total, múltiplas sessões e integração fácil com qualquer sistema.
 icon: https://i.imgur.com/jQrNiEn.png
 category: communication
-version: "1.0.0"
+version: "1.0.1"
 port: 3000
 description: >-
   🚀 WAHA é uma API HTTP para WhatsApp, de código aberto e self-hosted, que pode ser executada com um único comando em qualquer laptop ou servidor. Com foco em simplicidade, escalabilidade e liberdade, a WAHA permite enviar e receber mensagens pelo WhatsApp utilizando requisições HTTP simples — sem depender de soluções SaaS suspeitas.

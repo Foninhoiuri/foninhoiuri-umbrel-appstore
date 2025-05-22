@@ -21,17 +21,16 @@ description: >-
   Privacy-focused = self-host n8n for privacy and security.
 developer: n8n inc.
 website: https://n8n.io
-submitter: Foninhoiuri
+submitter: Foninho
+submission: https://github.com/getumbrel/umbrel-apps/pull/238
 repo: https://github.com/n8n-io/n8n
 support: https://docs.n8n.io/
 gallery:
   - https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/2a97cda09078b03f54d49c34b2fbca423eedb23a/n8n/1.jpg
   - https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/2a97cda09078b03f54d49c34b2fbca423eedb23a/n8n/2.jpg
   - https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/2a97cda09078b03f54d49c34b2fbca423eedb23a/n8n/3.jpg
-  - https://user-images.githubusercontent.com/43396684/202014165-f8672cd3-b1da-41a9-8d78-641e9e2bdb6a.png
-  - https://user-images.githubusercontent.com/43396684/202014169-5b8ba80f-0291-4f71-9865-39a3212a0454.png
-  - https://user-images.githubusercontent.com/43396684/202014175-177bbf50-ffa8-419b-a415-68b6c6a7e265.png
-  - https://user-images.githubusercontent.com/43396684/202014178-f1c48eb3-f433-41a6-bc07-7cb23b016daa.png
+releaseNotes: >-
+  A atualização 4.4.7 inclui a adição do
 dependencies:
 path: ""
 defaultUsername: ""

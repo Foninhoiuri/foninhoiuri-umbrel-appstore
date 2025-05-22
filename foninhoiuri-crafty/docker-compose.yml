@@ -3,7 +3,8 @@ version: '3.7'
 services:
   crafty:
     container_name: crafty_container
-    image: registry.gitlab.com/crafty-controller/crafty-4:4.4.7@sha256:a2a083675b1e6442599e31dba230f2242c9f9c713e360a507ee7df205ab4689f
+    image: >-
+      registry.gitlab.com/crafty-controller/crafty-4:4.4.7@sha256:a2a083675b1e6442599e31dba230f2242c9f9c713e360a507ee7df205ab4689f
     ports:
       - "18000:8000"
       - "18443:8443" 

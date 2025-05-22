@@ -1,7 +1,7 @@
 manifestVersion: 1
-id: foninhoiuri-n8n+
+id: foninhoiuri-n8n-plus
 name: n8n+
-tagline: Build complex workflows, really fast
+tagline: Crie fluxos complexos com muita velocidade
 icon: https://cdn.ead.guru/34583/media/public/n8n-capa-udemy.png
 category: automação
 version: "1.93.0"

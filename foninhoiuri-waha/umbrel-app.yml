@@ -2,7 +2,7 @@ manifestVersion: 1
 id: foninhoiuri-waha
 name: Waha WhatsApp Bot
 tagline: Bot para WhatsApp com webhook e armazenamento local
-icon: https://imgur.com/a/Z0qUqmo
+icon: https://i.imgur.com/jQrNiEn.png
 category: communication
 version: "1.0.0"
 port: 3000

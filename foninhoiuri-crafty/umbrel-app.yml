@@ -7,25 +7,19 @@ category: gaming
 version: "4.4.7"
 port: 18443
 description: >-
-  ⛏️ Crafty Controller is an open-source, web-based interface designed to manage and control Crafty Bots, which are used for automating and managing Minecraft servers. Crafty itself is a bot framework that allows administrators to automate various tasks on Minecraft servers, from running tests to managing in-game events, controlling server settings, and much more. Crafty Controller provides a centralized platform where administrators can monitor and control these bots from one place.
+  ⛏️ Crafty Controller é uma interface web de código aberto projetada para gerenciar e controlar os Crafty Bots, que são usados para automatizar e administrar servidores Minecraft. O próprio Crafty é uma estrutura de bots que permite aos administradores automatizar diversas tarefas nos servidores Minecraft, desde executar testes até gerenciar eventos no jogo, controlar configurações do servidor e muito mais. O Crafty Controller oferece uma plataforma centralizada onde os administradores podem monitorar e controlar esses bots em um só lugar.
 
+  O principal benefício do Crafty Controller é sua simplicidade e facilidade de uso. Em vez de ter que interagir manualmente com cada bot via código ou linha de comando, o Crafty Controller fornece um painel web amigável onde os administradores podem configurar o comportamento dos bots, acompanhar suas ações e emitir comandos. Permite adicionar ou remover bots, visualizar seus status e monitorar logs, o que é especialmente útil para solucionar problemas ou otimizar o desempenho dos bots.
 
-  The main benefit of Crafty Controller is its simplicity and ease of use. Instead of having to manually interact with each bot through code or a command-line interface, Crafty Controller provides a user-friendly web dashboard where administrators can configure bot behaviors, track their actions, and issue commands. It allows you to add or remove bots, view their statuses, and monitor logs, which is especially helpful for troubleshooting or optimizing bot performance.
+  Além disso, o Crafty Controller é altamente personalizável. Os administradores do servidor podem configurar bots para executar ações específicas baseadas em eventos ou interações dos jogadores, e os desenvolvedores podem ampliar a funcionalidade com scripts ou plugins personalizados. Essa flexibilidade faz dele uma ferramenta valiosa para qualquer pessoa que administre um servidor Minecraft e precise automatizar tarefas ou criar uma jogabilidade personalizada dirigida por bots.
 
+  Em última análise, o Crafty Controller é uma ferramenta poderosa para automatizar e gerenciar servidores Minecraft, oferecendo um centro que simplifica a gestão dos bots e possibilita uma administração mais eficiente das tarefas do servidor.
 
-  Additionally, Crafty Controller is highly customizable. Server administrators can configure bots to perform specific actions based on events or player interactions, and developers can extend the functionality with custom scripts or plugins. This flexibility makes it a valuable tool for anyone running a Minecraft server who needs to automate tasks or create custom, bot-driven gameplay.
+  ⚠️ O Crafty Controller utiliza HTTPS para proteger seus dados pessoais. Ao acessar o Crafty Controller, você deve digitar explicitamente "https" no endereço, por exemplo, https://umbrel.local:18443.
 
+  ℹ️ O Crafty Controller usa um certificado autoassinado, que pode gerar um aviso no navegador como "Sua conexão não é particular". Você pode prosseguir com segurança clicando em "Avançado" e depois em "Prosseguir para umbrel.local (não seguro)" ou opção semelhante, dependendo do seu navegador.
 
-  Ultimately, Crafty Controller is a powerful tool for automating and managing Minecraft servers, providing a central hub that simplifies bot management and enables more efficient administration of server tasks.
-
-
-  ⚠️ Crafty Controller uses HTTPS to protect your personal data. When accessing Crafty Controller, you must explicitly type "https" in the address, for example, https://umbrel.local:18443.
-
-
-  ℹ️ Crafty Controller uses a self-signed certificate, which may trigger a browser warning like "Your connection is not private." You can safely proceed by clicking "Advanced" and then "Proceed to umbrel.local (unsafe)" or a similar option, depending on your browser.
-
-
-  🔑 The default username for Crafty Controller is 'admin', and the password is randomly generated. You can find the password in the file located at: /umbrel/app-data/denny-crafty/data/config/default-creds.txt. It is highly recommended to change the password immediately after logging in for security purposes.
+  🔑 O nome de usuário padrão do Crafty Controller é 'admin' e a senha é gerada aleatoriamente. Você pode encontrar a senha no arquivo localizado em: /umbrel/app-data/denny-crafty/data/config/default-creds.txt. É altamente recomendável alterar a senha imediatamente após o login por questões de segurança.
 developer: Arcadia Technology
 website: https://craftycontrol.com/
 submitter: dennysubke

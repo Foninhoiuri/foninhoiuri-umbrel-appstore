@@ -7,6 +7,7 @@ category: automação
 version: "1.93.0"
 port: 5678
 description: >-
+
   n8n is an extendable workflow automation tool. With a fair-code distribution model, n8n will always have visible source code, 
   be available to self-host, and allow you to add your own custom functions, logic and apps. 
   n8n node-based approach makes it highly versatile, enabling you to connect anything to everything.
@@ -30,7 +31,7 @@ gallery:
   - https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/2a97cda09078b03f54d49c34b2fbca423eedb23a/n8n/2.jpg
   - https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/2a97cda09078b03f54d49c34b2fbca423eedb23a/n8n/3.jpg
 releaseNotes: >-
-  A atualização 4.4.7 inclui a adição do
+  A atualização 4.4.7 inclui a adição do N8N_LOG_LEVEL=debug e do N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE=true
 dependencies:
 path: ""
 defaultUsername: ""

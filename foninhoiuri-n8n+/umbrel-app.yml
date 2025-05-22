@@ -19,10 +19,9 @@ description: >-
 
 
   Privacy-focused = self-host n8n for privacy and security.
-developer: n8n
+developer: n8n inc.
 website: https://n8n.io
 submitter: Foninhoiuri
-submission: https://github.com/getumbrel/umbrel-apps/pull/283
 repo: https://github.com/n8n-io/n8n
 support: https://docs.n8n.io/
 gallery:
@@ -37,4 +36,3 @@ dependencies:
 path: ""
 defaultUsername: ""
 defaultPassword: ""
-

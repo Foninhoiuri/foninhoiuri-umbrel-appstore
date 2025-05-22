@@ -22,7 +22,7 @@ description: >-
   🔑 O nome de usuário padrão do Crafty Controller é 'admin' e a senha é gerada aleatoriamente. Você pode encontrar a senha no arquivo localizado em: /umbrel/app-data/denny-crafty/data/config/default-creds.txt. É altamente recomendável alterar a senha imediatamente após o login por questões de segurança.
 developer: Arcadia Technology
 website: https://craftycontrol.com/
-submitter: dennysubke
+submitter: foninho (original: dennysubke)
 submission: https://github.com/getumbrel/umbrel-apps/pull/
 repo: https://gitlab.com/crafty-controller
 support: https://gitlab.com/groups/crafty-controller/-/issues
@@ -32,8 +32,6 @@ gallery:
   - https://i.imgur.com/3VeLF4I.png
   - https://i.imgur.com/8cTkoj9.png
   - https://i.imgur.com/DnwgLOR.png
-releaseNotes: >-
-  A atualização 4.4.7 inclui correções de bugs e resolve o problema substituindo o usuário "ubuntu" pelo usuário "crafty" no processo de reparo do Docker.
 dependencies:
 path: ""
 defaultUsername: "admin"

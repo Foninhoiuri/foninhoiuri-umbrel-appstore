@@ -22,7 +22,7 @@ description: >-
   🔑 O nome de usuário padrão do Crafty Controller é 'admin' e a senha é gerada aleatoriamente. Você pode encontrar a senha no arquivo localizado em: /umbrel/app-data/denny-crafty/data/config/default-creds.txt. É altamente recomendável alterar a senha imediatamente após o login por questões de segurança.
 developer: Arcadia Technology
 website: https://craftycontrol.com/
-submitter: foninho (original: dennysubke)
+submitter: foninho by dennysubke
 submission: https://github.com/getumbrel/umbrel-apps/pull/
 repo: https://gitlab.com/crafty-controller
 support: https://gitlab.com/groups/crafty-controller/-/issues

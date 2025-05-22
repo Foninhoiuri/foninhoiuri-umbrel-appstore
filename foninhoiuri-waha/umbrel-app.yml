@@ -1,9 +1,9 @@
 manifestVersion: 1
 id: foninhoiuri-waha
-name: Waha Bot
+name: WAHA
 tagline: Envie, receba e automatize mensagens com liberdade total, múltiplas sessões e integração fácil com qualquer sistema.
 icon: https://i.imgur.com/EMy9UKw.png
-category: communication
+category: automação
 version: "1.0.1"
 port: 3000
 description: >-
@@ -11,15 +11,14 @@ description: >-
 
   Com suporte para múltiplas sessões simultâneas (até 500), a WAHA é ideal tanto para pequenos projetos quanto para implementações em larga escala. Além disso, oferece uma interface web integrada (Dashboard) para gerenciamento visual das sessões e ferramentas de integração como Swagger, Postman e suporte a OpenAPI.
 
-  A principal vantagem da WAHA é sua facilidade de uso: basta escanear um QR Code para conectar um número e começar a interagir com a API. Seja para enviar mensagens, gerenciar grupos, status, canais ou implementar automações completas com ferramentas como n8n e Typebot, a WAHA oferece controle total e alta personalização.
+  A principal vantagem da WAHA é sua facilidade de uso
+  basta escanear um QR Code para conectar um número e começar a interagir com a API. Seja para enviar mensagens, gerenciar grupos, status, canais ou implementar automações completas com ferramentas como n8n e Typebot, a WAHA oferece controle total e alta personalização.
 
-  💡 É compatível com qualquer linguagem que suporte requisições HTTP: Python, JavaScript, C#, PHP, entre outras. E por ser open-source, pode ser estendida livremente.
+  💡 É compatível com qualquer linguagem que suporte requisições HTTP  Python, JavaScript, C#, PHP, entre outras. E por ser open-source, pode ser estendida livremente.
 
   🆓 A versão WAHA Core é totalmente gratuita, sem limite de mensagens ou tempo. A versão WAHA Plus oferece recursos extras, também sem expiração de licença.
 
   🔐 A WAHA roda sobre uma instância real do WhatsApp Web, o que reduz riscos de bloqueio — embora o uso de APIs não oficiais envolva certo nível de cautela.
-
-  🌐 Saiba mais e explore a documentação em: https://waha.devlike.pro
 
 developer: DevLikeAPro
 website: https://waha.devlike.pro/
@@ -27,10 +26,8 @@ repo: https://github.com/devlikeapro/waha
 support: https://github.com/devlikeapro/waha/issues
 submitter: Foninhoiuri
 gallery:
-  - https://waha.devlike.pro/videos/waha-dashboard-overview.webm
-  - https://waha.devlike.pro/docs/how-to/dashboard/waha-dashboard-key_hu_46911022f802c524.webp
-  - https://waha.devlike.pro/images/waha/dashboard/waha-dashboard-chat-ui.png
-  - https://waha.devlike.pro/images/waha/dashboard/waha-single-dashboard-multiple-servers.png
+  - https://i.imgur.com/ACEoCB9.png
+  - https://i.imgur.com/FCWtTzP.png
 releaseNotes: >-
   A versão mais recente inclui melhorias de desempenho, novos recursos para automação de canais e status do WhatsApp, além de maior estabilidade no gerenciamento de múltiplas sessões. Também foram atualizados os exemplos na documentação Swagger e ampliado o suporte para integrações com n8n e ferramentas externas.
 dependencies:

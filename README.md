@@ -19,7 +19,7 @@ Este repositório segue o template oficial para criar uma App Store Comunitária
 | Serviço            | Imagem Docker                                           | Portas Expostas                                                                        | 
 | ------------------ | ------------------------------------------------------- | -------------------------------------------------------------------------------------- | 
 | **Crafty**         | `registry.gitlab.com/crafty-controller/crafty-4:latest` | `18000:8000`, `18443:8443`, `18123:8123`, `19132:19132/udp`, `25500-25565:25500-25565` | 
-| **Waha**           | `ghcr.io/joaomgcd/waha:latest`                          | `19981:19981`                                                                          | 
+| **Waha**           | `ghcr.io/joaomgcd/waha:latest`                          | `3000:3000`                                                                          | 
 
 ## Outros aplicativos para referencia de porta
 

@@ -1,7 +1,7 @@
 manifestVersion: 1
 id: foninhoiuri-waha
-name: Waha WhatsApp Bot
-tagline: WAHA é uma API HTTP para WhatsApp, open-source e auto-hospedada, que você executa com um único comando. Envie, receba e automatize mensagens com liberdade total, múltiplas sessões e integração fácil com qualquer sistema.
+name: Waha Bot
+tagline: Envie, receba e automatize mensagens com liberdade total, múltiplas sessões e integração fácil com qualquer sistema.
 icon: https://i.imgur.com/jQrNiEn.png
 category: communication
 version: "1.0.0"
@@ -23,9 +23,9 @@ description: >-
 
 developer: DevLikeAPro
 website: https://waha.devlike.pro/
-submitter: Foninhoiuri
 repo: https://github.com/devlikeapro/waha
 support: https://github.com/devlikeapro/waha/issues
+submitter: Foninhoiuri
 gallery:
   - https://waha.devlike.pro/videos/waha-dashboard-overview.webm
   - https://waha.devlike.pro/docs/how-to/dashboard/waha-dashboard-key_hu_46911022f802c524.webp

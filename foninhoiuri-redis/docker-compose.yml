@@ -10,8 +10,6 @@ services:
       DEVICE_DOMAIN_NAME: ${DEVICE_DOMAIN_NAME}
       PROXY_TARGET: http://${DEVICE_DOMAIN_NAME}
       PROXY_AUTH_WHITELIST: /webhook-test/*,/webhook/*
-    volumes:
-      - ${APP_DATA_DIR}/data:/usr/src/app
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
 
   server:
@@ -21,7 +19,8 @@ services:
     restart: always
     command: redis-server /bin/sh -c "echo 'App proxy started' && sleep infinity" 
     volumes:
-      - ${APP_DATA_DIR}/data:/data     # Persistência de dados
+      - ${APP_DATA_DIR}/data:/data # Persistência de dados
+      - ${APP_DATA_DIR}/data:/usr/local/etc/redis/redis.conf 
       # - ${APP_DATA_DIR}/logs:/var/log/redis  # Caso queira logs persistentes (opcional)
     ports:
       - "6380:6379"            # Expõe a porta para acesso externo (ajuste se necessário)

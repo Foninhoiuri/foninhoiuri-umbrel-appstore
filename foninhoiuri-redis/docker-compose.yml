@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: redis_db_1
+      APP_PORT: 6379
+    container_name: redis_db_proxy_1
+
+  server:
+    image: redis:lastest
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server
+    volumes:
+      - ${APP_DATA_DIR}/data:/src
+    container_name: redis_server_1
+    container_name: redis_db

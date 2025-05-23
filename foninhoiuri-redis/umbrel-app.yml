@@ -1,0 +1,30 @@
+manifestVersion: 1
+id: foninhoiuri-redis
+name: Redis
+tagline: Armazenamento em memória de chave-valor
+icon: https://i.imgur.com/2fglld1.png
+category: database
+version: "7.2"
+port: 6379
+description: >-
+  Redis é um armazenamento de estrutura de dados em memória, usado como banco de dados, cache e broker de mensagens.
+developer: Redis Labs
+website: https://redis.io
+repo: https://github.com/redis/redis
+support: https://github.com/redis/redis/issues
+submitter: Foninho
+submission: https://github.com/foninhoiuri/
+gallery:
+  - https://i.imgur.com/gelPCYN.png
+  - https://i.imgur.com/LhzWqdO.png
+  - https://i.imgur.com/L8C4O2T.png
+  - https://i.imgur.com/uBkyXlU.png
+  - https://i.imgur.com/9EJ7KBJ.png
+  - https://i.imgur.com/OKTkqtx.png
+  - https://i.imgur.com/pFlPBdv.png
+releaseNotes: >-
+  Primeira versão do aplicativo Redis para UmbrelOS.
+dependencies:
+path: ""
+defaultUsername: ""
+defaultPassword: ""

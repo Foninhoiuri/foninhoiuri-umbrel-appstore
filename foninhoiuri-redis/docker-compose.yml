@@ -1,4 +1,5 @@
 version: '3.9'
+
 services:
   app_proxy:
     container_name: redis_proxy_1
@@ -10,17 +11,18 @@ services:
       DEVICE_DOMAIN_NAME: ${DEVICE_DOMAIN_NAME}
       PROXY_TARGET: http://${DEVICE_DOMAIN_NAME}
       PROXY_AUTH_WHITELIST: /webhook-test/*,/webhook/*
-    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    image: your-proxy-image # Defina a imagem correta aqui
+    # Remover o comando `redis-server`, não faz sentido nesse container
+    # command: redis-server ...
 
   server:
     container_name: redis_db_1
     image: redis:latest
-    platform: linux/amd64      # Compatibilidade Umbrel
+    platform: linux/amd64
     restart: always
-    command: redis-server /bin/sh -c "echo 'App proxy started' && sleep infinity" 
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     volumes:
-      - ${APP_DATA_DIR}/data:/data # Persistência de dados
-      - ${APP_DATA_DIR}/data:/usr/local/etc/redis/redis.conf 
-      # - ${APP_DATA_DIR}/logs:/var/log/redis  # Caso queira logs persistentes (opcional)
+      - ${APP_DATA_DIR}/data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
     ports:
-      - "6380:6379"            # Expõe a porta para acesso externo (ajuste se necessário)
+      - "6380:6379"

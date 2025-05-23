@@ -2,12 +2,19 @@ version: '3.7'
 
 services:
   app_proxy:
-    container_name: redis_db_proxy_1
-    environment:
-      APP_HOST: redis_db_1      # Nome do container do Redis
-      APP_PORT: 6379            # Porta padrão do Redis
+    container_name: app_proxy_1
     depends_on:
-      - server                 # Garante que o Redis esteja rodando antes do proxy
+      - server
+    environment:
+      APP_HOST: redis_db_1
+      APP_PORT: 6379        
+      DEVICE_DOMAIN_NAME: ${DEVICE_DOMAIN_NAME}
+      PROXY_TARGET: http://${DEVICE_DOMAIN_NAME}
+      PROXY_AUTH_WHITELIST: /webhook-test/*,/webhook/*
+    volumes:
+      - ./proxy:/usr/src/app
+    working_dir: /usr/src/app
+    command: ["node", "proxy.js"]
 
   server:
     container_name: redis_db_1

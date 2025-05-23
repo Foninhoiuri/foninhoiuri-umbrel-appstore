@@ -1,5 +1,4 @@
-version: '3.7'
-
+version: '3.9'
 services:
   app_proxy:
     container_name: app_proxy_1
@@ -12,9 +11,8 @@ services:
       PROXY_TARGET: http://${DEVICE_DOMAIN_NAME}
       PROXY_AUTH_WHITELIST: /webhook-test/*,/webhook/*
     volumes:
-      - ./:/usr/src/app
-    working_dir: /usr/src/app
-    command: ["node", "proxy.js"]
+      - data:/usr/src/app
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
 
   server:
     container_name: redis_db_1

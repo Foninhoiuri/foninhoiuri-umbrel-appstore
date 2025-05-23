@@ -2,16 +2,21 @@ version: '3.7'
 
 services:
   app_proxy:
-    environment:
-      APP_HOST: redis_db_1       # Nome do container definido abaixo
-      APP_PORT: 6379             # Porta padrão do Redis
     container_name: redis_db_proxy_1
+    environment:
+      APP_HOST: redis_db_1      # Nome do container do Redis
+      APP_PORT: 6379            # Porta padrão do Redis
+    depends_on:
+      - server                 # Garante que o Redis esteja rodando antes do proxy
 
   server:
+    container_name: redis_db_1
     image: redis:8.0
-    platform: linux/amd64       # Para garantir compatibilidade com o Umbrel
+    platform: linux/amd64      # Compatibilidade Umbrel
     restart: always
     command: redis-server --save 20 1 --loglevel warning
     volumes:
-      - ${APP_DATA_DIR}/data:/data   # Volume correto para persistência de dados Redis
-    container_name: redis_db_1
+      - ${APP_DATA_DIR}/data:/data     # Persistência de dados
+      # - ${APP_DATA_DIR}/logs:/var/log/redis  # Caso queira logs persistentes (opcional)
+    ports:
+      - "6379:6379"            # Expõe a porta para acesso externo (ajuste se necessário)

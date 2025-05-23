@@ -26,4 +26,4 @@ services:
       - ${APP_DATA_DIR}/data:/data     # Persistência de dados
       # - ${APP_DATA_DIR}/logs:/var/log/redis  # Caso queira logs persistentes (opcional)
     ports:
-      - "6379:6379"            # Expõe a porta para acesso externo (ajuste se necessário)
+      - "6380:6379"            # Expõe a porta para acesso externo (ajuste se necessário)

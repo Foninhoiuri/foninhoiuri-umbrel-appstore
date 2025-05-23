@@ -11,7 +11,7 @@ services:
       DEVICE_DOMAIN_NAME: ${DEVICE_DOMAIN_NAME}
       PROXY_TARGET: http://${DEVICE_DOMAIN_NAME}
       PROXY_AUTH_WHITELIST: /webhook-test/*,/webhook/*
-    image: redis/redis:latest
+    image: redis:latest
 
   server:
     container_name: redis_db_1

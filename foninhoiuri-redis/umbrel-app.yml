@@ -24,7 +24,7 @@ gallery:
   - https://i.imgur.com/pFlPBdv.png
 releaseNotes: >-
   Primeira versão do aplicativo Redis para UmbrelOS.
-dependencies:
+dependencies: []
 path: ""
 defaultUsername: ""
 defaultPassword: ""

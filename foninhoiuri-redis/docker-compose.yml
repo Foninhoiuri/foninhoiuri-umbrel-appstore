@@ -3,8 +3,6 @@ version: '3.9'
 services:
   app_proxy:
     container_name: redis_proxy_1
-    image: >-
-    git@github.com:redis/redis.git
     depends_on:
       - server
     environment:
@@ -13,7 +11,8 @@ services:
       DEVICE_DOMAIN_NAME: ${DEVICE_DOMAIN_NAME}
       PROXY_TARGET: http://${DEVICE_DOMAIN_NAME}
       PROXY_AUTH_WHITELIST: /webhook-test/*,/webhook/*
-    image: your-proxy-image # Defina a imagem correta aqui
+    image: >-
+    git@github.com:redis/redis.git
     # Remover o comando `redis-server`, não faz sentido nesse container
     # command: redis-server ...
 

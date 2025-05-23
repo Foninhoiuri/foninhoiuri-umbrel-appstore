@@ -1,8 +1,10 @@
 version: '3.9'
 
 services:
-  app_proxy:
+  redis:
     container_name: redis_proxy_1
+    image: >-
+    git@github.com:redis/redis.git
     depends_on:
       - server
     environment:

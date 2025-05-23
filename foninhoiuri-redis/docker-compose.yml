@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  redis:
+  app_proxy:
     container_name: redis_proxy_1
     image: >-
     git@github.com:redis/redis.git

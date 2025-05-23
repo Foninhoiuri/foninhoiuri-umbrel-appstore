@@ -8,9 +8,6 @@ services:
     environment:
       APP_HOST: redis_server_1
       APP_PORT: 6379
-      DEVICE_DOMAIN_NAME: ${DEVICE_DOMAIN_NAME}
-      PROXY_TARGET: http://${DEVICE_DOMAIN_NAME}
-      PROXY_AUTH_WHITELIST: /webhook-test/*,/webhook/*
     image: redis:latest
 
   server:
@@ -21,6 +18,6 @@ services:
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     volumes:
       - ${APP_DATA_DIR}/data:/data
-      #- ${APP_DATA_DIR}/data:/usr/local/etc/redis/redis.conf
+      - ${APP_DATA_DIR}/data:/usr/local/etc/redis/redis.conf
     ports:
       - "6380:6379"

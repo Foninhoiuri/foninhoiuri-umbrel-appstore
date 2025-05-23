@@ -12,7 +12,7 @@ services:
       PROXY_TARGET: http://${DEVICE_DOMAIN_NAME}
       PROXY_AUTH_WHITELIST: /webhook-test/*,/webhook/*
     image: >-
-    redis/redis:latest
+    https://github.com/redis/redis.git
     # Remover o comando `redis-server`, não faz sentido nesse container
     # command: redis-server ...
 

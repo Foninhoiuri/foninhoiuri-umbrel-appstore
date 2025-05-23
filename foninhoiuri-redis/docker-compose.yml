@@ -12,7 +12,7 @@ services:
       PROXY_TARGET: http://${DEVICE_DOMAIN_NAME}
       PROXY_AUTH_WHITELIST: /webhook-test/*,/webhook/*
     volumes:
-      - ./proxy:/usr/src/app
+      - ./:/usr/src/app
     working_dir: /usr/src/app
     command: ["node", "proxy.js"]
 

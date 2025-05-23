@@ -5,7 +5,7 @@ services:
     image: devlikeapro/waha:latest
     platform: linux/amd64
     environment:
-      - WHATSAPP_HOOK_URL=http://umbrel.local.internal:5678/webhook/webhook
+      - WHATSAPP_HOOK_URL=http://${DEVICE_DOMAIN_NAME}:5678/webhook/webhook
       - WHATSAPP_DEFAULT_ENGINE=GOWS
       - WHATSAPP_HOOK_EVENTS=message
     volumes:

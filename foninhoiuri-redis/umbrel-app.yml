@@ -1,4 +1,4 @@
-manifestVersion: 1
+manifestVersion: 2
 id: foninhoiuri-redis
 name: Redis
 tagline: Armazenamento em memória de chave-valor

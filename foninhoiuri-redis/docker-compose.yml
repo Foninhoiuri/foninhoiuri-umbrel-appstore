@@ -31,5 +31,4 @@ services:
       - ${APP_DATA_DIR}/data:/data
       - ${APP_DATA_DIR}/redis.conf:/usr/local/etc/redis/redis.conf
     ports:
-      #- "6380:6379"
-      - "5540:5540"
+      - "6380:6379"

@@ -5,8 +5,7 @@ tagline: Armazenamento em memória de chave-valor
 icon: https://i.imgur.com/2fglld1.png
 category: database
 version: "7.2"
-#port: 6379
-port: 5540
+port: 6379
 description: >-
   Redis é um armazenamento de estrutura de dados em memória, usado como banco de dados, cache e broker de mensagens.
 developer: Redis Labs

@@ -1,4 +1,4 @@
-version: '3.9'
+version: '4.0'
 
 services:
   app_proxy:
@@ -31,4 +31,5 @@ services:
       - ${APP_DATA_DIR}/data:/data
       - ${APP_DATA_DIR}/redis.conf:/usr/local/etc/redis/redis.conf
     ports:
-      - "6380:6379"
+      #- "6380:6379"
+      - "5540:5540"

@@ -26,5 +26,5 @@ releaseNotes: >-
   Primeira versão do aplicativo Redis para UmbrelOS.
 dependencies: []
 path: ""
-defaultUsername: "http://${DEVICE_DOMAIN_NAME}:5540"
+defaultUsername: ""
 defaultPassword: ""

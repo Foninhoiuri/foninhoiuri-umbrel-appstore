@@ -16,7 +16,8 @@ services:
     ports:
       - "5540:5540"
     volumes:
-      - ${APP_DATA_DIR}/redisinsight-data:/data
+      - ${APP_DATA_DIR}/redisinsight/data:/data
+      - ${APP_DATA_DIR}/redisinsight/logs:/data/logs
     depends_on:
       - server
 

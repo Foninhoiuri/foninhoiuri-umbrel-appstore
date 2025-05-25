@@ -10,7 +10,7 @@ services:
       APP_PORT: 6379
     image: redis:latest
      volumes:
-      - ${APP_DATA_DIR}/data:/data
+      - ${APP_DATA_DIR}/redis-data:/data
 
   redisinsight:
     image: redis/redisinsight:latest

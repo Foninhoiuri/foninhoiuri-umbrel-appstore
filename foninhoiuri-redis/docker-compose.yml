@@ -11,6 +11,7 @@ services:
     image: redis:latest
     volumes:
       - ${APP_DATA_DIR}/redis-data:/data
+    user: "1001:1001"
 
   redisinsight:
     image: redis/redisinsight:latest

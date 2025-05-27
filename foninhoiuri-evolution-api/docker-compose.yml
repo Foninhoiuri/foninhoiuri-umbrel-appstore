@@ -19,7 +19,7 @@ services:
       DATABASE_URL: mongodb://mongo:27017/evolution-api # Conecta ao serviço mongo
       MONGODB_URI: mongodb://mongo:27017/evolution-api
       NODE_ENV: production
-      # Adicione outras variáveis de ambiente necessárias pelo Evolution API
+      DB_PROVIDER: mongodb # Adicionado para tentar resolver "Database provider invalid"
 
   mongo: # Serviço de banco de dados MongoDB
     image: mongo:6.0 # Use uma versão específica do MongoDB para estabilidade

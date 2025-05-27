@@ -13,4 +13,4 @@ services:
     volumes:
       # Se o Evolution API precisar de persistência de dados fora do MongoDB, adicione aqui
       - ${APP_DATA_DIR}/evolution-api-data:/app/data
-    environment:
+    environment: []

@@ -2,9 +2,9 @@ manifestVersion: 1
 id: foninhoiuri-redis
 name: Redis
 tagline: Armazenamento em memória de chave-valor
-icon: https://i.imgur.com/2fglld1.png
+icon: https://i.imgur.com/5JbWRGo.png
 category: database
-version: "7.2"
+version: "7.3"
 port: 6379
 description: >-
   Redis é um armazenamento de estrutura de dados em memória, usado como banco de dados, cache e broker de mensagens.

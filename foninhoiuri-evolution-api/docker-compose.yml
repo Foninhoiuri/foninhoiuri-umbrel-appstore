@@ -1,53 +1,65 @@
 version: "3.7"
 
 services:
-  # O serviço 'app_proxy' é o proxy do Umbrel para seu aplicativo
+  # O serviço 'app_proxy' é o proxy reverso do Umbrel para o seu aplicativo.
+  # Ele gerencia o acesso através da interface do Umbrel.
   app_proxy:
     environment:
-      # APP_HOST deve apontar para o nome do serviço do seu aplicativo principal (neste caso, 'web')
+      # APP_HOST deve apontar para o nome do serviço do seu aplicativo principal (neste caso, 'web').
       APP_HOST: evolution-api_web_1
-      # APP_PORT deve ser a porta INTERNA em que seu aplicativo escuta (8080 para o Evolution API)
+      # APP_PORT deve ser a porta INTERNA em que seu aplicativo escuta (8080 para o Evolution API).
       APP_PORT: 8080
-    # NENHUMA imagem, portas, volumes ou outras configs de app aqui
-    # Isso é gerenciado pelo Umbrel.
+    # Este serviço é gerenciado pelo Umbrel e não precisa de imagem, portas, volumes ou variáveis
+    # de ambiente adicionais aqui.
 
-  # Este é o serviço principal do seu aplicativo Evolution API
+  # Este é o serviço principal do seu aplicativo Evolution API.
   web:
-    # Use a imagem que você construiu e enviou para o Docker Hub
+    # Use a imagem que você construiu e enviou para o Docker Hub.
+    # É ALTAMENTE RECOMENDADO FIXAR A IMAGEM COM O DIGEST SHA256 AQUI.
+    # Exemplo: image: atendai/evolution-api:v1.8.6@sha256:SEU_DIGEST_REAL_AQUI
+    # Se você não tiver o digest, use apenas a tag, mas saiba que a equipe Umbrel pedirá por ele.
     image: atendai/evolution-api:v1.8.6
-    restart: on-failure # Use 'on-failure' ou 'unless-stopped' como padrão
-    stop_grace_period: 1m # Período para o Docker esperar o desligamento gracioso
-    # As portas não precisam ser expostas aqui se você estiver usando app_proxy
-    # ports:
-    #   - '8080:8080'
+    restart: on-failure # O aplicativo será reiniciado automaticamente em caso de falha.
+    stop_grace_period: 1m # Dá ao aplicativo 1 minuto para desligar graciosamente.
     volumes:
-      # O Evolution API pode precisar de um volume para dados internos (além do DB)
-      # ou para arquivos de configuração dinâmicos.
+      # Monta um volume persistente para os dados do aplicativo Evolution API.
+      # Isso garante que os dados sejam mantidos mesmo se o contêiner for recriado.
       - ${APP_DATA_DIR}/evolution-api-data:/app/data
     environment:
-      # Variáveis de ambiente para o Evolution API
-      PORT: 8080 # A porta que o aplicativo escuta DENTRO do contêiner
+      # Porta interna em que o aplicativo Evolution API escuta.
+      PORT: 8080
+      # Define o ambiente como produção.
       NODE_ENV: production
-      # Variáveis de conexão com o MongoDB
+      # Variáveis de conexão com o banco de dados MongoDB (aponta para o serviço 'mongo').
       DATABASE_URL: mongodb://mongo:27017/evolution-api
       MONGODB_URI: mongodb://mongo:27017/evolution-api
-      # A variável abaixo é uma tentativa de resolver "Database provider invalid."
-      # Se a documentação do Evolution API indicar uma diferente, use-a.
+      # Esta variável é para o Evolution API saber que está usando MongoDB.
       DB_PROVIDER: mongodb 
+      # Adicione a variável que você mencionou que o app espera para o tipo de conexão.
+      DB_CONNECTION: mongodb # <-- Adicionado aqui para o serviço 'web'
       
       # Outras variáveis de ambiente que o Evolution API possa precisar
       # Exemplo: API_KEY: "sua_chave_aqui"
+    healthcheck: # Adicionado para garantir que o proxy só se conecte quando o app estiver pronto.
+      # O teste verifica se a porta 8080 está respondendo no contêiner.
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8080 || exit 1"]
+      interval: 10s # Verifica a cada 10 segundos.
+      timeout: 5s # Tempo limite para a verificação.
+      retries: 5 # Número de tentativas antes de declarar o serviço como não saudável.
+      start_period: 20s # Período inicial para o app iniciar antes de começar as verificações.
 
-  # Serviço de banco de dados MongoDB (essencial para o Evolution API)
+  # Serviço de banco de dados MongoDB, necessário para o Evolution API.
   mongo:
-    image: mongo:6.0 # Use uma versão específica e estável do MongoDB
-    restart: on-failure
-    stop_grace_period: 1m
+    image: mongo:6.0 # Imagem oficial do MongoDB. Use uma versão específica para estabilidade.
+    restart: on-failure # O banco de dados será reiniciado automaticamente em caso de falha.
+    stop_grace_period: 1m # Dá ao banco de dados 1 minuto para desligar graciosamente.
     volumes:
-      # Volume persistente para os dados do MongoDB
+      # Monta um volume persistente para os dados do MongoDB.
       - ${APP_DATA_DIR}/evolution-api-mongo-data:/data/db
     environment:
-      # Credenciais padrão para o MongoDB (pode ser ajustado para um ambiente mais seguro)
-      DB_CONNECTION: mongodb # <-- A VARIÁVEL QUE ELE ESPERA
+      # Credenciais de acesso ao MongoDB.
+      # Para maior segurança em ambientes de produção, essas credenciais poderiam ser
+      # geradas dinamicamente ou gerenciadas de outra forma pelo Umbrel.
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
+    # Nenhuma variável DB_CONNECTION ou DB_PROVIDER é necessária aqui para o serviço mongo.

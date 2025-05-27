@@ -5,7 +5,7 @@ services:
     environment:
       APP_HOST: evolution-api_web_1
       APP_PORT: 8080
-
+  
   web: # Serviço principal do Evolution API
     image: foninhoiuri/evolution-api:v2.2.3@sha256:0ab46207fcbdb03cca858633b7900d68c928cc069e13314e86743bb96122c421
     restart: on-failure

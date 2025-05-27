@@ -14,7 +14,7 @@ services:
   # Este é o serviço principal do seu aplicativo Evolution API
   web:
     # Use a imagem que você construiu e enviou para o Docker Hub
-    image: atendai/evolution-api:v2.2.3@sha256:0ab46207fcbdb03cca858633b7900d68c928cc069e13314e86743bb96122c421
+    image: atendai/evolution-api:v1.8.6
     # Plataforma é geralmente especificada no buildx, mas pode ser útil aqui para clareza
     platform: linux/amd64
     restart: on-failure # Use 'on-failure' ou 'unless-stopped' como padrão

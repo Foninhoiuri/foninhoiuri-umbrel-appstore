@@ -2,14 +2,20 @@ version: '3.8'
 
 services:
   evolution-api:
-    image: atendai/evolution-api:v2.2.3
+    image: atendai/evolution-api:latest
     container_name: evolution-api
     ports:
       - "8080:8080" # Porta externa:Porta interna do contêiner
     environment:
+      # Variável de Autenticação ESSENCIAL
+      AUTHENTICATION_API_KEY: "PGzwJe2qbXau58BiO0LRN2Zhrgq5av5c" # <<--- NOVA CHAVE DE AUTENTICAÇÃO INSERIDA AQUI
+
+      # Configuração para Habilitar WebSockets
+      WEBSOCKET_ENABLED: "true"
+
       # Configurações para o Redis (como cache)
       CACHE_REDIS_ENABLED: "true"
-      CACHE_REDIS_URI: "redis://redis:6379/0" # 'redis' é o nome do serviço Redis no Docker Compose
+      CACHE_REDIS_URI: "redis://redis:6379"
       CACHE_REDIS_PREFIX_KEY: "evolution"
       CACHE_REDIS_TTL: "604800"
       CACHE_REDIS_SAVE_INSTANCES: "true"
@@ -17,9 +23,7 @@ services:
       # Configurações para o PostgreSQL (como banco de dados principal)
       DATABASE_ENABLED: "true"
       DATABASE_PROVIDER: "postgresql"
-      # Conexão com o serviço 'postgresql' definido abaixo.
-      # ATENÇÃO: Altere 'your_postgres_password' para uma senha forte e segura!
-      DATABASE_CONNECTION_URI: "postgresql://evolution:your_postgres_password@postgresql:5432/evolution?schema=public"
+      DATABASE_CONNECTION_URI: "postgresql://evolution:your_postgres_password@postgresql:5432/evolution?schema=public" # Mantenha a senha do PostgreSQL!
 
       SERVER_PORT: "8080"
       SERVER_URL: "http://evolution-api.umbrel.local" # URL para acesso interno no Umbrel
@@ -27,15 +31,9 @@ services:
       - ${APP_DATA_DIR}/evolution-api/data:/app/data # Persistência de dados do Evolution API
     depends_on:
       - redis
-      - postgresql # Adicione a dependência no PostgreSQL
+      - postgresql
     restart: unless-stopped
 
-  # Este é o serviço Redis que você já tem instalado como app no seu Umbrel
-  # Não é necessário definir um novo serviço Redis aqui se ele já está rodando como um app Umbrel separado
-  # e você está apenas referenciando-o via nome de serviço (o que o Umbrel faz automaticamente).
-  # No entanto, se o Redis não for um app separado do Umbrel e você quiser ele acoplado a este app,
-  # MANTENHA este bloco. Se ele for um app *separado* e *instalado*, você pode remover este bloco de 'redis'.
-  # Por enquanto, vou mantê-lo, assumindo que ele pode ser um container separado gerenciado por este compose.
   redis:
     image: redis:latest
     container_name: redis-evolution-api
@@ -45,13 +43,13 @@ services:
     restart: unless-stopped
 
   postgresql:
-    image: postgres:13 # Versão recomendada para compatibilidade e estabilidade
+    image: postgres:13
     container_name: postgresql-evolution-api
     environment:
       POSTGRES_DB: evolution
       POSTGRES_USER: evolution
-      POSTGRES_PASSWORD: "your_postgres_password" # ATENÇÃO: Altere para uma senha forte e segura!
-      PGDATA: /var/lib/postgresql/data/pgdata # Caminho para os dados do PostgreSQL
+      POSTGRES_PASSWORD: "your_postgres_password" # Use a mesma senha definida acima!
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - ${APP_DATA_DIR}/postgresql:/var/lib/postgresql/data # Persistência dos dados do PostgreSQL
+      - ${APP_DATA_DIR}/postgresql:/var/lib/postgresql/data
     restart: unless-stopped

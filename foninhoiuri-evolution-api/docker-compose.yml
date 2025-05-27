@@ -1,16 +1,54 @@
 version: "3.7"
 
 services:
+  # O serviço 'app_proxy' é o proxy do Umbrel para seu aplicativo
   app_proxy:
     environment:
-      APP_HOST: evolution-api_server_1
+      # APP_HOST deve apontar para o nome do serviço do seu aplicativo principal (neste caso, 'web')
+      APP_HOST: evolution-api_web_1
+      # APP_PORT deve ser a porta INTERNA em que seu aplicativo escuta (8080 para o Evolution API)
       APP_PORT: 8080
-    image: atendai/evolution-api:v2.2.3
+    # NENHUMA imagem, portas, volumes ou outras configs de app aqui
+    # Isso é gerenciado pelo Umbrel.
+
+  # Este é o serviço principal do seu aplicativo Evolution API
+  web:
+    # Use a imagem que você construiu e enviou para o Docker Hub
+    image: atendai/evolution-api:v2.2.3@sha256:0ab46207fcbdb03cca858633b7900d68c928cc069e13314e86743bb96122c421
+    # Plataforma é geralmente especificada no buildx, mas pode ser útil aqui para clareza
     platform: linux/amd64
-    restart: always
-    ports:
-      - '8080:8080'
+    restart: on-failure # Use 'on-failure' ou 'unless-stopped' como padrão
+    stop_grace_period: 1m # Período para o Docker esperar o desligamento gracioso
+    # As portas não precisam ser expostas aqui se você estiver usando app_proxy
+    # ports:
+    #   - '8080:8080'
     volumes:
-      # Se o Evolution API precisar de persistência de dados fora do MongoDB, adicione aqui
+      # O Evolution API pode precisar de um volume para dados internos (além do DB)
+      # ou para arquivos de configuração dinâmicos.
       - ${APP_DATA_DIR}/evolution-api-data:/app/data
-    environment: []
+    environment:
+      # Variáveis de ambiente para o Evolution API
+      PORT: 8080 # A porta que o aplicativo escuta DENTRO do contêiner
+      NODE_ENV: production
+      # Variáveis de conexão com o MongoDB
+      DATABASE_URL: mongodb://mongo:27017/evolution-api
+      MONGODB_URI: mongodb://mongo:27017/evolution-api
+      # A variável abaixo é uma tentativa de resolver "Database provider invalid."
+      # Se a documentação do Evolution API indicar uma diferente, use-a.
+      DB_PROVIDER: mongodb 
+      
+      # Outras variáveis de ambiente que o Evolution API possa precisar
+      # Exemplo: API_KEY: "sua_chave_aqui"
+
+  # Serviço de banco de dados MongoDB (essencial para o Evolution API)
+  mongo:
+    image: mongo:6.0 # Use uma versão específica e estável do MongoDB
+    restart: on-failure
+    stop_grace_period: 1m
+    volumes:
+      # Volume persistente para os dados do MongoDB
+      - ${APP_DATA_DIR}/evolution-api-mongo-data:/data/db
+    environment:
+      # Credenciais padrão para o MongoDB (pode ser ajustado para um ambiente mais seguro)
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin

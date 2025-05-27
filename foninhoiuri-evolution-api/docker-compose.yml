@@ -6,7 +6,7 @@ services:
   app_proxy:
     environment:
       # APP_HOST deve apontar para o nome do serviço do seu aplicativo principal (neste caso, 'web').
-      APP_HOST: evolution-api_web_1
+      APP_HOST: web
       # APP_PORT deve ser a porta INTERNA em que seu aplicativo escuta (8080 para o Evolution API).
       APP_PORT: 8080
     # Este serviço é gerenciado pelo Umbrel e não precisa de imagem, portas, volumes ou variáveis

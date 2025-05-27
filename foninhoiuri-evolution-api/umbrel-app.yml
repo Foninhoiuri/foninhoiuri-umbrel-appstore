@@ -1,0 +1,29 @@
+manifestVersion: 1
+id: foninhoiuri-evolution-api
+category: developer-tools # Ou 'communication', 'utility'
+name: Evolution API
+version: "1.0.0" # A versão do seu aplicativo
+tagline: A maneira mais fácil de integrar o WhatsApp ao seu sistema.
+description: >-
+  Evolution API é uma poderosa e fácil de usar API de bot do WhatsApp
+  que permite aos desenvolvedores integrar a funcionalidade do WhatsApp
+  em suas aplicações. Ele permite enviar e receber mensagens, gerenciar
+  contatos e construir soluções automatizadas de WhatsApp.
+releaseNotes: >-
+  Versão inicial do Evolution API para Umbrel, incluindo o serviço de
+  banco de dados MongoDB.
+developer: Evolution API
+website: https://evolution-api.com/ # O site oficial do projeto
+dependencies: [] # O Evolution API não tem dependências de aplicativos Umbrel principais como Bitcoin ou Electrs.
+repo: https://github.com/EvolutionAPI/evolution-api
+support: https://github.com/EvolutionAPI/evolution-api/issues
+port: 8080
+gallery:
+  - 1.jpg
+  - 2.jpg
+  - 3.jpg
+  # Você precisará fornecer imagens reais.
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+submitter: foninho # Substitua pelo seu nome de usuário

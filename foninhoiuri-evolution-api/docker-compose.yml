@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: evolution-api_web_1
+      APP_PORT: 8080
+
+  web: # Serviço principal do Evolution API
+    image: EvolutionAPI/evolution-api:v2.2.3 # Substitua pelo seu nome de usuário e digest real
+    restart: on-failure
+    stop_grace_period: 1m
+    volumes:
+      # Se o Evolution API precisar de persistência de dados fora do MongoDB, adicione aqui
+      # - ${APP_DATA_DIR}/evolution-api-data:/app/data
+    environment:
+      # Variáveis de ambiente para o Evolution API
+      PORT: 8080 # Porta em que o aplicativo escuta internamente
+      DATABASE_URL: mongodb://mongo:27017/evolution-api # Conecta ao serviço mongo
+      MONGODB_URI: mongodb://mongo:27017/evolution-api
+      NODE_ENV: production
+      # Adicione outras variáveis de ambiente necessárias pelo Evolution API
+
+  mongo: # Serviço de banco de dados MongoDB
+    image: mongo:6.0 # Use uma versão específica do MongoDB para estabilidade
+    restart: on-failure
+    stop_grace_period: 1m
+    volumes:
+      - ${APP_DATA_DIR}/evolution-api-mongo-data:/data/db # Volume persistente para os dados do MongoDB
+    environment:
+      # Credenciais padrão para o MongoDB (considere torná-las dinâmicas ou gerenciadas pelo Umbrel em um ambiente de produção)
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin

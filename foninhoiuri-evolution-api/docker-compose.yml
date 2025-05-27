@@ -15,8 +15,6 @@ services:
   web:
     # Use a imagem que você construiu e enviou para o Docker Hub
     image: atendai/evolution-api:v1.8.6
-    # Plataforma é geralmente especificada no buildx, mas pode ser útil aqui para clareza
-    platform: linux/amd64
     restart: on-failure # Use 'on-failure' ou 'unless-stopped' como padrão
     stop_grace_period: 1m # Período para o Docker esperar o desligamento gracioso
     # As portas não precisam ser expostas aqui se você estiver usando app_proxy

@@ -4,7 +4,7 @@ name: n8n+
 tagline: Crie fluxos complexos com muita velocidade
 icon: https://cdn.ead.guru/34583/media/public/n8n-capa-udemy.png
 category: automação
-version: "1.94.2"
+version: "1.94.1"
 port: 5678
 description: >-
 

@@ -1,37 +1,43 @@
-version: '4.0'
+version: '1.1' # Usar uma versão estável e compatível com o Docker Compose do Umbrel.
 
 services:
-  app_proxy:
-    container_name: redis_proxy_1
-    depends_on:
-      - server
-    environment:
-      APP_HOST: redis_server_1
-      APP_PORT: 6379
-    image: redis:latest
+  redis_server:
+    container_name: redis_server_1 # Nome do container para o servidor Redis.
+    image: redis:latest # Imagem oficial do Redis.
+    platform: linux/amd64 # Manter a plataforma se for para um ambiente x86.
+    restart: always # Garante que o Redis sempre inicie com o Umbrel.
+    command: ["redis-server", "--appendonly", "yes"] # Inicia o Redis com persistência de dados.
+                                                    # Removi o redis.conf personalizado para simplificar,
+                                                    # mas você pode adicioná-lo de volta se precisar.
     volumes:
-      - ${APP_DATA_DIR}/redis-data:/data
-    user: "1001:1001"
+      # Volume para persistir os dados do Redis. Isso é crucial!
+      - ${APP_DATA_DIR}/data:/data 
+    ports:
+      # Mapeia a porta interna do Redis (6379) para uma porta específica no host Umbrel.
+      # Usar uma porta diferente (ex: 6379) para evitar conflitos se o Umbrel usar a 6379 internamente.
+      # Se você não precisar de acesso direto ao Redis de fora do Umbrel/outros apps, pode remover esta linha.
+      - "6379:6379" 
 
   redisinsight:
-    image: redis/redisinsight:latest
-    restart: on-failure
+    container_name: redisinsight_1 # Nome do container para o RedisInsight.
+    image: redis/redisinsight:latest # Imagem oficial do RedisInsight.
+    restart: on-failure # Reinicia apenas se houver falha.
     ports:
-      - "5540:5540"
+      # Mapeia a porta padrão do RedisInsight (5540) para a mesma porta no host Umbrel.
+      # Esta será a porta que você acessará para a interface (ex: http://umbrel.local:5540).
+      - "5540:5540" 
     volumes:
-      - ${APP_DATA_DIR}/redisinsight/data:/data
-      - ${APP_DATA_DIR}/redisinsight/logs:/data/logs
+      # Volume para persistir dados e logs do RedisInsight.
+      - ${APP_DATA_DIR}/redisinsight_data:/data
+      - ${APP_DATA_DIR}/redisinsight_logs:/data/logs
+    environment:
+      # Conecta o RedisInsight ao seu servidor Redis.
+      # 'redis_server' é o nome do serviço definido acima.
+      RI_REDIS_URL: "redis://redis_server:6379" 
     depends_on:
-      - server
+      - redis_server # Garante que o RedisInsight só inicie depois que o servidor Redis estiver pronto.
 
-  server:
-    container_name: redis_server_1
-    image: redis:latest
-    platform: linux/amd64
-    restart: always
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
-    volumes:
-      - ${APP_DATA_DIR}/data:/data
-      - ${APP_DATA_DIR}/redis.conf:/usr/local/etc/redis/redis.conf
-    ports:
-      - "6380:6379"
+volumes:
+  redis_server_data: # Volume para os dados do servidor Redis.
+  redisinsight_data: # Volume para os dados persistentes do RedisInsight.
+  redisinsight_logs: # Volume para os logs do RedisInsight.

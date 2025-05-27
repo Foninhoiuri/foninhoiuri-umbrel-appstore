@@ -50,5 +50,6 @@ services:
       - ${APP_DATA_DIR}/evolution-api-mongo-data:/data/db
     environment:
       # Credenciais padrão para o MongoDB (pode ser ajustado para um ambiente mais seguro)
+      DB_CONNECTION: mongodb # <-- A VARIÁVEL QUE ELE ESPERA
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin

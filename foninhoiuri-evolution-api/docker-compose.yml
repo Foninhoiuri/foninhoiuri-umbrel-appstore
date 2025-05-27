@@ -14,10 +14,9 @@ services:
 
   # Este é o serviço principal do seu aplicativo Evolution API.
   web:
-    # Use a imagem que você construiu e enviou para o Docker Hub.
-    # É ALTAMENTE RECOMENDADO FIXAR A IMAGEM COM O DIGEST SHA256 AQUI.
+    # Usando a imagem que você confirmou estar correta.
+    # RECOMENDAÇÃO: Para submissão ao Umbrel, é ideal adicionar o digest SHA256 aqui para imutabilidade.
     # Exemplo: image: atendai/evolution-api:v1.8.6@sha256:SEU_DIGEST_REAL_AQUI
-    # Se você não tiver o digest, use apenas a tag, mas saiba que a equipe Umbrel pedirá por ele.
     image: atendai/evolution-api:v1.8.6
     restart: on-failure # O aplicativo será reiniciado automaticamente em caso de falha.
     stop_grace_period: 1m # Dá ao aplicativo 1 minuto para desligar graciosamente.
@@ -35,14 +34,14 @@ services:
       MONGODB_URI: mongodb://mongo:27017/evolution-api
       # Esta variável é para o Evolution API saber que está usando MongoDB.
       DB_PROVIDER: mongodb 
-      # Adicione a variável que você mencionou que o app espera para o tipo de conexão.
-      DB_CONNECTION: mongodb # <-- Adicionado aqui para o serviço 'web'
+      # Variável que você mencionou que o app espera para o tipo de conexão.
+      DB_CONNECTION: mongodb 
       
       # Outras variáveis de ambiente que o Evolution API possa precisar
       # Exemplo: API_KEY: "sua_chave_aqui"
-    healthcheck: # Adicionado para garantir que o proxy só se conecte quando o app estiver pronto.
+    healthcheck: # ESSA É A CHAVE PARA O PROBLEMA ATUAL DO PROXY!
       # O teste verifica se a porta 8080 está respondendo no contêiner.
-      test: ["CMD-SHELL", "wget -q --spider http://localhost:8080 || exit 1"]
+      test: ["CMD-SHELL", "wget -q --spider http://umbrel.local:8080 || exit 1"]
       interval: 10s # Verifica a cada 10 segundos.
       timeout: 5s # Tempo limite para a verificação.
       retries: 5 # Número de tentativas antes de declarar o serviço como não saudável.
@@ -62,4 +61,3 @@ services:
       # geradas dinamicamente ou gerenciadas de outra forma pelo Umbrel.
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: admin
-    # Nenhuma variável DB_CONNECTION ou DB_PROVIDER é necessária aqui para o serviço mongo.

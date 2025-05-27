@@ -3,7 +3,7 @@ id: foninhoiuri-postgres
 name: Postgres Database
 tagline: Banco de dados relacional PostgreSQL
 icon: https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg
-category: database
+category: Em Progresso...
 version: "15.0"
 port: 5432
 description: >-

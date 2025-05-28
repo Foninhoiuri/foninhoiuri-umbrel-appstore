@@ -8,14 +8,14 @@ services:
     environment:
       APP_HOST: evolution_api
       APP_PORT: 8080
-    image: evolutionapi/evolution-api:v2.2.3
+    image: atendai/evolution-api:v2.2.3
     restart: always
     ports:
       - "8080:8080"
 
   api:
     container_name: evolution_api
-    image: evolutionapi/evolution-api:v2.2.3
+    image: atendai/evolution-api:v2.2.3
     restart: always
     environment:
       - AUTHENTICATION_API_KEY=${AUTHENTICATION_API_KEY}

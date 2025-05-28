@@ -5,9 +5,9 @@ services:
     image: atendai/evolution-api:latest
     container_name: evolutionapi
     ports:
-      - "8080:8080" # Assumindo que a API roda na porta 8080 com base no .env.example
+      - "8080:8080" # Assumindo que a API roda na porta 8080
     environment:
-      # Estes são exemplos baseados no arquivo .env.example que você forneceu
+      # Estas são exemplos baseados no arquivo .env.example
       # Você deve personalizá-los com seus valores reais
       - SERVER_TYPE=http
       - SERVER_PORT=8080
@@ -21,31 +21,28 @@ services:
       - LOG_BAILEYS=error
       - EVENT_EMITTER_MAX_LISTENERS=50
       - DEL_INSTANCE=false
-      - DATABASE_PROVIDER=postgresql # Ou mysql, dependendo da sua configuração
-      - DATABASE_CONNECTION=postgresql://user:password@db:5432/evolutionapi # Atualize com sua string de conexão do banco de dados
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION=postgresql://user:password@postgres:5432/evolutionapi # HOSTNAME ALTERADO PARA 'postgres'
     volumes:
       # Se você precisar de armazenamento persistente para qualquer dado (ex: sessões, mídia)
       # Descomente e ajuste estas linhas
       # - ./data/evolutionapi:/app/data # Exemplo para um volume de dados
     depends_on:
-      # Se você estiver usando um banco de dados, você vai querer adicioná-lo aqui
-      # Por exemplo, se estiver usando PostgreSQL:
-      - db
+      - postgres # DEPENDÊNCIA ALTERADA PARA 'postgres'
     restart: unless-stopped
 
-  # Exemplo de serviço de banco de dados PostgreSQL
-  db:
+  postgres: # NOME DO SERVIÇO ALTERADO DE 'db' PARA 'postgres'
     image: postgres:13-alpine # Ou mysql:latest se você estiver usando MySQL
-    container_name: evolutionapi_db
+    container_name: evolutionapi_db # O nome do contêiner pode permanecer como 'evolutionapi_db' ou ser alterado para 'evolutionapi_postgres'
     environment:
       POSTGRES_DB: evolutionapi
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     volumes:
-      - db_data:/var/lib/postgresql/data # Volume persistente para dados do banco de dados
+      - postgres_data:/var/lib/postgresql/data # Volume persistente para dados do banco de dados (nome do volume ajustado para consistência)
     expose:
       - "5432" # Expõe a outros serviços na rede Docker, mas não diretamente ao host
     restart: unless-stopped
 
 volumes:
-  db_data: # Volume para dados do PostgreSQL
+  postgres_data: # Volume para dados do PostgreSQL (nome do volume ajustado para consistência)

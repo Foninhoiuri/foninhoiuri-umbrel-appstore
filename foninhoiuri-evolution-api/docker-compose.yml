@@ -12,6 +12,7 @@ services:
       WEBSOCKET_ENABLED: "true"
 
       # As configurações do Redis foram removidas, pois o serviço Redis será removido.
+      CACHE_REDIS_ENABLED: "false"
       # Se a Evolution API ainda precisar de cache, você precisará configurar uma alternativa ou desabilitar o cache.
       # CACHE_REDIS_ENABLED: "true"
       # CACHE_REDIS_URI: "redis://redis:6379"

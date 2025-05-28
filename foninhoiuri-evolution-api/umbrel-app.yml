@@ -25,7 +25,7 @@ gallery:
   - https://evoapicloud.com/images/img_image.png
   # Você precisará fornecer imagens reais ou garantir que essas URLs sejam válidas.
 path: "/manager"
-defaultUsername: "evolution" # Se houver um usuário padrão para a interface web, especifique aqui
+defaultUsername: "" # Se houver um usuário padrão para a interface web, especifique aqui
 defaultPassword: "" # Se houver uma senha padrão para a interface web, especifique aqui
 submitter: foninho # Substitua pelo seu nome de usuário
 

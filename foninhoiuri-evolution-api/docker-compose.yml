@@ -1,56 +1,66 @@
-# A linha 'version' foi removida, pois é considerada obsoleta em versões recentes do Docker Compose.
-
 services:
   evolution-api:
-    image: atendai/evolution-api:latest # Considere usar uma versão específica, ex: atendai/evolution-api:1.0.0
+    image: atendai/evolution-api:latest
     container_name: evolution-api
     ports:
-      - "80:8080" # MUITO IMPORTANTE: Porta externa CORRIGIDA para 80 para compatibilidade com o Umbrel
+      - "80:8080" # Porta externa deve ser 80 para Umbrel
     environment:
-      # Variável de Autenticação ESSENCIAL (injetada pelo Umbrel config)
+      # Chave de autenticação injetada via umbrel-app.yml
       AUTHENTICATION_API_KEY: "${AUTHENTICATION_API_KEY}"
 
-      # Configuração para Habilitar WebSockets
+      # WebSockets habilitados
       WEBSOCKET_ENABLED: "true"
 
-      # As configurações do Redis foram removidas e o cache desabilitado explicitamente.
+      # Cache Redis desabilitado (não utilizado)
       CACHE_REDIS_ENABLED: "false"
 
-      # Configurações para o PostgreSQL (como banco de dados principal)
+      # Configuração do PostgreSQL
       DATABASE_ENABLED: "true"
       DATABASE_PROVIDER: "postgresql"
-      # CORRIGIDO: Usar variável de ambiente para a senha do PostgreSQL
       DATABASE_CONNECTION_URI: "postgresql://evolution:${POSTGRES_PASSWORD}@postgresql:5432/evolution?schema=public"
 
+      # Configurações do servidor
       SERVER_PORT: "8080"
-      SERVER_URL: "http://evolution-api.umbrel.local" # URL para acesso interno no Umbrel
+      SERVER_URL: "http://evolution-api.umbrel.local"
+
     volumes:
-      - ${APP_DATA_DIR}/evolution-api/data:/app/data # Persistência de dados do Evolution API
+      - ${APP_DATA_DIR}/evolution-api/data:/app/data
+
     depends_on:
       - postgresql
+
     restart: unless-stopped
+
     networks:
-      - default # DESCOMENTADO: Conecta à rede principal do Umbrel
+      - default
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   postgresql:
-    image: postgres:13 # Versão específica, o que é bom!
+    image: postgres:13
     container_name: postgresql-evolution-api
     environment:
       POSTGRES_DB: evolution
       POSTGRES_USER: evolution
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # CORRIGIDO: Use a variável de ambiente para a senha
-      PGDATA: /var/lib/postgresql/data/pgdata # Caminho para os dados dentro do contêiner
-    volumes:
-      - postgresql_data:/var/lib/postgresql/data # Volume nomeado para persistência de dados do PostgreSQL
-    restart: unless-stopped
-    networks:
-      - default # DESCOMENTADO: Conecta à rede principal do Umbrel
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
 
-# Definição dos volumes nomeados para persistência de dados
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
+
+    restart: unless-stopped
+
+    networks:
+      - default
+
 volumes:
   postgresql_data:
 
 networks:
   default:
     external: true
-    name: umbrel_main_network # DESCOMENTADO: Conecta à rede Docker principal do Umbrel
+    name: umbrel_main_network

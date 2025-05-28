@@ -1,45 +1,51 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  app_proxy:
-    container_name: evolution_proxy
-    depends_on:
-      - api
-    environment:
-      APP_HOST: evolution_api
-      APP_PORT: 8080
-    image: atendai/evolution-api:v2.2.3
-    restart: always
+  evolutionapi:
+    image: atendai/evolution-api:latest
+    container_name: evolutionapi
     ports:
-      - "8080:8080"
-
-  api:
-    container_name: evolution_api
-    image: atendai/evolution-api:v2.2.3
-    restart: always
+      - "8080:8080" # Assumindo que a API roda na porta 8080 com base no .env.example
     environment:
-      DATABASE_PROVIDER: ${DATABASE_PROVIDER}
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      AUTHENTICATION_API_KEY: ${AUTHENTICATION_API_KEY}
-      REDIS_URL: ${REDIS_URL}
-    expose:
-      - "8080"
-    depends_on:
-      - postgresql
-
-  postgresql:
-    container_name: evolution_postgres
-    image: postgres:14
-    restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      # Estes são exemplos baseados no arquivo .env.example que você forneceu
+      # Você deve personalizá-los com seus valores reais
+      - SERVER_TYPE=http
+      - SERVER_PORT=8080
+      - SERVER_URL=http://localhost:8080
+      - SENTRY_DSN=
+      - CORS_ORIGIN=*
+      - CORS_METHODS=GET,POST,PUT,DELETE
+      - CORS_CREDENTIALS=true
+      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG
+      - LOG_COLOR=true
+      - LOG_BAILEYS=error
+      - EVENT_EMITTER_MAX_LISTENERS=50
+      - DEL_INSTANCE=false
+      - DATABASE_PROVIDER=postgresql # Ou mysql, dependendo da sua configuração
+      - DATABASE_CONNECTION=postgresql://user:password@db:5432/evolutionapi # Atualize com sua string de conexão do banco de dados
     volumes:
-      - evolution-pg-data:/var/lib/postgresql/data
+      # Se você precisar de armazenamento persistente para qualquer dado (ex: sessões, mídia)
+      # Descomente e ajuste estas linhas
+      # - ./data/evolutionapi:/app/data # Exemplo para um volume de dados
+    depends_on:
+      # Se você estiver usando um banco de dados, você vai querer adicioná-lo aqui
+      # Por exemplo, se estiver usando PostgreSQL:
+      - db
+    restart: unless-stopped
+
+  # Exemplo de serviço de banco de dados PostgreSQL
+  db:
+    image: postgres:13-alpine # Ou mysql:latest se você estiver usando MySQL
+    container_name: evolutionapi_db
+    environment:
+      POSTGRES_DB: evolutionapi
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/postgresql/data # Volume persistente para dados do banco de dados
+    expose:
+      - "5432" # Expõe a outros serviços na rede Docker, mas não diretamente ao host
+    restart: unless-stopped
 
 volumes:
-  evolution-pg-data:
+  db_data: # Volume para dados do PostgreSQL

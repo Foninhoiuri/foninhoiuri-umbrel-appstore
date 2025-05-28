@@ -28,20 +28,6 @@ path: "/manager"
 defaultUsername: ""
 defaultPassword: ""
 
-
-config:
-  - name: AUTHENTICATION_API_KEY
-    label: Chave de Autenticação da API Evolution
-    description: A chave API para autenticar requisições à Evolution API.
-    type: text
-    value: "dEgnNNY08PfRHyCoVmERRGHtrzF2iI6Y"
-
-  - name: POSTGRES_PASSWORD
-    label: Senha do PostgreSQL
-    description: A senha para o usuário 'evolution' do PostgreSQL.
-    type: password
-    value: "evolution"
-
 app_proxy:
   service_name: evolution-api
   service_port: 8080

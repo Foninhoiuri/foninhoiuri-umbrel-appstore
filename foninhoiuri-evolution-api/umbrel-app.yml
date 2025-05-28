@@ -1,10 +1,9 @@
 manifestVersion: 1
-id: foninhoiuri-evolution-api # ID único para o seu aplicativo
-category: automação # Categoria mais adequada, ou "developer-tools"
-name: Evolution API # Nome que aparece no dashboard
-version: "2.2.3" # A versão do seu aplicativo
-icon: https://i.imgur.com/CA2SZVA.png # Idealmente, use um ícone SVG local, como 'evolution-api.svg'
-# icon: evolution-api.svg # Exemplo de como seria se fosse um arquivo local
+id: foninhoiuri-evolution-api
+category: automação
+name: Evolution API
+version: "2.2.3"
+icon: https://i.imgur.com/CA2SZVA.png
 tagline: A maneira mais fácil de integrar o WhatsApp ao seu sistema.
 description: >-
   Evolution API é uma poderosa e fácil de usar API de bot do WhatsApp
@@ -15,32 +14,28 @@ releaseNotes: >-
   Versão inicial do Evolution API para Umbrel, incluindo os serviços de
   banco de dados Redis e PostgreSQL.
 developer: Evolution API
-website: https://evolution-api.com/ # O site oficial do projeto
-dependencies: [] # O Evolution API não tem dependências de aplicativos Umbrel principais como Bitcoin ou Electrs.
-repo: https://github.com/EvolutionAPI/evolution-api # Repositório oficial do projeto
-support: https://github.com/EvolutionAPI/evolution-api/issues # Link para suporte ou issues
-port: 80 # CORRIGIDO: Esta é a porta CORRETA para o Umbrel expor via proxy
-gallery:
-  - https://evoapicloud.com/images/img_image_1_360x688.png
-  - https://evoapicloud.com/images/img_image.png
-  # Você precisará fornecer imagens reais ou garantir que essas URLs sejam válidas.
+website: https://evolution-api.com/
+dependencies: []
+repo: https://github.com/EvolutionAPI/evolution-api
+support: https://github.com/EvolutionAPI/evolution-api/issues
 path: "/manager"
-defaultUsername: "" # Se houver um usuário padrão para a interface web, especifique aqui
-defaultPassword: "" # Se houver uma senha padrão para a interface web, especifique aqui
-submitter: foninho # Substitua pelo seu nome de usuário
+defaultUsername: ""
+defaultPassword: ""
+submitter: foninho
 
 config:
   - name: AUTHENTICATION_API_KEY
     label: Chave de Autenticação da API Evolution
     description: A chave API para autenticar requisições à Evolution API.
-    type: text # ALTERADO PARA 'text' para que a chave seja visível na interface
-    value: "sv4Dvp77NXjMPaad6HrHa3xIkJzSsfMC" # Mantenha vazio ou com um valor padrão, o usuário preencherá
+    type: text
+    value: "dEgnNNY08PfRHyCoVmERRGHtrzF2iI6Y"
+
   - name: POSTGRES_PASSWORD
     label: Senha do PostgreSQL
     description: A senha para o usuário 'evolution' do PostgreSQL.
-    type: password # Mantenha 'password' para a senha do banco de dados por segurança
-    value: "evolution" # Deixe vazio ou com um valor padrão seguro
+    type: password
+    value: "evolution"
 
 app_proxy:
   service_name: evolution-api
-  service_port: 8080 # Esta é a porta interna do seu contêiner Evolution API
+  service_port: 8080

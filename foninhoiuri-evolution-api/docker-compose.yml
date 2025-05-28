@@ -21,8 +21,8 @@ services:
       - DEL_INSTANCE=false
       - DATABASE_PROVIDER=postgresql
       # A string de conexão da API continua apontando para o usuário 'user'
-      - DATABASE_CONNECTION=postgresql://user:evolution@postgres:5432/evolutionapi
-      - DATABASE_URL=postgresql://user:evolution@postgres:5432/evolutionapi
+      - DATABASE_CONNECTION=postgresql://postgres:evolution@postgres:5432/evolutionapi
+      - DATABASE_URL=postgresql://postgres:evolution@postgres:5432/evolutionapi
       - TZ=America/Sao_Paulo
       - AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
     volumes:

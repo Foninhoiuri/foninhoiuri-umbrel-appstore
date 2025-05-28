@@ -32,7 +32,7 @@ services:
     restart: unless-stopped
 
   postgres:
-    image: postgres:13-alpine
+    image: postgres:13
     container_name: evolutionapi_db
     environment:
       POSTGRES_DB: evolutionapi

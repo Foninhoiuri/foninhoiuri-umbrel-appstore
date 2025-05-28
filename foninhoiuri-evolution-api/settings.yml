@@ -1,4 +1,4 @@
-env:
+environment:
   E_DATABASE_PROVIDER=postgresql
   E_DATABASE_URL=postgresql://evolution:evolution@evolution_postgres:5432/evolution
   E_POSTGRES_USER=evolution

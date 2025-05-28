@@ -1,4 +1,8 @@
-{
-  env:
-    
-}
+env:
+  E_DATABASE_PROVIDER=postgresql
+  E_DATABASE_URL=postgresql://evolution:evolution@evolution_postgres:5432/evolution
+  E_POSTGRES_USER=evolution
+  E_POSTGRES_PASSWORD=evolution
+  E_POSTGRES_DB=evolution
+  E_AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
+  E_REDIS_URL=edis://evolution_redis:6379  

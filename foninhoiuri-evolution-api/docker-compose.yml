@@ -32,6 +32,7 @@ services:
     container_name: evolutionapi_db
     environment:
       POSTGRES_DB: evolutionapi
+      POSTGRES_PASSWORD: evolution
       TZ: America/Sao_Paulo
     volumes:
       - ${APP_DATA_DIR}/foninhoiuri-evolution-api/postgres_data:/var/lib/postgresql/data

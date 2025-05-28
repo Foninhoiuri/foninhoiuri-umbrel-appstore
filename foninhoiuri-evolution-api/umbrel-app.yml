@@ -2,7 +2,7 @@ manifestVersion: 1
 id: foninhoiuri-evolution-api # ID único para o seu aplicativo
 category: productivity # Categoria mais adequada, ou "developer-tools"
 name: Evolution API # Nome que aparece no dashboard
-version: "1.0.0" # A versão do seu aplicativo
+version: "2.2.3" # A versão do seu aplicativo
 icon: https://i.imgur.com/CA2SZVA.png # Idealmente, use um ícone SVG local, como 'evolution-api.svg'
 # icon: evolution-api.svg # Exemplo de como seria se fosse um arquivo local
 tagline: A maneira mais fácil de integrar o WhatsApp ao seu sistema.

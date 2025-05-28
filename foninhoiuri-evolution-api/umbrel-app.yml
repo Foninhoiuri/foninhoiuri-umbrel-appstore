@@ -36,41 +36,41 @@ config:
   - id: DATABASE_PROVIDER
     name: Database Provider
     type: text
-    default: postgresql
+    default: "postgresql"
     description: Provedor do banco de dados (ex: postgresql, mysql, sqlite)
 
   - id: DATABASE_URL
     name: Database URL
     type: text
-    default: postgresql://evolution:evolution@evolution_postgres:5432/evolution
+    default: "postgresql://evolution:evolution@evolution_postgres:5432/evolution"
     description: URL de conexão completa com o banco de dados
 
   - id: POSTGRES_USER
     name: Postgres User
     type: text
-    default: evolution
+    default: "evolution"
     description: Usuário do banco Postgres
 
   - id: POSTGRES_PASSWORD
     name: Postgres Password
     type: password
-    default: evolution
+    default: "evolution"
     description: Senha do usuário do banco Postgres
 
   - id: POSTGRES_DB
     name: Postgres Database Name
     type: text
-    default: evolution
+    default: "evolution"
     description: Nome do banco de dados Postgres
 
   - id: AUTHENTICATION_API_KEY
     name: API Key
     type: password
-    default: Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
+    default: "Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv"
     description: Chave de autenticação para API
 
   - id: REDIS_URL
     name: Redis URL
     type: text
-    default: redis://evolution_redis:6379
+    default: "redis://evolution_redis:6379"
     description: URL de conexão com o Redis

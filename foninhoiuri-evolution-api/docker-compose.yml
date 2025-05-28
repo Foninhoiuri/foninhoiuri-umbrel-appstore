@@ -1,24 +1,40 @@
+version: "3.8"
+
 services:
-  evolution-api:
-    image: foninhoiuri/evolution-api:v2.2.3
+  app_proxy:
+    container_name: evolution_proxy
+    depends_on:
+      - api
+    environment:
+      APP_HOST: evolution_api
+      APP_PORT: 8080
+    image: evolutionapi/evolution-api:v2.2.3
+    restart: always
+    ports:
+      - "8080:8080"
+
+  api:
+    container_name: evolution_api
+    image: evolutionapi/evolution-api:v2.2.3
     restart: always
     environment:
-      - AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
-      - POSTGRES_PASSWORD=evolution
+      - AUTHENTICATION_API_KEY=${AUTHENTICATION_API_KEY}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - DATABASE_PROVIDER=postgresql
-      - DATABASE_URL=postgresql://evolution:evolution@postgresql:5432/evolution
-    ports:
-      - "8080:8080"  # Alterado para evitar conflito com a porta 80 global
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
+    expose:
+      - "8080"
     depends_on:
       - postgresql
 
   postgresql:
+    container_name: evolution_postgres
     image: postgres:14
     restart: always
     environment:
-      - POSTGRES_DB=evolution
-      - POSTGRES_USER=evolution
-      - POSTGRES_PASSWORD=evolution
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - evolution-pg-data:/var/lib/postgresql/data
 

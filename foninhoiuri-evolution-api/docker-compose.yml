@@ -19,27 +19,31 @@ services:
       - LOG_BAILEYS=error
       - EVENT_EMITTER_MAX_LISTENERS=50
       - DEL_INSTANCE=false
-      - DATABASE_PROVIDER=postgresql # Provedor de banco de dados
-      - DATABASE_CONNECTION=postgresql://evolution:evolution@postgres:5432/evolutionapi # String de conexão principal
-      - DATABASE_URL=postgresql://evolution:evolution@postgres:5432/evolutionapi # Para Prisma/ORM
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION=postgresql://evolution:evolution@postgres:5432/evolutionapi
+      - DATABASE_URL=postgresql://evolution:evolution@postgres:5432/evolutionapi
       - TZ=America/Sao_Paulo
       - AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
     volumes:
-      - ${APP_DATA_DIR}/data:/app/data # Volume de dados da aplicação
+      # MUITO IMPORTANTE: SUBSTITUA 'SEU_CAMINHO_COMPLETO_PARA_O_APP_DATA' PELO CAMINHO REAL NO SEU UMBREL.
+      # Exemplo: /home/umbrel/umbrel/app-data/foninhoiuri-evolution-api/data:/app/data
+      - SEU_CAMINHO_COMPLETO_PARA_O_APP_DATA/data:/app/data # Volume de dados da aplicação
     depends_on:
-      - postgres # Dependência no serviço de banco de dados
+      - postgres
     restart: unless-stopped
 
   postgres: # Serviço do banco de dados PostgreSQL
-    image: postgres:13 # Usando a imagem postgres:13
+    image: postgres:13
     container_name: evolutionapi_db
     environment:
       POSTGRES_DB: evolutionapi
-      POSTGRES_USER: evolution # Usuário superuser do banco de dados
-      POSTGRES_PASSWORD: "evolution" # Senha do superuser (entre aspas)
+      POSTGRES_USER: evolution
+      POSTGRES_PASSWORD: "evolution"
       TZ: America/Sao_Paulo
     volumes:
-      - ${APP_DATA_DIR}/postgres_data:postgres_data/var/lib/postgresql/data # Volume persistente para dados do PostgreSQL
+      # MUITO IMPORTANTE: SUBSTITUA 'SEU_CAMINHO_COMPLETO_PARA_O_APP_DATA' PELO CAMINHO REAL NO SEU UMBREL.
+      # Exemplo: /home/umbrel/umbrel/app-data/foninhoiuri-evolution-api/postgres_data:/var/lib/postgresql/data
+      - /home/umbrel/umbrel/app-data/foninhoiuri-evolution-api/postgres_data:/var/lib/postgresql/data # Volume persistente para dados do PostgreSQL
     expose:
-      - "5432" # Expõe a porta para outros serviços na rede Docker
+      - "5432"
     restart: unless-stopped

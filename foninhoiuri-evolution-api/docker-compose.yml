@@ -1,6 +1,6 @@
 services:
   evolution-api:
-    image: foninhoiuri/evolution-api:2.2.3
+    image: foninhoiuri/evolution-api:v2.2.3
     restart: always
     environment:
       - AUTHENTICATION_API_KEY=defaultapikey

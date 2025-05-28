@@ -20,8 +20,9 @@ services:
       - EVENT_EMITTER_MAX_LISTENERS=50
       - DEL_INSTANCE=false
       - DATABASE_PROVIDER=postgresql
-      - DATABASE_CONNECTION=postgresql://evolution:evolution@postgres:5432/evolutionapi
-      - DATABASE_URL=postgresql://evolution:evolution@postgres:5432/evolutionapi # <-- ADICIONADO PARA O PRISMA
+      # A string de conexão da API continua apontando para o usuário 'user'
+      - DATABASE_CONNECTION=postgresql://user:evolution@postgres:5432/evolutionapi
+      - DATABASE_URL=postgresql://user:evolution@postgres:5432/evolutionapi
       - TZ=America/Sao_Paulo
       - AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
     volumes:
@@ -35,13 +36,12 @@ services:
     container_name: evolutionapi_db
     environment:
       POSTGRES_DB: evolutionapi
-      POSTGRES_USER: evolution
-      POSTGRES_PASSWORD: evolution
+      POSTGRES_USER: postgres # <-- Usuário padrão do PostgreSQL
+      POSTGRES_PASSWORD: evolution # <-- Senha para o usuário 'postgres'
       TZ: America/Sao_Paulo
     volumes:
       - ${APP_DATA_DIR}/foninhoiuri-evolution-api/postgres_data:/var/lib/postgresql/data
+      - ./initdb.d:/docker-entrypoint-initdb.d # <-- Monta a pasta com o script de inicialização
     expose:
       - "5432"
     restart: unless-stopped
-
-# A seção 'volumes:' de nível superior continua removida.

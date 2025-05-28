@@ -22,27 +22,27 @@ services:
       - EVENT_EMITTER_MAX_LISTENERS=50
       - DEL_INSTANCE=false
       - DATABASE_PROVIDER=postgresql
-      - DATABASE_CONNECTION=postgresql://user:password@postgres:5432/evolutionapi # HOSTNAME ALTERADO PARA 'postgres'
+      - DATABASE_CONNECTION=postgresql://evolution:evolution@postgres:5432/evolutionapi # Usuário e Senha alterados
     volumes:
       # Se você precisar de armazenamento persistente para qualquer dado (ex: sessões, mídia)
       # Descomente e ajuste estas linhas
       # - ./data/evolutionapi:/app/data # Exemplo para um volume de dados
     depends_on:
-      - postgres # DEPENDÊNCIA ALTERADA PARA 'postgres'
+      - postgres
     restart: unless-stopped
 
-  postgres: # NOME DO SERVIÇO ALTERADO DE 'db' PARA 'postgres'
-    image: postgres:13-alpine # Ou mysql:latest se você estiver usando MySQL
-    container_name: evolutionapi_db # O nome do contêiner pode permanecer como 'evolutionapi_db' ou ser alterado para 'evolutionapi_postgres'
+  postgres: # NOME DO SERVIÇO: postgres
+    image: postgres:13-alpine
+    container_name: evolutionapi_db
     environment:
       POSTGRES_DB: evolutionapi
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: evolution # Usuário alterado
+      POSTGRES_PASSWORD: evolution # Senha alterada
     volumes:
-      - postgres_data:/var/lib/postgresql/data # Volume persistente para dados do banco de dados (nome do volume ajustado para consistência)
+      - postgres_data:/var/lib/postgresql/data # Volume persistente para dados do banco de dados
     expose:
-      - "5432" # Expõe a outros serviços na rede Docker, mas não diretamente ao host
+      - "5432"
     restart: unless-stopped
 
 volumes:
-  postgres_data: # Volume para dados do PostgreSQL (nome do volume ajustado para consistência)
+  postgres_data: # Volume para dados do PostgreSQL

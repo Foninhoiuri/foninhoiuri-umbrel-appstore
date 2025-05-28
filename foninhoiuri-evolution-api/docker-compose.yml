@@ -1,14 +1,14 @@
-version: '3.8'
+# A linha 'version' foi removida, pois é considerada obsoleta em versões recentes do Docker Compose.
 
 services:
   evolution-api:
     image: atendai/evolution-api:latest # Considere usar uma versão específica, ex: atendai/evolution-api:1.0.0
     container_name: evolution-api
     ports:
-      - "80:8080" # CORRIGIDO: Porta externa para 80 para compatibilidade com o Umbrel
+      - "80:8080" # Porta externa para 80 para compatibilidade com o Umbrel
     environment:
-      # Variável de Autenticação ESSENCIAL (idealmente injetada pelo Umbrel config)
-      AUTHENTICATION_API_KEY: "${AUTHENTICATION_API_KEY}" # <<--- AQUI DEVERIA SER ${AUTHENTICATION_API_KEY} para ser configurável pelo Umbrel
+      # Variável de Autenticação ESSENCIAL (injetada pelo Umbrel config)
+      AUTHENTICATION_API_KEY: "${AUTHENTICATION_API_KEY}"
 
       # Configuração para Habilitar WebSockets
       WEBSOCKET_ENABLED: "true"
@@ -24,12 +24,13 @@ services:
       DATABASE_ENABLED: "true"
       DATABASE_PROVIDER: "postgresql"
       # Usar variável de ambiente para a senha do PostgreSQL
-      DATABASE_CONNECTION_URI: "postgresql://evolution:${POSTGRES_PASSWORD}@postgresql:5432/evolution?schema=public" # Mantenha a senha do PostgreSQL consistente!
+      DATABASE_CONNECTION_URI: "postgresql://evolution:${POSTGRES_PASSWORD}@postgresql:5432/evolution?schema=public"
 
       SERVER_PORT: "8080"
       SERVER_URL: "http://evolution-api.umbrel.local" # URL para acesso interno no Umbrel
     volumes:
-      - ${APP_DATA_DIR}/evolution-api/data:/app/data # Persistência de dados do Evolution API
+      # Usando bind mount para dados do aplicativo principal. Isso é um padrão comum no Umbrel.
+      - ${APP_DATA_DIR}/evolution-api/data:/app/data
     depends_on:
       - redis
       - postgresql
@@ -53,7 +54,7 @@ services:
     environment:
       POSTGRES_DB: evolution
       POSTGRES_USER: evolution
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Use uma variável de ambiente para a senha
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Usa a variável de ambiente para a senha
       PGDATA: /var/lib/postgresql/data/pgdata # Caminho para os dados dentro do contêiner
     volumes:
       - postgresql_data:/var/lib/postgresql/data # Volume nomeado para persistência de dados do PostgreSQL
@@ -68,5 +69,5 @@ volumes:
 
 networks:
   default:
-    external:
-      name: umbrel_main_network # Conecta à rede Docker principal do Umbrel
+    external: true # CORRIGIDO: Sintaxe moderna para rede externa
+    name: umbrel_main_network # Nome da rede Docker principal do Umbrel

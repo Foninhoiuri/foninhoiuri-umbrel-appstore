@@ -9,8 +9,6 @@ services:
       - "8080:8080"  # Alterado para evitar conflito com a porta 80 global
     depends_on:
       - postgresql
-    networks:
-      - default
 
   postgresql:
     image: postgres:14
@@ -26,8 +24,3 @@ services:
 
 volumes:
   evolution-pg-data:
-
-networks:
-  default:
-    external: true
-    name: umbrel-app-network

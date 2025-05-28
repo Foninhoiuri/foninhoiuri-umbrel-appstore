@@ -1,5 +1,3 @@
-version: "3.7"
-
 services:
   evolution-api:
     image: foninhoiuri/evolution-api:2.2.3
@@ -8,7 +6,7 @@ services:
       - AUTHENTICATION_API_KEY=defaultapikey
       - POSTGRES_PASSWORD=examplepassword
     ports:
-      - "8080:80"  # Alterado para evitar conflito com a porta 80 global
+      - "8080:8080"  # Alterado para evitar conflito com a porta 80 global
     depends_on:
       - postgresql
     networks:

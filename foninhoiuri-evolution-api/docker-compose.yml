@@ -5,7 +5,7 @@ services:
     image: atendai/evolution-api:latest
     container_name: evolutionapi
     ports:
-      - "8080:8080" # Assumindo que a API roda na porta 8080
+      - "8080:8080"
     environment:
       - SERVER_TYPE=http
       - SERVER_PORT=8080
@@ -21,16 +21,16 @@ services:
       - DEL_INSTANCE=false
       - DATABASE_PROVIDER=postgresql
       - DATABASE_CONNECTION=postgresql://evolution:evolution@postgres:5432/evolutionapi
+      - DATABASE_URL=postgresql://evolution:evolution@postgres:5432/evolutionapi # <-- ADICIONADO PARA O PRISMA
       - TZ=America/Sao_Paulo
-      - AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv # <-- Corrigido: formato chave=valor
+      - AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
     volumes:
-      # Mapeia uma pasta dentro do ${APP_DATA_DIR} para os dados da Evolution API
       - ${APP_DATA_DIR}/foninhoiuri-evolution-api/data:/app/data
     depends_on:
       - postgres
     restart: unless-stopped
 
-  postgres: # NOME DO SERVIÇO: postgres
+  postgres:
     image: postgres:13-alpine
     container_name: evolutionapi_db
     environment:
@@ -39,11 +39,9 @@ services:
       POSTGRES_PASSWORD: evolution
       TZ: America/Sao_Paulo
     volumes:
-      # Mapeia uma pasta dentro do ${APP_DATA_DIR} para os dados do PostgreSQL
       - ${APP_DATA_DIR}/foninhoiuri-evolution-api/postgres_data:/var/lib/postgresql/data
     expose:
       - "5432"
     restart: unless-stopped
 
-# A seção 'volumes:' de nível superior foi REMOVIDA, pois estamos usando bind mounts diretos nos serviços.
-# Isso resolve o erro de validação.
+# A seção 'volumes:' de nível superior continua removida.

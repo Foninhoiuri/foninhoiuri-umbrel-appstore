@@ -7,8 +7,6 @@ services:
     ports:
       - "8080:8080" # Assumindo que a API roda na porta 8080
     environment:
-      # Estas são exemplos baseados no arquivo .env.example
-      # Você deve personalizá-los com seus valores reais
       - SERVER_TYPE=http
       - SERVER_PORT=8080
       - SERVER_URL=http://localhost:8080
@@ -22,13 +20,12 @@ services:
       - EVENT_EMITTER_MAX_LISTENERS=50
       - DEL_INSTANCE=false
       - DATABASE_PROVIDER=postgresql
-      - AUTHENTICATION_API_KEY:Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
-      - DATABASE_CONNECTION=postgresql://evolution:evolution@postgressql:5432/evolutionapi # Usuário e Senha alterados
+      - DATABASE_CONNECTION=postgresql://evolution:evolution@postgres:5432/evolutionapi
       - TZ=America/Sao_Paulo
+      - AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv # <-- Corrigido: formato chave=valor
     volumes:
-      # Se você precisar de armazenamento persistente para qualquer dado (ex: sessões, mídia)
-      # Descomente e ajuste estas linhas
-      - ${APP_DATA_DIR}/data/evolutionapi:/app/data # Exemplo para um volume de dados
+      # Mapeia uma pasta dentro do ${APP_DATA_DIR} para os dados da Evolution API
+      - ${APP_DATA_DIR}/foninhoiuri-evolution-api/data:/app/data
     depends_on:
       - postgres
     restart: unless-stopped
@@ -38,14 +35,15 @@ services:
     container_name: evolutionapi_db
     environment:
       POSTGRES_DB: evolutionapi
-      POSTGRES_USER: evolution # Usuário alterado
-      POSTGRES_PASSWORD: evolution # Senha alterada
+      POSTGRES_USER: evolution
+      POSTGRES_PASSWORD: evolution
       TZ: America/Sao_Paulo
     volumes:
-      - ${APP_DATA_DIR}/datapostgres_data:/var/lib/postgresql/data # Volume persistente para dados do banco de dados
+      # Mapeia uma pasta dentro do ${APP_DATA_DIR} para os dados do PostgreSQL
+      - ${APP_DATA_DIR}/foninhoiuri-evolution-api/postgres_data:/var/lib/postgresql/data
     expose:
       - "5432"
     restart: unless-stopped
 
-volumes:
-  postgres_data: {${APP_DATA_DIR}/datapostgres_data:/data/} # <-- Corrigido: adicionado {} para ser um mapeamento explícitoe para dados do PostgreSQL
+# A seção 'volumes:' de nível superior foi REMOVIDA, pois estamos usando bind mounts diretos nos serviços.
+# Isso resolve o erro de validação.

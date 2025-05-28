@@ -20,8 +20,9 @@ services:
       - EVENT_EMITTER_MAX_LISTENERS=50
       - DEL_INSTANCE=false
       - DATABASE_PROVIDER=postgresql
-      - DATABASE_CONNECTION=postgresql://evolution:evolution@postgres:5432/evolutionapi
-      - DATABASE_URL=postgresql://evolution:evolution@postgres:5432/evolutionapi # <-- ADICIONADO PARA O PRISMA
+      # A string de conexão da API agora aponta para o usuário 'user' com a senha 'evolution'
+      - DATABASE_CONNECTION=postgresql://user:evolution@postgres:5432/evolutionapi
+      - DATABASE_URL=postgresql://user:evolution@postgres:5432/evolutionapi
       - TZ=America/Sao_Paulo
       - AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
     volumes:
@@ -35,13 +36,11 @@ services:
     container_name: evolutionapi_db
     environment:
       POSTGRES_DB: evolutionapi
-      POSTGRES_USER: evolution
-      POSTGRES_PASSWORD: evolution
+      POSTGRES_USER: user # <-- O usuário do banco de dados será 'user'
+      POSTGRES_PASSWORD: evolution # <-- A senha do banco de dados será 'evolution'
       TZ: America/Sao_Paulo
     volumes:
       - ${APP_DATA_DIR}/foninhoiuri-evolution-api/postgres_data:/var/lib/postgresql/data
     expose:
       - "5432"
     restart: unless-stopped
-
-# A seção 'volumes:' de nível superior continua removida.

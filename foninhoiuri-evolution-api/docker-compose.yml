@@ -18,10 +18,10 @@ services:
     image: atendai/evolution-api:v2.2.3
     restart: always
     environment:
-      - AUTHENTICATION_API_KEY=${AUTHENTICATION_API_KEY}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - AUTHENTICATION_API_KEY=${E_AUTHENTICATION_API_KEY}
+      - POSTGRES_PASSWORD=${E_POSTGRES_PASSWORD}
       - DATABASE_PROVIDER=postgresql
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/${POSTGRES_DB}
+      - DATABASE_URL=postgresql://${E_POSTGRES_USER}:${E_POSTGRES_PASSWORD}@postgresql:5432/${E_POSTGRES_DB}
     expose:
       - "8080"
     depends_on:
@@ -32,9 +32,9 @@ services:
     image: postgres:14
     restart: always
     environment:
-      - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${E_POSTGRES_DB}
+      - POSTGRES_USER=${E_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${E_POSTGRES_PASSWORD}
     volumes:
       - evolution-pg-data:/var/lib/postgresql/data
 

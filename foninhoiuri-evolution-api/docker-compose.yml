@@ -3,8 +3,10 @@ services:
     image: foninhoiuri/evolution-api:v2.2.3
     restart: always
     environment:
-      - AUTHENTICATION_API_KEY=defaultapikey
-      - POSTGRES_PASSWORD=examplepassword
+      - AUTHENTICATION_API_KEY=${AUTHENTICATION_API_KEY}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_URL=postgresql://evolution:${POSTGRES_PASSWORD}@postgresql:5432/evolution
     ports:
       - "8080:8080"  # Alterado para evitar conflito com a porta 80 global
     depends_on:
@@ -16,7 +18,7 @@ services:
     environment:
       - POSTGRES_DB=evolution
       - POSTGRES_USER=evolution
-      - POSTGRES_PASSWORD=examplepassword
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - evolution-pg-data:/var/lib/postgresql/data
     networks:

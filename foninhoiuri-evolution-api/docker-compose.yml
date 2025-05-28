@@ -13,7 +13,7 @@ services:
       # Caminho simplificado: os dados da API irão para ${APP_DATA_DIR}/data
       - ${APP_DATA_DIR}/data:/app/data
     depends_on:
-      - mongodb
+      - postgres
     restart: unless-stopped
 
   postgres:

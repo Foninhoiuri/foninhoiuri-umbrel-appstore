@@ -40,6 +40,7 @@ services:
       POSTGRES_DB: evolutionapi
       POSTGRES_USER: evolution # Usuário alterado
       POSTGRES_PASSWORD: evolution # Senha alterada
+      TZ: America/Sao_Paulo
     volumes:
       - ${APP_DATA_DIR}/datapostgres_data:/var/lib/postgresql/data # Volume persistente para dados do banco de dados
     expose:
@@ -47,5 +48,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  postgres_data:
-      - ${APP_DATA_DIR}/datapostgres_data:/data/ # Volume para dados do PostgreSQL
+  postgres_data: {${APP_DATA_DIR}/datapostgres_data:/data/} # <-- Corrigido: adicionado {} para ser um mapeamento explícitoe para dados do PostgreSQL

@@ -22,6 +22,7 @@ services:
       - EVENT_EMITTER_MAX_LISTENERS=50
       - DEL_INSTANCE=false
       - DATABASE_PROVIDER=postgresql
+      - AUTHENTICATION_API_KEY:Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
       - DATABASE_CONNECTION=postgresql://evolution:evolution@postgres:5432/evolutionapi # Usuário e Senha alterados
     volumes:
       # Se você precisar de armazenamento persistente para qualquer dado (ex: sessões, mídia)

@@ -1,10 +1,9 @@
-manifestVersion: 1
+manifestVersion: 1.1
 id: foninhoiuri-evolution-api
 category: automação
 name: Evolution API
 version: "2.2.3"
 icon: https://i.imgur.com/CA2SZVA.png
-# icon: evolution-api.svg # Exemplo de como seria se fosse um arquivo local
 tagline: A maneira mais fácil de integrar o WhatsApp ao seu sistema.
 description: >-
   Evolution API é uma poderosa e fácil de usar API de bot do WhatsApp
@@ -12,8 +11,7 @@ description: >-
   em suas aplicações. Ele permite enviar e receber mensagens, gerenciar
   contatos e construir soluções automatizadas de WhatsApp.
 releaseNotes: >-
-  Versão inicial do Evolution API para Umbrel. Esta versão utiliza
-  um banco de dados PostgreSQL para persistência de dados.
+  Versão inicial do Evolution API para Umbrel.
 developer: Evolution API
 website: https://evolution-api.com/
 dependencies: []
@@ -27,3 +25,13 @@ gallery:
 path: "/manager"
 defaultUsername: ""
 defaultPassword: ""
+
+hooks:
+  pre-install: scripts/pre-install.sh
+
+userEnv:
+  - id: AUTHENTICATION_API_KEY
+    name: Chave de Autenticação
+    description: Cole aqui sua chave de API da Evolution.
+    type: text
+    required: true

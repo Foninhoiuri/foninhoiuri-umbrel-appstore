@@ -35,11 +35,6 @@ config:
     description: A chave API para autenticar requisições à Evolution API.
     type: text # ALTERADO PARA 'text' para que a chave seja visível na interface
     value: "" # Mantenha vazio ou com um valor padrão, o usuário preencherá
-  - name: POSTGRES_PASSWORD
-    label: Senha do PostgreSQL
-    description: A senha para o usuário 'evolution' do PostgreSQL.
-    type: password # Mantenha 'password' para a senha do banco de dados por segurança
-    value: ""
     
 app_proxy:
   # O serviço principal do seu aplicativo no docker-compose.yml

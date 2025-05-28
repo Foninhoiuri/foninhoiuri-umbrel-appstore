@@ -7,31 +7,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SERVER_TYPE=http
-      - SERVER_PORT=8080
-      - SERVER_URL=http://umbrel.local:8080
-      - SENTRY_DSN=
-      - CORS_ORIGIN=*
-      - CORS_METHODS=GET,POST,PUT,DELETE
-      - CORS_CREDENTIALS=true
-      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG
-      - LOG_COLOR=true
-      - LOG_BAILEYS=error
-      - EVENT_EMITTER_MAX_LISTENERS=50
-      - DEL_INSTANCE=false
-      - DATABASE_PROVIDER=mongodb
       - TZ=America/Sao_Paulo
       - AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
-      # Variáveis de ambiente específicas para MongoDB
-      - DATABASE_ENABLED=true
-      # ATENÇÃO: Altere 'evo_user' e 'evo_password' para credenciais SEGURAS e ÚNICAS!
-      - DATABASE_CONNECTION_URI=mongodb://evo_user:evo_password@mongodb:27017/?authSource=admin&readPreference=primary&ssl=false&directConnection=true
-      - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
-      - DATABASE_SAVE_DATA_INSTANCE=false
-      - DATABASE_SAVE_DATA_NEW_MESSAGE=false
-      - DATABASE_SAVE_MESSAGE_UPDATE=false
-      - DATABASE_SAVE_DATA_CONTACTS=false
-      - DATABASE_SAVE_DATA_CHATS=false
     volumes:
       # Caminho simplificado: os dados da API irão para ${APP_DATA_DIR}/data
       - ${APP_DATA_DIR}/data:/app/data
@@ -39,17 +16,14 @@ services:
       - mongodb
     restart: unless-stopped
 
-  mongodb:
-    image: mongo:4.4
-    container_name: evolutionapi_mongodb
+  postgres:
+    image: postgres:latest
+    container_name: evolutionapi_postgres
     environment:
-      # ATENÇÃO: Altere 'evo_user' e 'evo_password' para credenciais SEGURAS e ÚNICAS!
-      MONGO_INITDB_ROOT_USERNAME: evo_user
-      MONGO_INITDB_ROOT_PASSWORD: evo_password
       TZ: America/Sao_Paulo
     volumes:
       # Caminho simplificado: os dados do MongoDB irão para ${APP_DATA_DIR}/mongodb_data
       - ${APP_DATA_DIR}/mongodb_data:/data/db
     expose:
-      - "27017"
+      - "5432"
     restart: unless-stopped

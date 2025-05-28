@@ -19,7 +19,7 @@ website: https://evolution-api.com/ # O site oficial do projeto
 dependencies: [] # O Evolution API não tem dependências de aplicativos Umbrel principais como Bitcoin ou Electrs.
 repo: https://github.com/EvolutionAPI/evolution-api # Repositório oficial do projeto
 support: https://github.com/EvolutionAPI/evolution-api/issues # Link para suporte ou issues
-port: 8080 # CORRIGIDO: Deve ser a porta externa que o Umbrel expõe (porta 80)
+port: 80 # CORRIGIDO: Esta é a porta CORRETA para o Umbrel expor via proxy
 gallery:
   - https://evoapicloud.com/images/img_image_1_360x688.png
   - https://evoapicloud.com/images/img_image.png
@@ -35,12 +35,12 @@ config:
     description: A chave API para autenticar requisições à Evolution API.
     type: text # ALTERADO PARA 'text' para que a chave seja visível na interface
     value: "sv4Dvp77NXjMPaad6HrHa3xIkJzSsfMC" # Mantenha vazio ou com um valor padrão, o usuário preencherá
-    
+  - name: POSTGRES_PASSWORD
+    label: Senha do PostgreSQL
+    description: A senha para o usuário 'evolution' do PostgreSQL.
+    type: password # Mantenha 'password' para a senha do banco de dados por segurança
+    value: "" # Deixe vazio ou com um valor padrão seguro
+
 app_proxy:
-  # O serviço principal do seu aplicativo no docker-compose.yml
-  # Neste caso, é 'evolution-api'
   service_name: evolution-api
-  # A porta interna do serviço principal que o Umbrel deve expor
-  # Esta é a porta para a qual o Umbrel irá rotear o tráfego (port: 80 no umbrel-app.yml)
-  # Deve ser a porta que a Evolution API realmente escuta dentro do contêiner (8080)
-  service_port: 8080
+  service_port: 8080 # Esta é a porta interna do seu contêiner Evolution API

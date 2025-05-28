@@ -12,8 +12,8 @@ description: >-
   em suas aplicações. Ele permite enviar e receber mensagens, gerenciar
   contatos e construir soluções automatizadas de WhatsApp.
 releaseNotes: >-
-  Versão inicial do Evolution API para Umbrel, incluindo os serviços de
-  banco de dados Redis e PostgreSQL.
+  Versão inicial do Evolution API para Umbrel. Esta versão utiliza
+  um banco de dados PostgreSQL para persistência de dados.
 developer: Evolution API
 website: https://evolution-api.com/
 dependencies: []
@@ -31,46 +31,3 @@ defaultPassword: ""
 app_proxy:
   service_name: evolution-api
   service_port: 8080
-
-config:
-  - id: "DATABASE_PROVIDER"
-    name: Database Provider
-    type: text
-    default: "postgresql"
-    description: Provedor do banco de dados (ex: postgresql, mysql, sqlite).
-
-  - id: "DATABASE_URL"
-    name: Database URL
-    type: text
-    default: "postgresql://evolution:evolution@evolution_postgres:5432/evolution"
-    description: URL de conexão completa com o banco de dados.
-
-  - id: "POSTGRES_USER"
-    name: Postgres User
-    type: text
-    default: "evolution"
-    description: Usuário do banco Postgres.
-
-  - id: "POSTGRES_PASSWORD"
-    name: Postgres Password
-    type: password
-    default: "evolution"
-    description: Senha do usuário do banco Postgres.
-
-  - id: "POSTGRES_DB"
-    name: Postgres Database Name
-    type: text
-    default: "evolution"
-    description: Nome do banco de dados Postgres.
-
-  - id: "AUTHENTICATION_API_KEY"
-    name: API Key
-    type: password
-    default: "Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv"
-    description: Chave de autenticação para API.
-
-  - id: "REDIS_URL"
-    name: Redis URL
-    type: text
-    default: "redis://evolution_redis:6379"
-    description: URL de conexão com o Redis.

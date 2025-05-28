@@ -27,7 +27,3 @@ gallery:
 path: "/manager"
 defaultUsername: ""
 defaultPassword: ""
-
-app_proxy:
-  service_name: evolution-api
-  service_port: 8080

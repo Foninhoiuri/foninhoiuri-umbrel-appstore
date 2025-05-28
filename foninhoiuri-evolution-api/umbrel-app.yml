@@ -40,3 +40,12 @@ config:
     description: A senha para o usuário 'evolution' do PostgreSQL.
     type: password # Mantenha 'password' para a senha do banco de dados por segurança
     value: ""
+    
+app_proxy:
+  # O serviço principal do seu aplicativo no docker-compose.yml
+  # Neste caso, é 'evolution-api'
+  service_name: evolution-api
+  # A porta interna do serviço principal que o Umbrel deve expor
+  # Esta é a porta para a qual o Umbrel irá rotear o tráfego (port: 80 no umbrel-app.yml)
+  # Deve ser a porta que a Evolution API realmente escuta dentro do contêiner (8080)
+  service_port: 8080

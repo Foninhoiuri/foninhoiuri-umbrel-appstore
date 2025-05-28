@@ -1,29 +1,45 @@
 version: '3.8'
 
 services:
-  evolution-api:
+  evolution-api: # Serviço principal da aplicação
     image: atendai/evolution-api:latest
     container_name: evolutionapi
     ports:
       - "8080:8080"
     environment:
+      - SERVER_TYPE=http
+      - SERVER_PORT=8080
+      - SERVER_URL=http://localhost:8080
+      - SENTRY_DSN=
+      - CORS_ORIGIN=*
+      - CORS_METHODS=GET,POST,PUT,DELETE
+      - CORS_CREDENTIALS=true
+      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG
+      - LOG_COLOR=true
+      - LOG_BAILEYS=error
+      - EVENT_EMITTER_MAX_LISTENERS=50
+      - DEL_INSTANCE=false
+      - DATABASE_PROVIDER=postgresql # Provedor de banco de dados
+      - DATABASE_CONNECTION=postgresql://evolution:evolution@postgres:5432/evolutionapi # String de conexão principal
+      - DATABASE_URL=postgresql://evolution:evolution@postgres:5432/evolutionapi # Para Prisma/ORM
       - TZ=America/Sao_Paulo
       - AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
     volumes:
-      # Caminho simplificado: os dados da API irão para ${APP_DATA_DIR}/data
-      - ${APP_DATA_DIR}/data:/app/data
+      - ${APP_DATA_DIR}/data:/app/data # Volume de dados da aplicação
     depends_on:
-      - postgres
+      - postgres # Dependência no serviço de banco de dados
     restart: unless-stopped
 
-  postgres:
-    image: postgres:latest
-    container_name: evolutionapi_postgres
+  postgres: # Serviço do banco de dados PostgreSQL
+    image: postgres:13 # Usando a imagem postgres:13
+    container_name: evolutionapi_db
     environment:
+      POSTGRES_DB: evolutionapi
+      POSTGRES_USER: evolution # Usuário superuser do banco de dados
+      POSTGRES_PASSWORD: "evolution" # Senha do superuser (entre aspas)
       TZ: America/Sao_Paulo
     volumes:
-      # Caminho simplificado: os dados do MongoDB irão para ${APP_DATA_DIR}/mongodb_data
-      - ${APP_DATA_DIR}/mongodb_data:/data/db
+      - ${APP_DATA_DIR}/postgres_data:/var/lib/postgresql/data # Volume persistente para dados do PostgreSQL
     expose:
-      - "5432"
+      - "5432" # Expõe a porta para outros serviços na rede Docker
     restart: unless-stopped

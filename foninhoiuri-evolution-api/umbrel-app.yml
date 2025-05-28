@@ -19,7 +19,8 @@ website: https://evolution-api.com/ # O site oficial do projeto
 dependencies: [] # O Evolution API não tem dependências de aplicativos Umbrel principais como Bitcoin ou Electrs.
 repo: https://github.com/EvolutionAPI/evolution-api # Repositório oficial do projeto
 support: https://github.com/EvolutionAPI/evolution-api/issues # Link para suporte ou issues
-port: 80 # CORRIGIDO: Deve ser a porta externa que o Umbrel expõe (porta 80)
+port: 
+  - "8080:8080" # CORRIGIDO: Deve ser a porta externa que o Umbrel expõe (porta 80)
 gallery:
   - https://evoapicloud.com/images/img_image_1_360x688.png
   - https://evoapicloud.com/images/img_image.png

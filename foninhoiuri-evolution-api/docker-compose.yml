@@ -5,7 +5,7 @@ services:
     image: atendai/evolution-api:latest # Considere usar uma versão específica, ex: atendai/evolution-api:1.0.0
     container_name: evolution-api
     ports:
-      - "80:8080" # CORRIGIDO: Porta externa para 80 para compatibilidade com o Umbrel
+      - "80:8080" # MUITO IMPORTANTE: Porta externa CORRIGIDA para 80 para compatibilidade com o Umbrel
     environment:
       # Variável de Autenticação ESSENCIAL (injetada pelo Umbrel config)
       AUTHENTICATION_API_KEY: "${AUTHENTICATION_API_KEY}"
@@ -30,7 +30,7 @@ services:
       - postgresql
     restart: unless-stopped
     networks:
-      - default # ATIVADO: Conecta à rede principal do Umbrel
+      - default # DESCOMENTADO: Conecta à rede principal do Umbrel
 
   postgresql:
     image: postgres:13 # Versão específica, o que é bom!
@@ -44,7 +44,7 @@ services:
       - postgresql_data:/var/lib/postgresql/data # Volume nomeado para persistência de dados do PostgreSQL
     restart: unless-stopped
     networks:
-      - default # ATIVADO: Conecta à rede principal do Umbrel
+      - default # DESCOMENTADO: Conecta à rede principal do Umbrel
 
 # Definição dos volumes nomeados para persistência de dados
 volumes:
@@ -53,4 +53,4 @@ volumes:
 networks:
   default:
     external: true
-    name: umbrel_main_network # ATIVADO: Conecta à rede Docker principal do Umbrel
+    name: umbrel_main_network # DESCOMENTADO: Conecta à rede Docker principal do Umbrel

@@ -20,4 +20,5 @@ services:
       - N8N_DIAGNOSTICS_ENABLED=false
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - N8N_RUNNERS_ENABLED=true
+      - TZ=America/Sao_Paulo
     container_name: n8n-plus_server_1

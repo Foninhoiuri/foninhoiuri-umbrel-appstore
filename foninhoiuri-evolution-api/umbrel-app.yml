@@ -39,7 +39,7 @@ config:
     label: Senha do PostgreSQL
     description: A senha para o usuário 'evolution' do PostgreSQL.
     type: password # Mantenha 'password' para a senha do banco de dados por segurança
-    value: "" # Deixe vazio ou com um valor padrão seguro
+    value: "evolution" # Deixe vazio ou com um valor padrão seguro
 
 app_proxy:
   service_name: evolution-api

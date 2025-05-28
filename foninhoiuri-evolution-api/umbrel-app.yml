@@ -1,6 +1,6 @@
 manifestVersion: 1
 id: foninhoiuri-evolution-api # ID único para o seu aplicativo
-category: Automação # Categoria mais adequada, ou "developer-tools"
+category: automação # Categoria mais adequada, ou "developer-tools"
 name: Evolution API # Nome que aparece no dashboard
 version: "2.2.3" # A versão do seu aplicativo
 icon: https://i.imgur.com/CA2SZVA.png # Idealmente, use um ícone SVG local, como 'evolution-api.svg'

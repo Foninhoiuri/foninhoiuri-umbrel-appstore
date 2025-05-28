@@ -4,6 +4,7 @@ category: automação
 name: Evolution API
 version: "2.2.3"
 icon: https://i.imgur.com/CA2SZVA.png
+# icon: evolution-api.svg # Exemplo de como seria se fosse um arquivo local
 tagline: A maneira mais fácil de integrar o WhatsApp ao seu sistema.
 description: >-
   Evolution API é uma poderosa e fácil de usar API de bot do WhatsApp
@@ -16,12 +17,17 @@ releaseNotes: >-
 developer: Evolution API
 website: https://evolution-api.com/
 dependencies: []
+submitter: foninho
 repo: https://github.com/EvolutionAPI/evolution-api
 support: https://github.com/EvolutionAPI/evolution-api/issues
+port: 8080
+gallery:
+  - https://evoapicloud.com/images/img_image_1_360x688.png
+  - https://evoapicloud.com/images/img_image.png
 path: "/manager"
 defaultUsername: ""
 defaultPassword: ""
-submitter: foninho
+
 
 config:
   - name: AUTHENTICATION_API_KEY

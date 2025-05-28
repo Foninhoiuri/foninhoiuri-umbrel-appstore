@@ -32,11 +32,45 @@ app_proxy:
   service_name: evolution-api
   service_port: 8080
 
-#env:
-#  DATABASE_PROVIDER: postgresql
-#  DATABASE_URL: postgresql://evolution:evolution@evolution_postgres:5432/evolution
-#  POSTGRES_USER: evolution
-#  POSTGRES_PASSWORD: evolution
-#  POSTGRES_DB: evolution
-#  AUTHENTICATION_API_KEY: Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
-#  REDIS_URL: redis://evolution_redis:6379
+config:
+  - id: DATABASE_PROVIDER
+    name: Database Provider
+    type: text
+    default: postgresql
+    description: Provedor do banco de dados (ex: postgresql, mysql, sqlite)
+
+  - id: DATABASE_URL
+    name: Database URL
+    type: text
+    default: postgresql://evolution:evolution@evolution_postgres:5432/evolution
+    description: URL de conexão completa com o banco de dados
+
+  - id: POSTGRES_USER
+    name: Postgres User
+    type: text
+    default: evolution
+    description: Usuário do banco Postgres
+
+  - id: POSTGRES_PASSWORD
+    name: Postgres Password
+    type: password
+    default: evolution
+    description: Senha do usuário do banco Postgres
+
+  - id: POSTGRES_DB
+    name: Postgres Database Name
+    type: text
+    default: evolution
+    description: Nome do banco de dados Postgres
+
+  - id: AUTHENTICATION_API_KEY
+    name: API Key
+    type: password
+    default: Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
+    description: Chave de autenticação para API
+
+  - id: REDIS_URL
+    name: Redis URL
+    type: text
+    default: redis://evolution_redis:6379
+    description: URL de conexão com o Redis

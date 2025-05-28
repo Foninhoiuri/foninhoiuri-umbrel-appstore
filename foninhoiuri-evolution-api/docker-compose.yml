@@ -27,7 +27,7 @@ services:
     volumes:
       # Se você precisar de armazenamento persistente para qualquer dado (ex: sessões, mídia)
       # Descomente e ajuste estas linhas
-      # - ./data/evolutionapi:/app/data # Exemplo para um volume de dados
+      - ${APP_DATA_DIR}/data/evolutionapi:/app/data # Exemplo para um volume de dados
     depends_on:
       - postgres
     restart: unless-stopped
@@ -40,7 +40,7 @@ services:
       POSTGRES_USER: evolution # Usuário alterado
       POSTGRES_PASSWORD: evolution # Senha alterada
     volumes:
-      - postgres_data:/var/lib/postgresql/data # Volume persistente para dados do banco de dados
+      - ${APP_DATA_DIR}/datapostgres_data:/var/lib/postgresql/data # Volume persistente para dados do banco de dados
     expose:
       - "5432"
     restart: unless-stopped

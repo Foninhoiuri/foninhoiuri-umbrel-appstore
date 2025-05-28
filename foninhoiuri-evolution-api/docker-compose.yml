@@ -45,7 +45,7 @@ services:
     environment:
       POSTGRES_DB: evolution
       POSTGRES_USER: evolution
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Usa a variável de ambiente para a senha
+      POSTGRES_PASSWORD: evolution 
       PGDATA: /var/lib/postgresql/data/pgdata # Caminho para os dados dentro do contêiner
     volumes:
       - postgresql_data:/var/lib/postgresql/data # Volume nomeado para persistência de dados do PostgreSQL

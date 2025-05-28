@@ -1,5 +1,8 @@
-POSTGRES_DB: evolution
-POSTGRES_USER: evolution
-POSTGRES_PASSWORD: evolution
-AUTHENTICATION_API_KEY: Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
-DATABASE_PROVIDER: postgresql
+env:
+  DATABASE_PROVIDER: postgresql
+  DATABASE_URL: postgresql://evolution:evolution@evolution_postgres:5432/evolution
+  POSTGRES_USER: evolution
+  POSTGRES_PASSWORD: evolution
+  POSTGRES_DB: evolution
+  AUTHENTICATION_API_KEY: Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
+  REDIS_URL: redis://evolution_redis:6379

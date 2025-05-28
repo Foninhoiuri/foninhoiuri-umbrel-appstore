@@ -47,4 +47,5 @@ services:
     restart: unless-stopped
 
 volumes:
-  postgres_data: # Volume para dados do PostgreSQL
+  postgres_data:
+      - ${APP_DATA_DIR}/datapostgres_data:/data/ # Volume para dados do PostgreSQL

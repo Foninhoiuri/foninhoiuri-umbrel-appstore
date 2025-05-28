@@ -1,14 +1,15 @@
 version: '3.8'
 
 services:
-  evolutionapi:
+  evolution-api: # <-- NOME DO SERVIÇO ALTERADO para corresponder ao 'app_proxy.service_name'
     image: atendai/evolution-api:latest
-    container_name: evolutionapi
+    container_name: evolutionapi # O nome do contêiner pode continuar como 'evolutionapi' ou ser alterado
     ports:
-      - "8080:8080"
+      - "8080:8080" # A porta 8080 corresponde ao 'app_proxy.service_port'
     environment:
       - SERVER_TYPE=http
       - SERVER_PORT=8080
+      - SERVER_URL=http://localhost:8080
       - SENTRY_DSN=
       - CORS_ORIGIN=*
       - CORS_METHODS=GET,POST,PUT,DELETE
@@ -19,6 +20,8 @@ services:
       - EVENT_EMITTER_MAX_LISTENERS=50
       - DEL_INSTANCE=false
       - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION=postgresql://evolution:evolution@postgres:5432/evolutionapi
+      - DATABASE_URL=postgresql://evolution:evolution@postgres:5432/evolutionapi
       - TZ=America/Sao_Paulo
       - AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
     volumes:
@@ -32,11 +35,11 @@ services:
     container_name: evolutionapi_db
     environment:
       POSTGRES_DB: evolutionapi
+      POSTGRES_USER: evolution
       POSTGRES_PASSWORD: evolution
       TZ: America/Sao_Paulo
     volumes:
       - ${APP_DATA_DIR}/foninhoiuri-evolution-api/postgres_data:/var/lib/postgresql/data
-      #- ./initdb.d:/docker-entrypoint-initdb.d # <-- Monta a pasta com o script de inicialização
     expose:
       - "5432"
     restart: unless-stopped

@@ -39,7 +39,7 @@ services:
       POSTGRES_PASSWORD: "evolution" # Senha do superuser (entre aspas)
       TZ: America/Sao_Paulo
     volumes:
-      - ${APP_DATA_DIR}/postgres_data:/var/lib/postgresql/data # Volume persistente para dados do PostgreSQL
+      - ${APP_DATA_DIR}/postgres_data:postgres_data/var/lib/postgresql/data # Volume persistente para dados do PostgreSQL
     expose:
       - "5432" # Expõe a porta para outros serviços na rede Docker
     restart: unless-stopped

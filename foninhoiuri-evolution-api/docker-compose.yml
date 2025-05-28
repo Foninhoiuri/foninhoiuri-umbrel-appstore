@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-  evolution-api: # <-- NOME DO SERVIÇO ALTERADO para corresponder ao 'app_proxy.service_name'
+  evolution-api:
     image: atendai/evolution-api:latest
-    container_name: evolutionapi # O nome do contêiner pode continuar como 'evolutionapi' ou ser alterado
+    container_name: evolutionapi
     ports:
-      - "8080:8080" # A porta 8080 corresponde ao 'app_proxy.service_port'
+      - "8080:8080"
     environment:
       - SERVER_TYPE=http
       - SERVER_PORT=8080
@@ -19,27 +19,37 @@ services:
       - LOG_BAILEYS=error
       - EVENT_EMITTER_MAX_LISTENERS=50
       - DEL_INSTANCE=false
-      - DATABASE_PROVIDER=postgresql
-      - DATABASE_CONNECTION=postgresql://evolution:evolution@postgres:5432/evolutionapi
-      - DATABASE_URL=postgresql://evolution:evolution@postgres:5432/evolutionapi
+      - DATABASE_PROVIDER=mongodb
       - TZ=America/Sao_Paulo
       - AUTHENTICATION_API_KEY=Kg6Y4qPs57qF6J2kBe5imZVJAlCMnURwv
+      # Variáveis de ambiente específicas para MongoDB
+      - DATABASE_ENABLED=true
+      # ATENÇÃO: Altere 'evo_user' e 'evo_password' para credenciais SEGURAS e ÚNICAS!
+      - DATABASE_CONNECTION_URI=mongodb://evo_user:evo_password@mongodb:27017/?authSource=admin&readPreference=primary&ssl=false&directConnection=true
+      - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
+      - DATABASE_SAVE_DATA_INSTANCE=false
+      - DATABASE_SAVE_DATA_NEW_MESSAGE=false
+      - DATABASE_SAVE_MESSAGE_UPDATE=false
+      - DATABASE_SAVE_DATA_CONTACTS=false
+      - DATABASE_SAVE_DATA_CHATS=false
     volumes:
-      - ${APP_DATA_DIR}/foninhoiuri-evolution-api/data:/app/data
+      # Caminho simplificado: os dados da API irão para ${APP_DATA_DIR}/data
+      - ${APP_DATA_DIR}/data:/app/data
     depends_on:
-      - postgres
+      - mongodb
     restart: unless-stopped
 
-  postgres:
-    image: postgres:13
-    container_name: evolutionapi_db
+  mongodb:
+    image: mongo:4.4
+    container_name: evolutionapi_mongodb
     environment:
-      POSTGRES_DB: evolutionapi
-      POSTGRES_USER: evolution
-      POSTGRES_PASSWORD: evolution
+      # ATENÇÃO: Altere 'evo_user' e 'evo_password' para credenciais SEGURAS e ÚNICAS!
+      MONGO_INITDB_ROOT_USERNAME: evo_user
+      MONGO_INITDB_ROOT_PASSWORD: evo_password
       TZ: America/Sao_Paulo
     volumes:
-      - ${APP_DATA_DIR}/foninhoiuri-evolution-api/postgres_data:/var/lib/postgresql/data
+      # Caminho simplificado: os dados do MongoDB irão para ${APP_DATA_DIR}/mongodb_data
+      - ${APP_DATA_DIR}/mongodb_data:/data/db
     expose:
-      - "5432"
+      - "27017"
     restart: unless-stopped

@@ -5,7 +5,7 @@ services:
     image: atendai/evolution-api:latest # Considere usar uma versão específica, ex: atendai/evolution-api:1.0.0
     container_name: evolution-api
     ports:
-      - "80:8080" # Porta externa para 80 para compatibilidade com o Umbrel
+      - "8080:8080" # Porta externa para 80 para compatibilidade com o Umbrel
     environment:
       # Variável de Autenticação ESSENCIAL (injetada pelo Umbrel config)
       AUTHENTICATION_API_KEY: "${AUTHENTICATION_API_KEY}"

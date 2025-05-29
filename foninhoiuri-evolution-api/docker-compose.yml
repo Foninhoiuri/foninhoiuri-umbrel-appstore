@@ -1,3 +1,4 @@
+version: '3.8'
 services:
   evolution-api:
     container_name: evolution_api
@@ -6,29 +7,29 @@ services:
     environment:
       - DATABASE_ENABLED=true
       - DATABASE_PROVIDER=postgresql
-      - DATABASE_URL=postgresql://default:default@evolution_postgres:5432/evolution
+      # CORRIGIDO: Usando o nome do serviço 'postgres' como host
+      - DATABASE_URL=postgresql://evolution_user:minhasenha_segura123@postgres:5432/evolution
       - DATABASE_SAVE_DATA_INSTANCE=true
       - LOG_BAILEYS=trace
       - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS
     ports:
       - "8080:8080"
     env_file:
-      - ${APP_DATA_DIR}/.env
+      - ${APP_DATA_DIR}/.env # Ainda vamos ajustar este arquivo
     volumes:
       - ${APP_DATA_DIR}/evolution_store:/evolution/store
       - ${APP_DATA_DIR}/evolution_instances:/evolution/instances
     depends_on:
-      postgres:
+      postgres: # Depende do serviço chamado 'postgres'
         condition: service_healthy
 
-        
-  postgres:
-    container_name: evolution_postgres
+  postgres: # Nome do serviço é 'postgres'
+    container_name: evolution_postgres # Nome do container é 'evolution_postgres'
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_USER: default
-      POSTGRES_PASSWORD: default
+      POSTGRES_USER: evolution_user
+      POSTGRES_PASSWORD: minhasenha_segura123
       POSTGRES_DB: evolution
     ports:
       - "5432:5432"

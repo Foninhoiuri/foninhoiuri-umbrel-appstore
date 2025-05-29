@@ -10,16 +10,17 @@ services:
       - DATABASE_PROVIDER=postgresql
       - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
       - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
-      #- DATABASE_SAVE_DATA_INSTANCE=false
-      #- DATABASE_SAVE_DATA_NEW_MESSAGE=false
-      #- DATABASE_SAVE_MESSAGE_UPDATE=false
-      #- DATABASE_SAVE_DATA_CONTACTS=false
-      #- DATABASE_SAVE_DATA_CHATS=false
+      - DATABASE_SAVE_DATA_INSTANCE=true # <--- AJUSTADO: Altere para 'true' para salvar os dados da instância!
+      - DATABASE_SAVE_DATA_NEW_MESSAGE=false
+      - DATABASE_SAVE_MESSAGE_UPDATE=false
+      - DATABASE_SAVE_DATA_CONTACTS=false
+      - DATABASE_SAVE_DATA_CHATS=false
       - CACHE_REDIS_ENABLED=true
       - CACHE_REDIS_URI=redis://redis:6379/0
       - AUTHENTICATION_ENABLED=true
       - AUTHENTICATION_API_KEY=tBoHLOpnZ6iYlnrzOXHiMo0bjjLi0kW9
       - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET
+      - LOG_COLOR=true
       - LOG_BAILEYS=trace
       - SERVER_URL=http://${DEVICE_DOMAIN_NAME}:8080
     ports:
@@ -43,7 +44,7 @@ services:
       POSTGRES_USER: default
       POSTGRES_PASSWORD: default
       POSTGRES_DB: default
-      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_HOST_AUTH_METHOD: trust # <--- Adicionado: Ajuda com permissões básicas do Postgres
     ports:
       - "5432:5432"
     volumes:

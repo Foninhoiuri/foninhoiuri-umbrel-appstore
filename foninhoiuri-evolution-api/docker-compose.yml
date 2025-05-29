@@ -31,12 +31,14 @@ services:
 
   postgres:
     image: postgres:latest
-    platform: linux/amd64
+    platform: linux/amd64 # Manter para garantir compatibilidade se o umbrelOS estiver em uma arquitetura específica
     environment:
       POSTGRES_USER: default
       POSTGRES_PASSWORD: default
       POSTGRES_DB: default
+    # A porta 5432 será acessível internamente dentro da rede Docker.
+    # O umbrelOS fará o mapeamento de portas externas se necessário via umbrel-app.yml.
     ports:
-      - "5432:5432"
+      - "5432:5432" # Mapeamento interno para o contêiner. Umbrel irá gerenciar o acesso externo.
     volumes:
       - ${APP_DATA_DIR}/pgdata:/var/lib/postgresql/data

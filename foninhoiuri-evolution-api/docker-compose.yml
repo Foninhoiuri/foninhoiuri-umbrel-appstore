@@ -10,11 +10,11 @@ services:
       - DATABASE_PROVIDER=postgresql
       - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
       - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
-      - DATABASE_SAVE_DATA_INSTANCE=false
-      - DATABASE_SAVE_DATA_NEW_MESSAGE=false
-      - DATABASE_SAVE_MESSAGE_UPDATE=false
-      - DATABASE_SAVE_DATA_CONTACTS=false
-      - DATABASE_SAVE_DATA_CHATS=false
+      #- DATABASE_SAVE_DATA_INSTANCE=false
+      #- DATABASE_SAVE_DATA_NEW_MESSAGE=false
+      #- DATABASE_SAVE_MESSAGE_UPDATE=false
+      #- DATABASE_SAVE_DATA_CONTACTS=false
+      #- DATABASE_SAVE_DATA_CHATS=false
       - CACHE_REDIS_ENABLED=true
       - CACHE_REDIS_URI=redis://redis:6379/0
       - AUTHENTICATION_ENABLED=true

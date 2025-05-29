@@ -8,23 +8,22 @@ services:
       APP_PORT: 8080
       PROXY_AUTH_ADD: "false"
       AUTHENTICATION_API_KEY: 63FvHHwNfjMzaj8UStNc96UTGQ94CRHY
-      # Manter essas variáveis para o proxy, caso a imagem base espere.
       DATABASE_ENABLED: "true"
-      DATABASE_PROVIDER: "postgres"
-      DATABASE_CONNECTION_URI: postgresql://default:default@postgres:5432/default
+      DATABASE_PROVIDER: "postgresql" # <-- CORRIGIDO AQUI!
+      DATABASE_CONNECTION_URI: postgresql://default:default@postgres:5432/default?schema=public # <-- Adicionado schema=public
     depends_on:
       evolution_api:
-        condition: service_started # O proxy só precisa que a API tenha iniciado, não precisa de healthcheck aqui
+        condition: service_started
       postgres:
-        condition: service_healthy # Garantir que o postgres esteja saudável antes do proxy
-        
+        condition: service_healthy # Mantido o healthcheck
+
   evolution_api:
     image: atendai/evolution-api:latest
     restart: on-failure
     environment:
       - DATABASE_ENABLED=true
-      - DATABASE_PROVIDER=postgres # Mantenha esta linha!
-      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
+      - DATABASE_PROVIDER=postgresql # <-- CORRIGIDO AQUI!
+      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default?schema=public # <-- Adicionado schema=public
       - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
       - DATABASE_SAVE_DATA_INSTANCE=false
       - DATABASE_SAVE_DATA_NEW_MESSAGE=false
@@ -34,9 +33,11 @@ services:
     volumes:
       - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
+    ports:
+      - "8080:8080"
     depends_on:
       postgres:
-        condition: service_healthy # <--- MUITO IMPORTANTE: Garante que o postgres esteja saudável!
+        condition: service_healthy # Mantido o healthcheck
 
   postgres:
     image: postgres:latest
@@ -49,9 +50,9 @@ services:
       - "5432:5432"
     volumes:
       - ${APP_DATA_DIR}/pgdata:/var/lib/postgresql/data
-    healthcheck: # <--- Adicionar esta seção para verificar a saúde do PostgreSQL
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"] # Verifica se o PostgreSQL está pronto
-      interval: 5s # Intervalo entre as verificações
-      timeout: 5s # Tempo limite para cada verificação
-      retries: 5 # Quantidade de tentativas antes de considerar o serviço unhealthy
-      start_period: 30s # Período inicial para o serviço iniciar sem falhar o healthcheck
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s

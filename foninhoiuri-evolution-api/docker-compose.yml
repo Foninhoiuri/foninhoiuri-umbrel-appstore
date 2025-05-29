@@ -1,18 +1,17 @@
-version: "3.7"
-
 services:
   app_proxy:
-    container_name: evolution_api_proxy
+    image: getumbrel/app-proxy:latest
     environment:
-      APP_HOST: evolution_api_proxy
+      APP_HOST: evolution_api  # Aponta para o serviço real, não para o proxy
       APP_PORT: 8080
       PROXY_AUTH_ADD: "false"
       AUTHENTICATION_API_KEY: 63FvHHwNfjMzaj8UStNc96UTGQ94CRHY
     depends_on:
       - evolution_api
+    networks:
+      - umbrel_default
 
   evolution_api:
-    container_name: evolution_api
     image: atendai/evolution-api:latest
     restart: on-failure
     environment:
@@ -29,9 +28,10 @@ services:
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
     depends_on:
       - mongo
+    networks:
+      - umbrel_default
 
   mongo:
-    container_name: mongo
     image: mongo:latest
     restart: always
     environment:
@@ -39,3 +39,9 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: evolution
     volumes:
       - ${APP_DATA_DIR}/data/evolution-api/mongo:/data/db
+    networks:
+      - umbrel_default
+
+networks:
+  umbrel_default:
+    external: true

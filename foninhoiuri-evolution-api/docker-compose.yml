@@ -8,8 +8,6 @@ services:
       AUTHENTICATION_API_KEY: 63FvHHwNfjMzaj8UStNc96UTGQ94CRHY
     depends_on:
       - evolution_api
-    networks:
-      - bridge
 
   evolution_api:
     image: atendai/evolution-api:latest
@@ -28,8 +26,6 @@ services:
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
     depends_on:
       - mongo
-    networks:
-      - bridge
 
   mongo:
     image: mongo:8.0.10-rc0
@@ -39,9 +35,3 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: evolution
     volumes:
       - ${APP_DATA_DIR}/data/evolution-api/mongo:/data/db
-    networks:
-      - bridge
-
-networks:
-  default:
-    driver: bridge

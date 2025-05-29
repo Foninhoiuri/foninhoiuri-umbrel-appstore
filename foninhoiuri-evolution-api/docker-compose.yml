@@ -10,7 +10,6 @@ services:
       - DATABASE_PROVIDER=postgresql
       - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
       - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
-      - DATABASE_SAVE_DATA_INSTANCE=true # <--- AJUSTADO: Altere para 'true' para salvar os dados da instância!
       - DATABASE_SAVE_DATA_NEW_MESSAGE=true
       - DATABASE_SAVE_MESSAGE_UPDATE=true
       - DATABASE_SAVE_DATA_CONTACTS=true
@@ -22,7 +21,7 @@ services:
       - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET
       - LOG_COLOR=true
       - LOG_BAILEYS=trace
-      - SERVER_URL=http://${DEVICE_DOMAIN_NAME}:8080
+      - SERVER_URL=http://${DEVICE_DOMAIN_NAME}
     ports:
       - "8080:8080"
     volumes:
@@ -44,7 +43,6 @@ services:
       POSTGRES_USER: default
       POSTGRES_PASSWORD: default
       POSTGRES_DB: default
-      POSTGRES_HOST_AUTH_METHOD: trust # <--- Adicionado: Ajuda com permissões básicas do Postgres
     ports:
       - "5432:5432"
     volumes:

@@ -32,15 +32,15 @@ services:
       #- umbrel_default
 
   mongo:
-    image: mongo:latest
+    image: mongo:8.0.10-rc0
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: evolution
       MONGO_INITDB_ROOT_PASSWORD: evolution
     volumes:
       - ${APP_DATA_DIR}/data/evolution-api/mongo:/data/db
-    networks:
-      - umbrel_default
+    #networks:
+      #- umbrel_default
 
 #networks:
 #  umbrel_default:

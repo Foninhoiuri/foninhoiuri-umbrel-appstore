@@ -39,6 +39,3 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: evolution
     volumes:
       - ${APP_DATA_DIR}/data/evolution-api/mongo:/data/db
-
-volumes:
-  # Todos os dados persistentes vão para ${APP_DATA_DIR}

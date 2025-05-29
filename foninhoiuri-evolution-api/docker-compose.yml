@@ -7,8 +7,7 @@ services:
     environment:
       - DATABASE_ENABLED=true
       - DATABASE_PROVIDER=postgresql
-      # CORRIGIDO: Usando o nome do serviço 'postgres' como host
-      - DATABASE_URL=postgresql://evolution_user:minhasenha_segura123@postgres:5432/evolution
+      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
       - DATABASE_SAVE_DATA_INSTANCE=true
       - LOG_BAILEYS=trace
       - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS
@@ -23,14 +22,13 @@ services:
       postgres: # Depende do serviço chamado 'postgres'
         condition: service_healthy
 
-  postgres: # Nome do serviço é 'postgres'
-    container_name: evolution_postgres # Nome do container é 'evolution_postgres'
+  postgres:
     image: postgres:latest
-    restart: always
+    container_name: evolution_postgres
     environment:
-      POSTGRES_USER: evolution_user
-      POSTGRES_PASSWORD: minhasenha_segura123
-      POSTGRES_DB: evolution
+      POSTGRES_USER: default
+      POSTGRES_PASSWORD: default
+      POSTGRES_DB: default
     ports:
       - "5432:5432"
     volumes:

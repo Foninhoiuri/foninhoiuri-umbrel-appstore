@@ -12,10 +12,11 @@ services:
       AUTHENTICATION_API_KEY: 63FvHHwNfjMzaj8UStNc96UTGQ94CRHY
       # Manter essas variáveis para o proxy, caso a imagem base espere.
       DATABASE_ENABLED: "true"
-      DATABASE_PROVIDER: "postgresql" # <--- CORRIGIDO: Era "postgres", agora "postgresql"
+      DATABASE_PROVIDER: "postgresql"
       DATABASE_CONNECTION_URI: postgresql://default:default@postgres:5432/default
     ports:
       - "8080:8080"
+    command: ["npm", "run", "start:prod"] # <--- ADICIONADO: Força o proxy a iniciar sem rodar migrações
     depends_on:
       evolution_api:
         condition: service_started
@@ -28,7 +29,7 @@ services:
     restart: on-failure
     environment:
       - DATABASE_ENABLED=true
-      - DATABASE_PROVIDER=postgresql # <--- CORRIGIDO: Era "postgres", agora "postgresql"
+      - DATABASE_PROVIDER=postgresql
       - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
       - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
       - DATABASE_SAVE_DATA_INSTANCE=false
@@ -46,7 +47,7 @@ services:
   postgres:
     image: postgres:latest
     container_name: evolution_postgres
-    # ATENÇÃO: Lembre-se de ajustar a plataforma conforme a arquitetura do seu Umbrel OS (linux/arm64 para Raspberry Pi, por exemplo).
+    # ATENÇÃO: Ajuste a plataforma conforme a arquitetura do seu Umbrel OS (linux/arm64 para Raspberry Pi, por exemplo).
     # Se o seu Umbrel for ARM64, mude para: platform: linux/arm64
     platform: linux/amd64
     environment:

@@ -2,17 +2,17 @@ version: "3.7"
 
 services:
   app_proxy:
-    container_name: evolution-api_proxy
+    container_name: evolution_api_proxy
     environment:
-      APP_HOST: evolution-api_proxy
+      APP_HOST: evolution_api_proxy
       APP_PORT: 8080
       PROXY_AUTH_ADD: "false"
       AUTHENTICATION_API_KEY: 63FvHHwNfjMzaj8UStNc96UTGQ94CRHY
     depends_on:
-      - evolution-api
+      - evolution_api
 
-  evolution-api:
-    container_name: evolution-api
+  evolution_api:
+    container_name: evolution_api
     image: atendai/evolution-api:latest
     restart: on-failure
     environment:
@@ -31,7 +31,7 @@ services:
       - mongo
 
   mongo:
-    container_name: _mongo
+    container_name: mongo
     image: mongo:latest
     restart: always
     environment:

@@ -25,13 +25,3 @@ gallery:
 path: "/manager"
 defaultUsername: ""
 defaultPassword: ""
-
-hooks:
-  pre-install: scripts/pre-install.sh
-
-userEnv:
-  - id: AUTHENTICATION_API_KEY
-    name: Chave de Autenticação
-    description: Cole aqui sua chave de API da Evolution.
-    type: text
-    required: true

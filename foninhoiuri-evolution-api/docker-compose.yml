@@ -1,9 +1,6 @@
 version: '3.8'
 
 services:
-  # O serviço 'app_proxy' foi removido, pois a 'evolution_api_instance' pode expor a porta diretamente
-  # e o proxy estava falhando em sua inicialização.
-
   evolution_api:
     image: atendai/evolution-api:latest
     container_name: evolution_api_instance
@@ -23,7 +20,7 @@ services:
       - AUTHENTICATION_ENABLED=true
       - AUTHENTICATION_API_KEY=tBoHLOpnZ6iYlnrzOXHiMo0bjjLi0kW9
     ports:
-      - "8080:8080" # <--- MOVido para cá: A API principal agora expõe a porta 8080 diretamente
+      - "8080:8080"
     volumes:
       - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances

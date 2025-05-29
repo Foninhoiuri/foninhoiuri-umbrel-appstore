@@ -2,15 +2,17 @@ version: "3.7"
 
 services:
   app_proxy:
-    container_name: evolution-api
+    container_name: evolution-api_proxy
     environment:
-      APP_HOST: evolution-api
+      APP_HOST: evolution-api_proxy
       APP_PORT: 8080
       PROXY_AUTH_ADD: "false"
       AUTHENTICATION_API_KEY: 63FvHHwNfjMzaj8UStNc96UTGQ94CRHY
+    depends_on:
+      - evolution-api
 
   evolution-api:
-    container_name: foninhoiuri-evolution-api_evolution-api
+    container_name: evolution-api
     image: atendai/evolution-api:latest
     restart: on-failure
     environment:
@@ -29,8 +31,8 @@ services:
       - mongo
 
   mongo:
-    container_name: evolution-api_mongo
-    image: mongo:6
+    container_name: _mongo
+    image: mongo:latest
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: evolution
@@ -39,4 +41,4 @@ services:
       - ${APP_DATA_DIR}/data/evolution-api/mongo:/data/db
 
 volumes:
-  # Nenhum volume nomeado necessário. Tudo vai para o APP_DATA_DIR.
+  # Todos os dados persistentes vão para ${APP_DATA_DIR}

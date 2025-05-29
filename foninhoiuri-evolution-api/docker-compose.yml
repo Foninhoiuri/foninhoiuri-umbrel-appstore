@@ -14,14 +14,18 @@ services:
       DATABASE_ENABLED: "true"
       DATABASE_PROVIDER: "postgresql"
       DATABASE_CONNECTION_URI: postgresql://default:default@postgres:5432/default
+      CACHE_REDIS_ENABLED: "true" # <--- ADICIONADO: Habilita o cache Redis
+      CACHE_REDIS_URI: "redis://redis:6379/0" # <--- ADICIONADO: URI de conexão do Redis
     ports:
       - "8080:8080"
-    command: ["npm", "run", "start:prod"] # <--- ADICIONADO: Força o proxy a iniciar sem rodar migrações
+    command: ["npm", "run", "start:prod"] # Mantido: Tenta forçar o proxy a iniciar sem rodar migrações
     depends_on:
       evolution_api:
         condition: service_started
       postgres:
         condition: service_healthy
+      redis: # <--- ADICIONADO: Dependência do serviço Redis
+        condition: service_started # O proxy só precisa que o Redis tenha iniciado
 
   evolution_api:
     image: atendai/evolution-api:latest
@@ -37,12 +41,16 @@ services:
       - DATABASE_SAVE_MESSAGE_UPDATE=false
       - DATABASE_SAVE_DATA_CONTACTS=false
       - DATABASE_SAVE_DATA_CHATS=false
+      - CACHE_REDIS_ENABLED=true # <--- ADICIONADO: Habilita o cache Redis
+      - CACHE_REDIS_URI=redis://redis:6379/0 # <--- ADICIONADO: URI de conexão do Redis
     volumes:
       - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
     depends_on:
       postgres:
         condition: service_healthy
+      redis: # <--- ADICIONADO: Dependência do serviço Redis
+        condition: service_started # A API só precisa que o Redis tenha iniciado
 
   postgres:
     image: postgres:latest
@@ -64,3 +72,18 @@ services:
       timeout: 5s
       retries: 5
       start_period: 30s
+
+  redis: # <--- NOVO SERVIÇO: Redis
+    image: redis:latest # Imagem oficial do Redis
+    container_name: evolution_redis # Nome amigável para o contêiner Redis
+    restart: always # Garante que o Redis sempre tente reiniciar
+    ports:
+      - "6379:6379" # Opcional: expõe a porta do Redis para acesso externo (útil para ferramentas de administração)
+    volumes:
+      - ${APP_DATA_DIR}/redisdata:/data # Persiste os dados do Redis
+    healthcheck: # Adiciona uma verificação de saúde para o Redis
+      test: ["CMD", "redis-cli", "ping"] # Verifica se o Redis está respondendo
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

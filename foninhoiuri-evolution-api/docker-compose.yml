@@ -9,7 +9,7 @@ services:
     depends_on:
       - evolution_api
     networks:
-      - umbrel_default
+      - bridge
 
   evolution_api:
     image: atendai/evolution-api:latest
@@ -29,7 +29,7 @@ services:
     depends_on:
       - mongo
     networks:
-      - umbrel_default
+      - bridge
 
   mongo:
     image: mongo:8.0.10-rc0
@@ -40,8 +40,8 @@ services:
     volumes:
       - ${APP_DATA_DIR}/data/evolution-api/mongo:/data/db
     networks:
-      - umbrel_default
+      - bridge
 
 networks:
-  umbrel_default:
-    external: true
+  default:
+    driver: bridge

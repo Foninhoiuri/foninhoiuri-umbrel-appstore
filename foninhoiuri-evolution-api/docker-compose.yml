@@ -1,40 +1,15 @@
 version: '3.8'
 
 services:
-  app_proxy:
-    image: atendai/evolution-api:latest
-    container_name: evolution_proxy
-    restart: always
-    environment:
-      APP_HOST: evolution_api
-      APP_PORT: 8080
-      PROXY_AUTH_ADD: "false"
-      AUTHENTICATION_API_KEY: 63FvHHwNfjMzaj8UStNc96UTGQ94CRHY
-      # Manter essas variáveis para o proxy, caso a imagem base espere.
-      DATABASE_ENABLED: "false" # <--- AJUSTADO: Desabilita o banco de dados para o proxy
-      # As variáveis DATABASE_PROVIDER e DATABASE_CONNECTION_URI podem ser removidas se DATABASE_ENABLED for false,
-      # mas as manteremos por clareza caso a imagem as insista em ler.
-      DATABASE_PROVIDER: "postgresql"
-      DATABASE_CONNECTION_URI: postgresql://default:default@postgres:5432/default
-      CACHE_REDIS_ENABLED: "true"
-      CACHE_REDIS_URI: "redis://redis:6379/0"
-    ports:
-      - "8080:8080"
-    command: ["npm", "run", "start:prod"] # Mantido para garantir que o servidor de produção inicie
-    depends_on:
-      evolution_api:
-        condition: service_started
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_started
+  # O serviço 'app_proxy' foi removido, pois a 'evolution_api_instance' pode expor a porta diretamente
+  # e o proxy estava falhando em sua inicialização.
 
   evolution_api:
     image: atendai/evolution-api:latest
     container_name: evolution_api_instance
     restart: on-failure
     environment:
-      - DATABASE_ENABLED=true # Este deve permanecer true para a API principal
+      - DATABASE_ENABLED=true
       - DATABASE_PROVIDER=postgresql
       - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
       - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
@@ -45,6 +20,8 @@ services:
       - DATABASE_SAVE_DATA_CHATS=false
       - CACHE_REDIS_ENABLED=true
       - CACHE_REDIS_URI=redis://redis:6379/0
+    ports:
+      - "8080:8080" # <--- MOVido para cá: A API principal agora expõe a porta 8080 diretamente
     volumes:
       - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances

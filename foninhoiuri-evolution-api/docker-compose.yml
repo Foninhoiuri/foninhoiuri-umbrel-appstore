@@ -11,6 +11,7 @@ services:
       - DATABASE_SAVE_DATA_INSTANCE=true
       - LOG_BAILEYS=trace
       - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS
+      - SERVER_URL=http://umbrel.local
       # NOVAS VARIÁVEIS DE AMBIENTE PARA O REDIS
       - REDIS_URL=redis://redis:6379/0 # ou REDIS_URL=redis://host_do_redis:porta/db (se não for no mesmo docker compose)
       - CACHE_DRIVER=redis # Se a sua aplicação espera esta variável

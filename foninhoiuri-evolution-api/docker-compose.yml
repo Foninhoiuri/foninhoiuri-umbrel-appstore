@@ -6,6 +6,7 @@ services:
     environment:
       - DATABASE_ENABLED=true
       - DATABASE_PROVIDER=postgresql
+      - DATABASE_URL=postgresql://default:default@evolution_postgres:5432/evolution
       - DATABASE_SAVE_DATA_INSTANCE=true
       - LOG_BAILEYS=trace
       - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS
@@ -28,7 +29,7 @@ services:
     environment:
       POSTGRES_USER: default
       POSTGRES_PASSWORD: default
-      POSTGRES_DB: default
+      POSTGRES_DB: evolution
     ports:
       - "5432:5432"
     volumes:

@@ -1,9 +1,12 @@
-version: '3.8'
+version: '3.8' # OK: Versão atualizada e adequada.
 
 services:
+  # --- Serviço app_proxy ---
   app_proxy:
-    image: atendai/evolution-api:latest
-    environment:
+    image: atendai/evolution-api:latest # OK: Imagem da API.
+    container_name: evolution_proxy # AJUSTE SUGERIDO: Adicionei um nome explícito para facilitar a identificação.
+    restart: always # AJUSTE SUGERIDO: Adicionei para garantir que o proxy sempre tente reiniciar.
+    environment: # OK: Variáveis de ambiente bem definidas.
       APP_HOST: evolution_api
       APP_PORT: 8080
       PROXY_AUTH_ADD: "false"
@@ -12,18 +15,22 @@ services:
       DATABASE_ENABLED: "true"
       DATABASE_PROVIDER: "postgres"
       DATABASE_CONNECTION_URI: postgresql://default:default@postgres:5432/default
-    depends_on:
+    ports: # AJUSTE SUGERIDO: Adicionei a exposição da porta para acesso externo.
+      - "8080:8080" # Permite acessar o proxy na porta 8080 do host.
+    depends_on: # OK: Dependências bem configuradas com `condition: service_started` e `service_healthy`.
       evolution_api:
-        condition: service_started # O proxy só precisa que a API tenha iniciado, não precisa de healthcheck aqui
+        condition: service_started
       postgres:
-        condition: service_healthy # Garantir que o postgres esteja saudável antes do proxy
-        
+        condition: service_healthy
+
+  # --- Serviço evolution_api ---
   evolution_api:
-    image: atendai/evolution-api:latest
-    restart: on-failure
-    environment:
+    image: atendai/evolution-api:latest # OK: Imagem da API.
+    container_name: evolution_api_instance # AJUSTE SUGERIDO: Adicionei um nome explícito para facilitar a identificação.
+    restart: on-failure # OK: Boa política de reinício para a aplicação principal.
+    environment: # OK: Variáveis de ambiente detalhadas para a API.
       - DATABASE_ENABLED=true
-      - DATABASE_PROVIDER=postgres # Mantenha esta linha!
+      - DATABASE_PROVIDER=postgres
       - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
       - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
       - DATABASE_SAVE_DATA_INSTANCE=false
@@ -31,27 +38,29 @@ services:
       - DATABASE_SAVE_MESSAGE_UPDATE=false
       - DATABASE_SAVE_DATA_CONTACTS=false
       - DATABASE_SAVE_DATA_CHATS=false
-    volumes:
+    volumes: # OK: Mapeamento de volumes para persistência de dados.
       - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
-    depends_on:
+    depends_on: # OK: Dependência crucial do PostgreSQL com `condition: service_healthy`.
       postgres:
-        condition: service_healthy # <--- MUITO IMPORTANTE: Garante que o postgres esteja saudável!
+        condition: service_healthy
 
+  # --- Serviço postgres ---
   postgres:
-    image: postgres:latest
-    platform: linux/amd64
-    environment:
+    image: postgres:latest # OK: Imagem oficial do PostgreSQL.
+    container_name: evolution_postgres # AJUSTE SUGERIDO: Adicionei um nome explícito para facilitar a identificação.
+    platform: linux/amd64 # PONTO DE ATENÇÃO CRÍTICO: Revisar esta linha para compatibilidade com ARM64 (Umbrel).
+    environment: # OK: Variáveis de ambiente para o PostgreSQL.
       POSTGRES_USER: default
       POSTGRES_PASSWORD: default
       POSTGRES_DB: default
-    ports:
+    ports: # OK: Exposição da porta do PostgreSQL.
       - "5432:5432"
-    volumes:
+    volumes: # OK: Mapeamento de volume para persistência dos dados do banco.
       - ${APP_DATA_DIR}/pgdata:/var/lib/postgresql/data
-    healthcheck: # <--- Adicionar esta seção para verificar a saúde do PostgreSQL
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"] # Verifica se o PostgreSQL está pronto
-      interval: 5s # Intervalo entre as verificações
-      timeout: 5s # Tempo limite para cada verificação
-      retries: 5 # Quantidade de tentativas antes de considerar o serviço unhealthy
-      start_period: 30s # Período inicial para o serviço iniciar sem falhar o healthcheck
+    healthcheck: # OK: Configuração de healthcheck excelente e fundamental.
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s

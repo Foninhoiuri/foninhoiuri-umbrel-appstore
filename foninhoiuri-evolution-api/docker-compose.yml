@@ -1,36 +1,34 @@
-version: '3.8' # OK: Versão atualizada e adequada.
+version: '3.8'
 
 services:
-  # --- Serviço app_proxy ---
   app_proxy:
-    image: atendai/evolution-api:latest # OK: Imagem da API.
-    container_name: evolution_proxy # AJUSTE SUGERIDO: Adicionei um nome explícito para facilitar a identificação.
-    restart: always # AJUSTE SUGERIDO: Adicionei para garantir que o proxy sempre tente reiniciar.
-    environment: # OK: Variáveis de ambiente bem definidas.
+    image: atendai/evolution-api:latest
+    container_name: evolution_proxy
+    restart: always
+    environment:
       APP_HOST: evolution_api
       APP_PORT: 8080
       PROXY_AUTH_ADD: "false"
       AUTHENTICATION_API_KEY: 63FvHHwNfjMzaj8UStNc96UTGQ94CRHY
       # Manter essas variáveis para o proxy, caso a imagem base espere.
       DATABASE_ENABLED: "true"
-      DATABASE_PROVIDER: "postgres"
+      DATABASE_PROVIDER: "postgresql" # <--- CORRIGIDO: Era "postgres", agora "postgresql"
       DATABASE_CONNECTION_URI: postgresql://default:default@postgres:5432/default
-    ports: # AJUSTE SUGERIDO: Adicionei a exposição da porta para acesso externo.
-      - "8080:8080" # Permite acessar o proxy na porta 8080 do host.
-    depends_on: # OK: Dependências bem configuradas com `condition: service_started` e `service_healthy`.
+    ports:
+      - "8080:8080"
+    depends_on:
       evolution_api:
         condition: service_started
       postgres:
         condition: service_healthy
 
-  # --- Serviço evolution_api ---
   evolution_api:
-    image: atendai/evolution-api:latest # OK: Imagem da API.
-    container_name: evolution_api_instance # AJUSTE SUGERIDO: Adicionei um nome explícito para facilitar a identificação.
-    restart: on-failure # OK: Boa política de reinício para a aplicação principal.
-    environment: # OK: Variáveis de ambiente detalhadas para a API.
+    image: atendai/evolution-api:latest
+    container_name: evolution_api_instance
+    restart: on-failure
+    environment:
       - DATABASE_ENABLED=true
-      - DATABASE_PROVIDER=postgres
+      - DATABASE_PROVIDER=postgresql # <--- CORRIGIDO: Era "postgres", agora "postgresql"
       - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
       - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
       - DATABASE_SAVE_DATA_INSTANCE=false
@@ -38,27 +36,28 @@ services:
       - DATABASE_SAVE_MESSAGE_UPDATE=false
       - DATABASE_SAVE_DATA_CONTACTS=false
       - DATABASE_SAVE_DATA_CHATS=false
-    volumes: # OK: Mapeamento de volumes para persistência de dados.
+    volumes:
       - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
-    depends_on: # OK: Dependência crucial do PostgreSQL com `condition: service_healthy`.
+    depends_on:
       postgres:
         condition: service_healthy
 
-  # --- Serviço postgres ---
   postgres:
-    image: postgres:latest # OK: Imagem oficial do PostgreSQL.
-    container_name: evolution_postgres # AJUSTE SUGERIDO: Adicionei um nome explícito para facilitar a identificação.
-    platform: linux/amd64 # PONTO DE ATENÇÃO CRÍTICO: Revisar esta linha para compatibilidade com ARM64 (Umbrel).
-    environment: # OK: Variáveis de ambiente para o PostgreSQL.
+    image: postgres:latest
+    container_name: evolution_postgres
+    # ATENÇÃO: Lembre-se de ajustar a plataforma conforme a arquitetura do seu Umbrel OS (linux/arm64 para Raspberry Pi, por exemplo).
+    # Se o seu Umbrel for ARM64, mude para: platform: linux/arm64
+    platform: linux/amd64
+    environment:
       POSTGRES_USER: default
       POSTGRES_PASSWORD: default
       POSTGRES_DB: default
-    ports: # OK: Exposição da porta do PostgreSQL.
+    ports:
       - "5432:5432"
-    volumes: # OK: Mapeamento de volume para persistência dos dados do banco.
+    volumes:
       - ${APP_DATA_DIR}/pgdata:/var/lib/postgresql/data
-    healthcheck: # OK: Configuração de healthcheck excelente e fundamental.
+    healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s

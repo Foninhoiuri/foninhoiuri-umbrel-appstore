@@ -4,7 +4,6 @@ services:
     image: atendai/evolution-api
     restart: always
     environment:
-      AUTHENTICATION_API_KEY: wBSKDHYiz1vqMAHQBxOW74zHLogqIqcL
       DATABASE_SAVE_DATA_INSTANCE: true
       LOG_BAILEYS: trace
       LOG_LEVEL: ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS

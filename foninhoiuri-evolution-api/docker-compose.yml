@@ -28,8 +28,8 @@ services:
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
     depends_on:
       - mongo
-    #networks:
-      #- umbrel_default
+    networks:
+      - umbrel_default
 
   mongo:
     image: mongo:8.0.10-rc0
@@ -39,9 +39,9 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: evolution
     volumes:
       - ${APP_DATA_DIR}/data/evolution-api/mongo:/data/db
-    #networks:
-      #- umbrel_default
+    networks:
+      - umbrel_default
 
-#networks:
-#  umbrel_default:
-#    external: true
+networks:
+  umbrel_default:
+    external: true

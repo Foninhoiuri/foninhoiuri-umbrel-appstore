@@ -1,19 +1,19 @@
 version: "3.7"
+
 services:
   app_proxy:
     environment:
-      APP_HOST: evolution-api_web_1
+      APP_HOST: evolution-api  # Corrigido aqui
       APP_PORT: 8080
       PROXY_AUTH_ADD: "false"
       AUTHENTICATION_API_KEY: 63FvHHwNfjMzaj8UStNc96UTGQ94CRHY
 
-  app:
-    image: atendai/evolution-api:latest # Usando a imagem mais recente
-    user: "1000:1000" # Usuário padrão para consistência com o umbrelOS
+  evolution-api:
+    image: atendai/evolution-api:latest
+    user: "1000:1000"
     restart: on-failure
+    environment:
+      - DATABASE_PROVIDER=postgresql # Ou postgresql, mysql
     volumes:
-      # Mapeia o volume de 'store' para o diretório de dados do Umbrel
       - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store
-      # Mapeia o volume de 'instances' para o diretório de dados do Umbrel
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
-    # Removido 'ports' e 'env_file' pois o app_proxy gerencia a exposição da porta e variáveis de ambiente são configuradas via umbrel-app.yml ou diretamente.

@@ -1,8 +1,8 @@
 services:
   app_proxy:
-    image: getumbrel/app-proxy:latest
+    image: atendai/evolution-api:latest
     environment:
-      APP_HOST: evolution_api  # Aponta para o serviço real, não para o proxy
+      APP_HOST: evolution_api
       APP_PORT: 8080
       PROXY_AUTH_ADD: "false"
       AUTHENTICATION_API_KEY: 63FvHHwNfjMzaj8UStNc96UTGQ94CRHY
@@ -28,8 +28,8 @@ services:
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
     depends_on:
       - mongo
-    networks:
-      - umbrel_default
+    #networks:
+      #- umbrel_default
 
   mongo:
     image: mongo:latest
@@ -42,6 +42,6 @@ services:
     networks:
       - umbrel_default
 
-networks:
-  umbrel_default:
-    external: true
+#networks:
+#  umbrel_default:
+#    external: true

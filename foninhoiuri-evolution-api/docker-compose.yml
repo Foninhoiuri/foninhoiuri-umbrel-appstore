@@ -22,9 +22,9 @@ services:
       - LOG_COLOR=true
       - LOG_BAILEYS=trace
       - SERVER_URL=http://${DEVICE_DOMAIN_NAME}
-      - DEL_INSTANCE=2
-      - DEL_TEMP_INSTANCES=true
-      - QRCODE_LIMIT=10
+      #- DEL_INSTANCE=2
+      #- DEL_TEMP_INSTANCES=true
+      #- QRCODE_LIMIT=10
     ports:
       - "8080:8080"
     volumes:

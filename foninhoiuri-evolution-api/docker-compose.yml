@@ -43,5 +43,5 @@ services:
       - umbrel_default
 
 networks:
-  umbrel_default:
-    external: true
+  default:
+    name: umbrel_default

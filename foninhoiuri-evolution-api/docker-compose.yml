@@ -2,13 +2,13 @@ services:
   evolution-api:
     container_name: evolution_api
     image: atendai/evolution-api
-    restart: always
+    restart: on-failure
     environment:
-      DATABASE_ENABLED: true
-      DATABASE_PROVIDER: postgresql
-      DATABASE_SAVE_DATA_INSTANCE: true
-      LOG_BAILEYS: trace
-      LOG_LEVEL: ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS
+      - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_SAVE_DATA_INSTANCE=true
+      - LOG_BAILEYS=trace
+      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS
     ports:
       - "8080:8080"
     env_file:
@@ -24,6 +24,7 @@ services:
   postgres:
     container_name: evolution_postgres
     image: postgres:latest
+    restart: always
     environment:
       POSTGRES_USER: default
       POSTGRES_PASSWORD: default

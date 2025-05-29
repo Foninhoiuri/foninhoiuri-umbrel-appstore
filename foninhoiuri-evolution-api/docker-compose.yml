@@ -12,13 +12,8 @@ services:
       - LOG_BAILEYS=trace
       - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS
       - SERVER_URL=http://umbrel.local
-      # NOVAS VARIÁVEIS DE AMBIENTE PARA O REDIS
-      - REDIS_URL=redis://redis:6379/0 # ou REDIS_URL=redis://host_do_redis:porta/db (se não for no mesmo docker compose)
-      - CACHE_DRIVER=redis # Se a sua aplicação espera esta variável
-      - CACHE_REDIS_HOST=redis # Nome do serviço Redis no Docker Compose
-      - CACHE_REDIS_PORT=6379  # Porta padrão do Redis
-      # Se o Redis precisar de senha (altamente recomendado em produção, mas talvez não necessário em dev)
-      # - CACHE_REDIS_PASSWORD=sua_senha_redis
+      - CACHE_REDIS_ENABLED=true
+      - CACHE_REDIS_URL=redis://redis:6379/0
     ports:
       - "8080:8080"
     env_file:
@@ -52,15 +47,16 @@ services:
 
   # NOVO SERVIÇO REDIS
   redis:
-    image: redis:latest # Ou uma versão específica, ex: redis:7-alpine
+    image: redis:latest
     container_name: evolution_redis
     restart: always
     ports:
-      - "6379:6379" # Mapeie a porta se precisar acessar de fora do Docker
+      - "6379:6379"
     volumes:
-      - ${APP_DATA_DIR}/redisdata:/data # Volume para persistir dados do Redis
+      - ${APP_DATA_DIR}/redisdata:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
-      timeout: 3s
+      timeout: 5s
       retries: 5
+      start_period: 10s

@@ -3,17 +3,34 @@ version: "3.7"
 services:
   app_proxy:
     environment:
-      APP_HOST: evolution-api  # Corrigido aqui
+      APP_HOST: evolution-api
       APP_PORT: 8080
       PROXY_AUTH_ADD: "false"
       AUTHENTICATION_API_KEY: 63FvHHwNfjMzaj8UStNc96UTGQ94CRHY
 
   evolution-api:
     image: atendai/evolution-api:latest
-    user: "1000:1000"
     restart: on-failure
     environment:
-      - DATABASE_PROVIDER=postgresql # Ou postgresql, mysql
+      - DATABASE_ENABLED=true
+      - DATABASE_CONNECTION_URI=mongodb://evolution:evolution@mongo:27017/?authSource=admin&readPreference=primary&ssl=false&directConnection=true
+      - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
+      - DATABASE_SAVE_DATA_INSTANCE=false
+      - DATABASE_SAVE_DATA_NEW_MESSAGE=false
+      - DATABASE_SAVE_MESSAGE_UPDATE=false
+      - DATABASE_SAVE_DATA_CONTACTS=false
+      - DATABASE_SAVE_DATA_CHATS=false
     volumes:
       - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: evolution
+      MONGO_INITDB_ROOT_PASSWORD: evolution
+    volumes:
+      - ${APP_DATA_DIR}/data/evolution-api/mongo:/data/db

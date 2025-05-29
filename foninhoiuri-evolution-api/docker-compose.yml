@@ -19,6 +19,9 @@ services:
       - CACHE_REDIS_URI=redis://redis:6379/0
       - AUTHENTICATION_ENABLED=true
       - AUTHENTICATION_API_KEY=tBoHLOpnZ6iYlnrzOXHiMo0bjjLi0kW9
+      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET
+      - LOG_BAILEYS=trace
+      - SERVER_URL=http://${DEVICE_DOMAIN_NAME}:8080
     ports:
       - "8080:8080"
     volumes:

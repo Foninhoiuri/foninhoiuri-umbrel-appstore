@@ -21,7 +21,7 @@ services:
       - CACHE_REDIS_ENABLED=true
       - CACHE_REDIS_URI=redis://redis:6379/0
       - AUTHENTICATION_ENABLED=true
-      - AUTHENTICATION_API_KEY=71h6o18aPF1d1ULQOeTnyl76KJN4YBoc
+      - AUTHENTICATION_API_KEY="tBoHLOpnZ6iYlnrzOXHiMo0bjjLi0kW9"
     ports:
       - "8080:8080" # <--- MOVido para cá: A API principal agora expõe a porta 8080 diretamente
     volumes:

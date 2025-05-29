@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   app_proxy:
     image: atendai/evolution-api:latest
@@ -14,7 +16,7 @@ services:
     restart: on-failure
     environment:
       - DATABASE_ENABLED=true
-      - DATABASE_CONNECTION_URI=mongodb://evolution:evolution@mongo:27017/?authSource=admin&readPreference=primary&ssl=false&directConnection=true
+      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
       - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
       - DATABASE_SAVE_DATA_INSTANCE=false
       - DATABASE_SAVE_DATA_NEW_MESSAGE=false
@@ -25,13 +27,16 @@ services:
       - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
     depends_on:
-      - mongo
+      - postgres
 
-  mongo:
-    image: mongo:8.0.10-rc0
-    restart: always
+  postgres:
+    image: postgres:latest
+    platform: linux/amd64
     environment:
-      MONGO_INITDB_ROOT_USERNAME: evolution
-      MONGO_INITDB_ROOT_PASSWORD: evolution
+      POSTGRES_USER: default
+      POSTGRES_PASSWORD: default
+      POSTGRES_DB: default
+    ports:
+      - "5432:5432"
     volumes:
-      - ${APP_DATA_DIR}/data/evolution-api/mongo:/data/db
+      - ${APP_DATA_DIR}/pgdata:/var/lib/postgresql/data

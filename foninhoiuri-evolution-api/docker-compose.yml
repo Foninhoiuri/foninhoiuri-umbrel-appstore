@@ -76,4 +76,4 @@ services:
       interval: 5s # Intervalo entre as verificações (5 segundos)
       timeout: 5s # Tempo limite para o comando de verificação (5 segundos)
       retries: 5 # Número de tentativas antes de considerar o serviço como "não saudável"
-      start_period: 20s # Tempo para o serviço iniciar antes de começar a checar
+      start_period: 45s # Tempo para o serviço iniciar antes de começar a checar

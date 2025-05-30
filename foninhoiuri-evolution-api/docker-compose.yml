@@ -54,8 +54,8 @@ services:
     platform: linux/amd64
     environment:
       # **CORRIGIDO: CREDENCIAIS E BANCO DE DADOS PADRONIZADOS**
-      POSTGRES_USER: evolution_user
-      POSTGRES_PASSWORD: minhasenha_segura123
+      POSTGRES_USER: evolution
+      POSTGRES_PASSWORD: minhasenha
       POSTGRES_DB: evolution
     ports:
       - "5432:5432"

@@ -8,12 +8,7 @@ services:
     environment:
       - AUTHENTICATION_ENABLED=true
       - AUTHENTICATION_API_KEY=wBSKDHYiz1vqMAHQBxOW74zHLogqIqcL # Mantenha a sua AUTHENTICATION_API_KEY
-
-      # **IMPORTANTE: REMOVA OU COMENTE AS LINHAS ABAIXO NO SEU docker-compose.yml**
-      # - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
-      # - DATABASE_CONNECTION_URL=postgresql://default:default@postgres:5432/default
-      # **Isso garante que a DATABASE_URL seja lida APENAS do .env**
-
+      
       # REDIS CONFIGS (Mantidas)
       - REDIS_URL=redis://redis:6379/0
       - CACHE_DRIVER=redis
@@ -54,13 +49,14 @@ services:
     platform: linux/amd64
     environment:
       # **CORRIGIDO: CREDENCIAIS E BANCO DE DADOS PADRONIZADOS**
-      POSTGRES_USER: evolution
-      POSTGRES_PASSWORD: minhasenha
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: senha_complexa_e_segura
       POSTGRES_DB: evolution
     ports:
       - "5432:5432"
     volumes:
       - ${APP_DATA_DIR}/pgdata:/var/lib/postgresql/data
+      - ${APP_DATA_DIR}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s

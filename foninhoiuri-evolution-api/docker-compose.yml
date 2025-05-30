@@ -1,49 +1,62 @@
-version: '3.8' # Garanta que a versão é compatível com o Redis
+version: '3.8'
+
 services:
-  evolution-api:
-    container_name: evolution_api
-    image: atendai/evolution-api:latest
+  evolution_api:
+    image: atendai/evolution-api:latest # Mantemos :latest para pegar a versão mais nova
+    container_name: evolution_api_instance
     restart: on-failure
     environment:
       - AUTHENTICATION_ENABLED=true
-      - AUTHENTICATION_API_KEY=wBSKDHYiz1vqMAHQBxOW74zHLogqIqcL
-      
+      - AUTHENTICATION_API_KEY=wBSKDHYiz1vqMAHQBxOW74zHLogqIqcL # Mantenha a sua AUTHENTICATION_API_KEY
+
+      # **IMPORTANTE: REMOVA OU COMENTE AS LINHAS ABAIXO NO SEU docker-compose.yml**
+      # - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
+      # - DATABASE_CONNECTION_URL=postgresql://default:default@postgres:5432/default
+      # **Isso garante que a DATABASE_URL seja lida APENAS do .env**
+
+      # REDIS CONFIGS (Mantidas)
       - REDIS_URL=redis://redis:6379/0
       - CACHE_DRIVER=redis
       - CACHE_REDIS_HOST=redis
       - CACHE_REDIS_PORT=6379
       - CACHE_REDIS_ENABLED=true
       - CACHE_REDIS_URL=redis://redis:6379/0
-      
+
+      # OUTRAS VARS (Mantidas)
       - DATABASE_ENABLED=true
       - DATABASE_PROVIDER=postgresql
-      - DATABASE_CONNECTION_URL=postgresql://default:default@postgres:5432/default
       - DATABASE_SAVE_DATA_INSTANCE=true
-      
+      - DATABASE_SAVE_DATA_NEW_MESSAGE=true
+      - DATABASE_SAVE_MESSAGE_UPDATE=true
+      - DATABASE_SAVE_DATA_CONTACTS=true
+      - DATABASE_SAVE_DATA_CHATS=true
       - LOG_BAILEYS=trace
-      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS
+      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET
+      - LOG_COLOR=true
       - SERVER_URL=http://${DEVICE_DOMAIN_NAME}
-      
       - TZ=America/Sao_Paulo
     ports:
       - "8080:8080"
+    env_file: # Esta linha é crucial!
+      - ${APP_DATA_DIR}/.env
     volumes:
       - ${APP_DATA_DIR}/evolution_store:/evolution/store
       - ${APP_DATA_DIR}/evolution_instances:/evolution/instances
     depends_on:
       postgres:
         condition: service_healthy
-      redis: # Adicione a dependência no Redis
-        condition: service_started # Use service_started para o Redis
+      redis:
+        condition: service_healthy 
 
   postgres:
     image: postgres:latest
     container_name: evolution_postgres
-    platform: linux/amd64 # Ou linux/arm64 se for seu caso
+    platform: linux/amd64
     environment:
-      POSTGRES_USER: default
-      POSTGRES_PASSWORD: default
-      POSTGRES_DB: default
+      # **CORRIGIDO: CREDENCIAIS E BANCO DE DADOS PADRONIZADOS**
+      POSTGRES_USER: evolution_user
+      POSTGRES_PASSWORD: minhasenha_segura123
+      POSTGRES_DB: evolution
     ports:
       - "5432:5432"
     volumes:

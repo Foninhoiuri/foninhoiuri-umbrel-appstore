@@ -5,15 +5,24 @@ services:
     image: atendai/evolution-api:latest
     restart: on-failure
     environment:
+      - AUTHENTICATION_API_KEY=wBSKDHYiz1vqMAHQBxOW74zHLogqIqcL
+      
+      - REDIS_URL=redis://redis:6379/0
+      - CACHE_DRIVER=redis
+      - CACHE_REDIS_HOST=redis
+      - CACHE_REDIS_PORT=6379
+      - CACHE_REDIS_ENABLED=true
+      - CACHE_REDIS_URL=redis://redis:6379/0
+      
       - DATABASE_ENABLED=true
       - DATABASE_PROVIDER=postgresql
       - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
       - DATABASE_SAVE_DATA_INSTANCE=true
+      
       - LOG_BAILEYS=trace
       - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS
       - SERVER_URL=http://umbrel.local
-      - CACHE_REDIS_ENABLED=true
-      - CACHE_REDIS_URL=redis://redis:6379/0
+      
       - TZ=America/Sao_Paulo
     ports:
       - "8080:8080"

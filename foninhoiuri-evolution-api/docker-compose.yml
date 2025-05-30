@@ -26,8 +26,6 @@ services:
       - TZ=America/Sao_Paulo
     ports:
       - "8080:8080"
-    env_file:
-      - ${APP_DATA_DIR}/.env
     volumes:
       - ${APP_DATA_DIR}/evolution_store:/evolution/store
       - ${APP_DATA_DIR}/evolution_instances:/evolution/instances

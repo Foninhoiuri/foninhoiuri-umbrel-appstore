@@ -38,9 +38,9 @@ services:
       - ${APP_DATA_DIR}/evolution_instances:/evolution/instances
     depends_on:
       postgres:
-        condition: service_healthy
+        condition: service_healthy # <--- GARANTE QUE O POSTGRES ESTÁ SAUDÁVEL ANTES DE INICIAR A API
       redis:
-        condition: service_healthy 
+        condition: service_healthy # <--- GARANTE QUE O REDIS ESTÁ SAUDÁVEL ANTES DE INICIAR A API 
 
   postgres:
     image: postgres:latest
@@ -56,12 +56,12 @@ services:
     volumes:
       - ${APP_DATA_DIR}/pgdata:/var/lib/postgresql/data
       - ${APP_DATA_DIR}/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-    healthcheck:
+    healthcheck: # <--- DEFINIÇÃO DO HEALTHCHECK PARA O POSTGRES
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 30s
+      start_period: 30s # Tempo para o serviço iniciar antes de começar a checar
 
   redis:
     image: redis:latest
@@ -71,9 +71,9 @@ services:
       - "6379:6379"
     volumes:
       - ${APP_DATA_DIR}/redisdata:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
+    healthcheck: # <--- DEFINIÇÃO DO HEALTHCHECK PARA O REDIS
+      test: ["CMD", "redis-cli", "ping"] # Comando para verificar a saúde do Redis
+      interval: 5s # Intervalo entre as verificações (5 segundos)
+      timeout: 5s # Tempo limite para o comando de verificação (5 segundos)
+      retries: 5 # Número de tentativas antes de considerar o serviço como "não saudável"
+      start_period: 10s # Tempo para o serviço iniciar antes de começar a checar

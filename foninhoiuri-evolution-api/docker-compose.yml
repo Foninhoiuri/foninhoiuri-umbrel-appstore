@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 
 services:
   evolution_api:
@@ -8,21 +8,16 @@ services:
     environment:
       - AUTHENTICATION_ENABLED=true
       - AUTHENTICATION_API_KEY=wBSKDHYiz1vqMAHQBxOW74zHLogqIqcL
-      - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143 # Mantido
+      - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143
 
-      - REDIS_URI=redis://redis:6379/0
-      - CACHE_DRIVER=redis
-      - CACHE_REDIS_HOST=redis
-      - CACHE_REDIS_PORT=6379
-      - CACHE_REDIS_ENABLED=true
-      - CACHE_REDIS_URL=redis://redis:6379/0
+      # Nenhuma configuração de Redis aqui
 
       - DATABASE_ENABLED=true
       - DATABASE_PROVIDER=postgresql
       - DATABASE_SAVE_DATA_INSTANCE=true
-      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default # Credenciais de banco ajustadas
+      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
 
-      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET,REDIS,BAILEYS # Log detalhado mantido
+      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET,BAILEYS # Removido REDIS
       - LOG_COLOR=true
       - LOG_BAILEYS=trace
       - SERVER_URL=http://${DEVICE_DOMAIN_NAME}
@@ -30,13 +25,11 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store # Caminhos de volume ajustados
-      - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances # Caminhos de volume ajustados
+      - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store
+      - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
     depends_on:
       postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy # <--- MUITO IMPORTANTE: Revertido para service_healthy
+        condition: service_healthy # Agora depende apenas do PostgreSQL
 
   postgres:
     image: postgres:latest
@@ -49,25 +42,10 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ${APP_DATA_DIR}/data/pgdata:/var/lib/postgresql/data # Caminho de volume ajustado
+      - ${APP_DATA_DIR}/data/pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
       timeout: 5s
       retries: 5
       start_period: 30s
-
-  redis:
-    image: redis:latest
-    container_name: evolution_redis
-    restart: always
-    ports:
-      - "6379:6379"
-    volumes:
-      - ${APP_DATA_DIR}/data/redisdata:/data # Caminho de volume ajustado
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 60s # <--- MUITO IMPORTANTE: Aumentado novamente para dar mais tempo

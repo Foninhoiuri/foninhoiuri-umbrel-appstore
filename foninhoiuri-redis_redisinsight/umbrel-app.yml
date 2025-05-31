@@ -5,7 +5,7 @@ tagline: Armazenamento em memória de chave-valor
 icon: https://i.imgur.com/YZOX3l9.png
 category: database
 version: "7.3"
-port: 6379
+port: 5540
 description: >-
   Redis é um armazenamento de estrutura de dados em memória, usado como banco de dados, cache e broker de mensagens.
 developer: Redis Labs
@@ -25,6 +25,6 @@ gallery:
 releaseNotes: >-
   Primeira versão do aplicativo Redis para UmbrelOS.
 dependencies: []
-path: "http://${DEVICE_DOMAIN_NAME}:5540"
+path: ""
 defaultUsername: ""
 defaultPassword: ""

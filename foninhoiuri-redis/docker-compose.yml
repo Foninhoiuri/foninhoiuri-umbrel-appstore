@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest # Usaremos a imagem oficial do Redis do Docker Hub
+    container_name: redis # Nome amigável para o contêiner
+    restart: unless-stopped # Garante que o contêiner reinicie automaticamente
+    ports:
+      - "6379:6379" # Mapeia a porta 6379 do seu host para a porta 6379 do contêiner
+    volumes:
+      - ${APP_DATA_DIR}/data:/data # Persistência dos dados do Redis
+      # Se você tiver um arquivo redis.conf personalizado na raiz da sua pasta do app:
+      # - ./redis.conf:/usr/local/etc/redis/redis.conf
+    # Se você usar um redis.conf personalizado, adicione esta linha para que o Redis o utilize:
+    # command: redis-server /usr/local/etc/redis/redis.conf

@@ -11,16 +11,17 @@ services:
       - AUTHENTICATION_API_KEY=wBSKDHYiz1vqMAHQBxOW74zHLogqIqcL
       - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143
       
-      # Configurações do Redis (ESSENCIAL: CACHE_REDIS_ENABLED=true)
-      - CACHE_REDIS_ENABLED=true # <--- Mude esta linha para 'true'!
-      - REDIS_URI=redis://redis:6379/0
-      - CACHE_DRIVER=redis
-      - CACHE_REDIS_HOST=redis
-      - CACHE_REDIS_PORT=6379
-      - CACHE_REDIS_URL=redis://redis:6379/0 # redundante, mas mantenha se preferir
-      - CACHE_REDIS_PREFIX_KEY=evolution   # <--- Adicionado, conforme documentação
-      - CACHE_REDIS_TTL=604800             # <--- Adicionado, conforme documentação
-      - CACHE_REDIS_SAVE_INSTANCES=true    # <--- Adicionado, para salvar credenciais no Redis
+      # Configurações do Redis (AGORA CORRETAS E COMPLETAS!)
+      - CACHE_REDIS_ENABLED=true             # <--- ATENÇÃO: HABILITA O REDIS!
+      - CACHE_REDIS_URI=redis://redis:6379   # <--- URI de conexão (já estava correta)
+      - CACHE_REDIS_HOST=redis               # <--- Host do Redis (já estava correta)
+      - CACHE_REDIS_PORT=6379                # <--- Porta do Redis (já estava correta)
+      - CACHE_REDIS_URL=redis://redis:6379/0 # <--- URL completa (já estava correta)
+      - CACHE_REDIS_PREFIX_KEY=evolution     # <--- Adicionado, conforme documentação
+      - CACHE_REDIS_TTL=604800               # <--- Adicionado, conforme documentação (7 dias)
+      - CACHE_REDIS_SAVE_INSTANCES=true      # <--- ATENÇÃO: HABILITA SALVAR CREDENCIAIS NO REDIS!
+      - CACHE_DRIVER=redis                   # <--- Driver de cache (já estava correta)
+      # - CACHE_LOCAL_ENABLED=false          # Você pode adicionar esta linha se quiser ser explícito, mas 'false' é o padrão
 
       # Configurações do Banco de Dados (mantidas)
       - DATABASE_ENABLED=true

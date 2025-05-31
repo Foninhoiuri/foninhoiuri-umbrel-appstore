@@ -8,6 +8,7 @@ services:
     environment:
       - AUTHENTICATION_ENABLED=true
       - AUTHENTICATION_API_KEY=wBSKDHYiz1vqMAHQBxOW74zHLogqIqcL # Mantenha a sua AUTHENTICATION_API_KEY
+      - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143
       
       # REDIS CONFIGS (Mantidas)
       - REDIS_URI=redis://redis:6379/0

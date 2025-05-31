@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  evolution_api:
+    image: atendai/evolution-api:v2.2.2
+    container_name: evolution_api_instance
+    restart: on-failure
+    environment:
+      - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
+      - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
+      - DATABASE_SAVE_DATA_NEW_MESSAGE=true
+      - DATABASE_SAVE_MESSAGE_UPDATE=true
+      - DATABASE_SAVE_DATA_CONTACTS=true
+      - DATABASE_SAVE_DATA_CHATS=true
+      - CACHE_REDIS_ENABLED=true
+      - CACHE_REDIS_URI=redis://redis:6379/0
+      - AUTHENTICATION_ENABLED=true
+      - AUTHENTICATION_API_KEY=tBoHLOpnZ6iYlnrzOXHiMo0bjjLi0kW9
+      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET
+      - LOG_COLOR=true
+      - LOG_BAILEYS=trace
+      - SERVER_URL=http://${DEVICE_DOMAIN_NAME}
+      - TZ=America/Sao_Paulo
+    ports:
+      - "8080:8080"
+    volumes:
+      - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store
+      - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  postgres:
+    image: postgres:latest
+    container_name: evolution_postgres
+    # ATENÇÃO: Ajuste a plataforma conforme a arquitetura do seu Umbrel OS (linux/arm64 para Raspberry Pi, por exemplo).
+    # Se o seu Umbrel for ARM64, mude para: platform: linux/arm64
+    platform: linux/amd64
+    environment:
+      POSTGRES_USER: default
+      POSTGRES_PASSWORD: default
+      POSTGRES_DB: default
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${APP_DATA_DIR}/pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  redis:
+    image: redis:latest
+    container_name: evolution_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ${APP_DATA_DIR}/redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s

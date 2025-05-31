@@ -1,15 +1,15 @@
+version: '3.8'
+
 services:
   evolution_api:
     image: atendai/evolution-api:latest
     container_name: evolution_api_instance
     restart: on-failure
     environment:
-      # Variáveis de autenticação
       - AUTHENTICATION_ENABLED=true
       - AUTHENTICATION_API_KEY=wBSKDHYiz1vqMAHQBxOW74zHLogqIqcL
-      - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143
-      
-      # Configurações do Redis (essenciais)
+      - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143 # Mantido
+
       - REDIS_URI=redis://redis:6379/0
       - CACHE_DRIVER=redis
       - CACHE_REDIS_HOST=redis
@@ -17,18 +17,12 @@ services:
       - CACHE_REDIS_ENABLED=true
       - CACHE_REDIS_URL=redis://redis:6379/0
 
-      # Configurações do Banco de Dados (essenciais)
       - DATABASE_ENABLED=true
       - DATABASE_PROVIDER=postgresql
       - DATABASE_SAVE_DATA_INSTANCE=true
-      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
-      #- DATABASE_CONNECTION_DB_PREFIX_NAME=evo
-      #- DATABASE_SAVE_DATA_NEW_MESSAGE=true
-      #- DATABASE_SAVE_MESSAGE_UPDATE=true
-      #- DATABASE_SAVE_DATA_CONTACTS=true
-      #- DATABASE_SAVE_DATA_CHATS=true
-      
-      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET,REDIS,BAILEYS
+      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default # Credenciais de banco ajustadas
+
+      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET,REDIS,BAILEYS # Log detalhado mantido
       - LOG_COLOR=true
       - LOG_BAILEYS=trace
       - SERVER_URL=http://${DEVICE_DOMAIN_NAME}
@@ -36,19 +30,17 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store
-      - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances
+      - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store # Caminhos de volume ajustados
+      - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances # Caminhos de volume ajustados
     depends_on:
       postgres:
         condition: service_healthy
       redis:
-        condition: service_started
+        condition: service_healthy # <--- MUITO IMPORTANTE: Revertido para service_healthy
 
   postgres:
     image: postgres:latest
     container_name: evolution_postgres
-    # ATENÇÃO: Ajuste a plataforma conforme a arquitetura do seu Umbrel OS (linux/arm64 para Raspberry Pi, por exemplo).
-    # Se o seu Umbrel for ARM64, mude para: platform: linux/arm64
     platform: linux/amd64
     environment:
       POSTGRES_USER: default
@@ -57,7 +49,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ${APP_DATA_DIR}/data/pgdata:/var/lib/postgresql/data
+      - ${APP_DATA_DIR}/data/pgdata:/var/lib/postgresql/data # Caminho de volume ajustado
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
@@ -72,10 +64,10 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ${APP_DATA_DIR}data/redisdata:/data
+      - ${APP_DATA_DIR}/data/redisdata:/data # Caminho de volume ajustado
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
+      start_period: 60s # <--- MUITO IMPORTANTE: Aumentado novamente para dar mais tempo

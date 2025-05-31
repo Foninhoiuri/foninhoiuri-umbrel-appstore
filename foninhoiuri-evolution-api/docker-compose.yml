@@ -6,19 +6,31 @@ services:
     container_name: evolution_api_instance
     restart: on-failure
     environment:
+      # Variáveis de autenticação
+      - AUTHENTICATION_ENABLED=true
+      - AUTHENTICATION_API_KEY=wBSKDHYiz1vqMAHQBxOW74zHLogqIqcL
+      - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143
+      
+      # Configurações do Redis (essenciais)
+      - REDIS_URI=redis://redis:6379/0
+      - CACHE_DRIVER=redis
+      - CACHE_REDIS_HOST=redis
+      - CACHE_REDIS_PORT=6379
+      - CACHE_REDIS_ENABLED=true
+      - CACHE_REDIS_URL=redis://redis:6379/0
+
+      # Configurações do Banco de Dados (essenciais)
       - DATABASE_ENABLED=true
       - DATABASE_PROVIDER=postgresql
+      - DATABASE_SAVE_DATA_INSTANCE=true
       - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
-      - DATABASE_CONNECTION_DB_PREFIX_NAME=evo
-      - DATABASE_SAVE_DATA_NEW_MESSAGE=true
-      - DATABASE_SAVE_MESSAGE_UPDATE=true
-      - DATABASE_SAVE_DATA_CONTACTS=true
-      - DATABASE_SAVE_DATA_CHATS=true
-      - CACHE_REDIS_ENABLED=true
-      - CACHE_REDIS_URI=redis://redis:6379/0
-      - AUTHENTICATION_ENABLED=true
-      - AUTHENTICATION_API_KEY=tBoHLOpnZ6iYlnrzOXHiMo0bjjLi0kW9
-      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET
+      #- DATABASE_CONNECTION_DB_PREFIX_NAME=evo
+      #- DATABASE_SAVE_DATA_NEW_MESSAGE=true
+      #- DATABASE_SAVE_MESSAGE_UPDATE=true
+      #- DATABASE_SAVE_DATA_CONTACTS=true
+      #- DATABASE_SAVE_DATA_CHATS=true
+      
+      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET,REDIS,BAILEYS
       - LOG_COLOR=true
       - LOG_BAILEYS=trace
       - SERVER_URL=http://${DEVICE_DOMAIN_NAME}

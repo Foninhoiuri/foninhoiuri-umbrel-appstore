@@ -1,38 +1,38 @@
-manifestVersion: 1
-id: foninhoiuri-crafty
+manifestVersion: 1.1 # Mantenha a versão do manifesto atualizada para compatibilidade
+id: foninhoiuri-crafty # Seu ID único
 name: Crafty Controller
-tagline: Uma forma intuitiva de automatizar e gerenciar seu servidor Minecraft com facilidade
+tagline: Uma forma intuitiva de automatizar e gerenciar seu servidor Minecraft com facilidade.
 icon: https://i.imgur.com/KjDO7CD.png
 category: games
-version: "4.4.7"
+version: "4.4.7" # Versão do seu pacote de app para Umbrel (pode coincidir com a versão do Crafty Controller)
 port: 18443
 description: >-
-  ⛏️ Crafty Controller é uma interface web de código aberto projetada para gerenciar e controlar os Crafty Bots, que são usados para automatizar e administrar servidores Minecraft. O próprio Crafty é uma estrutura de bots que permite aos administradores automatizar diversas tarefas nos servidores Minecraft, desde executar testes até gerenciar eventos no jogo, controlar configurações do servidor e muito mais. Crafty Controller oferece uma plataforma centralizada onde os administradores podem monitorar e controlar esses bots em um só lugar.
+  ⛏️ O Crafty Controller oferece uma interface web intuitiva e de código aberto, projetada para simplificar a automação e o gerenciamento de servidores Minecraft através dos Crafty Bots. Esses bots funcionam como uma estrutura robusta, permitindo que administradores automatizem uma vasta gama de tarefas, desde a execução de testes até o gerenciamento de eventos no jogo e o controle de configurações do servidor. Com o Crafty Controller, você ganha uma plataforma centralizada para monitorar e comandar todos os seus bots de forma eficiente.
 
-  O principal benefício do Crafty Controller é sua simplicidade e facilidade de uso. Em vez de interagir manualmente com cada bot via código ou linha de comando, o Crafty Controller fornece um painel web amigável onde os administradores podem configurar o comportamento dos bots, acompanhar suas ações e emitir comandos. Permite adicionar ou remover bots, visualizar seus status e monitorar logs, o que é especialmente útil para solucionar problemas ou otimizar o desempenho dos bots.
+  A principal vantagem do Crafty Controller reside em sua facilidade de uso. Em vez de comandos manuais ou scripts complexos, o painel web amigável permite configurar o comportamento dos bots, acompanhar suas ações e emitir instruções de maneira descomplicada. Adicione ou remova bots, visualize seus status em tempo real e analise logs para otimizar o desempenho ou solucionar problemas rapidamente.
 
-  Além disso, o Crafty Controller é altamente personalizável. Os administradores do servidor podem configurar bots para executar ações específicas baseadas em eventos ou interações dos jogadores, e os desenvolvedores podem ampliar a funcionalidade com scripts ou plugins personalizados. Essa flexibilidade torna-o uma ferramenta valiosa para quem administra um servidor Minecraft e precisa automatizar tarefas ou criar jogabilidade personalizada dirigida por bots.
+  Além disso, a ferramenta é altamente adaptável. Administradores podem personalizar os bots para executar ações específicas em resposta a eventos do jogo ou interações de jogadores, enquanto desenvolvedores podem estender sua funcionalidade com scripts e plugins customizados. Essa flexibilidade torna o Crafty Controller uma solução indispensável para quem busca otimizar a gestão de servidores Minecraft e automatizar tarefas.
 
-  Em última análise, Crafty Controller é uma ferramenta poderosa para automatizar e gerenciar servidores Minecraft, oferecendo um centro que simplifica a gestão dos bots e possibilita uma administração mais eficiente das tarefas do servidor.
+  Em suma, o Crafty Controller é uma ferramenta poderosa para automatizar e administrar servidores Minecraft, proporcionando um centro de comando unificado que simplifica a gestão de bots e promove uma administração de tarefas mais eficaz.
 
-  ⚠️ Crafty Controller usa HTTPS para proteger seus dados pessoais. Ao acessar Crafty Controller, você deve digitar explicitamente "https" no endereço, por exemplo, https://umbrel.local:18443.
+  ⚠️ O Crafty Controller utiliza HTTPS para a segurança dos seus dados. Para acessá-lo, é necessário incluir "https" no endereço, por exemplo: https://umbrel.local:18443.
 
-  ℹ️ Crafty Controller utiliza um certificado autoassinado, que pode gerar um aviso no navegador como "Sua conexão não é particular". Você pode prosseguir com segurança clicando em "Avançado" e depois em "Prosseguir para umbrel.local (não seguro)" ou opção semelhante, dependendo do navegador.
+  ℹ️ Como o Crafty Controller utiliza um certificado autoassinado, seu navegador pode exibir um aviso de "Sua conexão não é particular". Você pode prosseguir com segurança clicando em "Avançado" e, em seguida, em "Prosseguir para umbrel.local (não seguro)" ou uma opção similar, dependendo do navegador.
 
-  🔑 O nome de usuário padrão do Crafty Controller é 'admin' e a senha é gerada aleatoriamente. Você pode encontrar a senha no arquivo localizado em: /umbrel/app-data/denny-crafty/data/config/default-creds.txt. É altamente recomendável alterar a senha imediatamente após o login por questões de segurança.
-developer: Arcadia Technology
+  🔑 As credenciais iniciais para o Crafty Controller são: nome de usuário 'admin' e uma senha gerada aleatoriamente. Para encontrar a senha, consulte o arquivo disponível em: **/umbrel/app-data/foninhoiuri-crafty/data/config/default-creds.txt**. É altamente recomendado que esta senha seja alterada imediatamente após o primeiro acesso para garantir a segurança.
+developer: Arcadia Technology # Mantido o desenvolvedor original
 website: https://craftycontrol.com/
-submitter: foninho by dennysubke
-submission: https://github.com/getumbrel/umbrel-apps/pull/
-repo: https://gitlab.com/crafty-controller
-support: https://gitlab.com/groups/crafty-controller/-/issues
+submitter: Foninho # <--- Você como o submitter
+submission: https://github.com/foninhoiuri/umbrel-app-crafty # <--- Seu repositório para este app no GitHub
+repo: https://gitlab.com/crafty-controller # Mantido o repositório oficial
+support: https://gitlab.com/groups/crafty-controller/-/issues # Mantido o suporte oficial
 gallery:
   - https://i.imgur.com/vSbZ6cA.png
   - https://i.imgur.com/K5RoLTs.png
   - https://i.imgur.com/3VeLF4I.png
   - https://i.imgur.com/8cTkoj9.png
   - https://i.imgur.com/DnwgLOR.png
-dependencies:
+dependencies: []
 path: ""
 defaultUsername: "admin"
 defaultPassword: ""

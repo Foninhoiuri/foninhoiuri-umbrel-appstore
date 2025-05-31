@@ -1,21 +1,21 @@
-manifestVersion: 1
-id: foninhoiuri-redis
+manifestVersion: 1.1 # Mantenha a versão do manifesto atualizada para compatibilidade
+id: foninhoiuri-redis # Seu ID único para este pacote do app
 name: Redis
 tagline: Armazenamento em memória de chave-valor
 icon: https://i.imgur.com/ZFQcOBd.png
 category: database
-version: "7.3" # Esta versão é do seu pacote de app, não necessariamente a versão do Redis (mas pode coincidir)
+version: "7.3" # Versão do seu pacote de app para Umbrel (pode coincidir com a versão do Redis)
 port: 6379
 description: >-
   Redis é um armazenamento de estrutura de dados em memória, usado como banco de dados, cache e broker de mensagens.
-developer: FoninhoIuri # Seu nome como desenvolvedor
+releaseNotes: >-
+  Primeira versão do aplicativo Redis para UmbrelOS, empacotado por Foninho.
+developer: Redis Labs # <--- O desenvolvedor original do Redis
 website: https://redis.io # Site oficial do Redis
-repo: https://github.com/foninhoiuri/umbrel-app-redis # <--- Seu repositório no GitHub para este app
-support: https://github.com/foninhoiuri/umbrel-app-redis/issues # <--- URL de issues do seu repositório
-upstreamRepo: https://github.com/redis/redis # <--- Repositório oficial do Redis
-upstreamSupportUrl: https://github.com/redis/redis/issues # <--- Suporte oficial do Redis
-submitter: Foninho
-submission: https://github.com/foninhoiuri/
+repo: https://github.com/redis/redis # <--- Repositório oficial do Redis
+support: https://github.com/redis/redis/issues # <--- Suporte oficial do Redis
+submitter: Foninho # <--- Seu nome como a pessoa que submeteu/empacotou
+submission: https://github.com/foninhoiuri/umbrel-app-redis # <--- SEU repositório no GitHub para ESTE aplicativo Umbrel
 gallery:
   - https://i.imgur.com/gelPCYN.png
   - https://i.imgur.com/LhzWqdO.png
@@ -24,8 +24,6 @@ gallery:
   - https://i.imgur.com/9EJ7KBJ.png
   - https://i.imgur.com/OKTkqtx.png
   - https://i.imgur.com/pFlPBdv.png
-releaseNotes: >-
-  Primeira versão do aplicativo Redis para UmbrelOS.
 dependencies: []
 path: ""
 defaultUsername: ""

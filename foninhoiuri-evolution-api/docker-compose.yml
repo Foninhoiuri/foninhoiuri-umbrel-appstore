@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   evolution_api:
-    image: atendai/evolution-api:v2.2.2
+    image: atendai/evolution-api:latest
     container_name: evolution_api_instance
     restart: on-failure
     environment:
@@ -59,7 +57,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ${APP_DATA_DIR}/pgdata:/var/lib/postgresql/data
+      - ${APP_DATA_DIR}/data/pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
@@ -74,7 +72,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ${APP_DATA_DIR}/redisdata:/data
+      - ${APP_DATA_DIR}data/redisdata:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s

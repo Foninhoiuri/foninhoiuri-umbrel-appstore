@@ -4,7 +4,7 @@ id: foninhoiuri-pgadmin # ID único para este novo app de interface
 name: pgAdmin # Nome que aparecerá na loja de apps
 tagline: Interface web para gerenciar bancos de dados PostgreSQL.
 icon: https://i.imgur.com/RVoDXOt.png
-category: ...em desenvolvimento # ou "developer tools"
+category: em desenvolvimento... # ou "developer tools"
 version: "4.30" # Versão do pgAdmin (ou da sua interface)
 port: 5051 # A porta padrão que o pgAdmin (ou a interface) usa internamente
 mainApp: true # <--- MUITO IMPORTANTE: Indica que este app tem uma interface principal

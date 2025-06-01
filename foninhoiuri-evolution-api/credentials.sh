@@ -14,7 +14,7 @@ export AUTHENTICATION_ENABLED="true"
 # 5. Clique em "Copy to clipboard" para copiar a chave gerada.
 # 6. Cole a chave copiada abaixo, substituindo "sua_chave_secreta_aqui".
 export AUTHENTICATION_API_KEY="sua_chave_secreta_aqui" # MUDE ESTA CHAVE!
-export CONFIG_SESSION_PHONE_VERSION="2.3000.1020885143"
+export CONFIG_SESSION_PHONE_VERSION="2.3000.1020885143" #versao do whatsapp , vai no web configuraçoes > ajuda > versao
 
 # Configurações do Redis (garanta que o serviço 'redis' esteja disponível)
 export CACHE_REDIS_ENABLED="true"
@@ -32,7 +32,7 @@ export DATABASE_ENABLED="true"
 export DATABASE_PROVIDER="postgresql"
 export DATABASE_SAVE_DATA_INSTANCE="true"
 # Formato: postgresql://<user>:<password>@<host>:<port>/<database>
-export DATABASE_CONNECTION_URI="postgresql://default:default@postgres:5432/default" # MUDE ISSO!
+export DATABASE_CONNECTION_URI="postgresql://default:default@postgres:5432/evolutionapi" # MUDE ISSO!
 
 # Configurações de Log
 export LOG_LEVEL="ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET,REDIS,BAILEYS"

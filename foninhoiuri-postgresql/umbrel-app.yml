@@ -6,7 +6,7 @@ icon: https://i.imgur.com/HQywpQH.png
 category: database
 version: "16.3"
 port: 5432
-mainApp: false # <--- Adicionado: Explicitamente declara que este não é um aplicativo com UI principal
+mainApp: false
 description: >-
   PostgreSQL é um sistema de banco de dados relacional de objeto-relacional (ORDBMS)
   gratuito e de código aberto, com ênfase em extensibilidade e conformidade com padrões.

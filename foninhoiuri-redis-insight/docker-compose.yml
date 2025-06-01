@@ -1,14 +1,11 @@
-redisinsight:
-    container_name: redis-insight # Nome do container para o RedisInsight.
-    image: redis/redisinsight:latest # Imagem oficial do RedisInsight.
-    restart: on-failure # Reinicia apenas se houver falha.
+services:
+  redisinsight:
+    container_name: redisinsight # <--- AJUSTADO: Consistente com o ID do seu app
+    image: redis/redisinsight:latest # Imagem oficial do RedisInsight
+    restart: unless-stopped # <--- AJUSTADO: Padrão do Umbrel (mais robusto que on-failure)
     ports:
-      - "5540:5540" 
+      - "5540:5540" # Porta da interface web, correspondendo ao umbrel-app.yml
     volumes:
-      # Volume para persistir dados e logs do RedisInsight.
-      - ${APP_DATA_DIR}/redisinsight/data:/data
-      - ${APP_DATA_DIR}/redisinsight/logs:/data/logs
+      - ${APP_DATA_DIR}/data:/db
     environment:
-      # Conecta o RedisInsight ao seu servidor Redis.
-      # 'redis_server' é o nome do serviço definido acima.
-      RI_REDIS_URL: "redis://redis_server:6379" 
+      RI_REDIS_URL: "redis://redis:6379" # <--- CORRIGIDO: O nome do serviço do seu Redis é 'redis'

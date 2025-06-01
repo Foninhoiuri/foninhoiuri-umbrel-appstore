@@ -6,6 +6,7 @@ icon: https://i.imgur.com/ZFQcOBd.png
 category: database
 version: "7.3" # Versão do seu pacote de app para Umbrel (pode coincidir com a versão do Redis)
 port: 6379
+mainApp: false
 description: >-
   Redis é um armazenamento de estrutura de dados em memória, usado como banco de dados, cache e broker de mensagens.
 releaseNotes: >-

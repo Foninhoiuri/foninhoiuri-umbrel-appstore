@@ -2,36 +2,36 @@ services:
   evolution_api:
     image: atendai/evolution-api:latest
     container_name: evolution_api_instance
-    restart: unless-stopped # Usar 'unless-stopped' é geralmente mais robusto
+    restart: unless-stopped
     environment:
       # Variáveis de autenticação
-      - AUTHENTICATION_ENABLED=true
-      - AUTHENTICATION_API_KEY=wBSKDHYiz1vqMAHQBxOW74zHLogqIqcL # Mantenha esta chave secreta!
-      - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143
+      - AUTHENTICATION_ENABLED=${AUTHENTICATION_ENABLED}
+      - AUTHENTICATION_API_KEY=${AUTHENTICATION_API_KEY} # Mantenha esta chave secreta!
+      - CONFIG_SESSION_PHONE_VERSION=${CONFIG_SESSION_PHONE_VERSION}
       
       # Configurações do Redis (AGORA CONECTA AO APP EXTERNO 'foninhoiuri-redis')
-      - CACHE_REDIS_ENABLED=true
-      - CACHE_REDIS_URI=redis://redis:6379 # Conecta-se ao serviço 'redis' do app foninhoiuri-redis
-      - CACHE_REDIS_HOST=redis
-      - CACHE_REDIS_PORT=6379
-      - CACHE_REDIS_URL=redis://redis:6379/0
-      - CACHE_REDIS_PREFIX_KEY=evolution
-      - CACHE_REDIS_TTL=604800
-      - CACHE_REDIS_SAVE_INSTANCES=true
-      - CACHE_DRIVER=redis
+      - CACHE_REDIS_ENABLED=${CACHE_REDIS_ENABLED}
+      - CACHE_REDIS_URI=redis:6379 # Conecta-se ao serviço 'redis' do app foninhoiuri-redis (pode ser fixo se 'redis' for o nome do serviço)
+      - CACHE_REDIS_HOST=${CACHE_REDIS_HOST}
+      - CACHE_REDIS_PORT=${CACHE_REDIS_PORT}
+      - CACHE_REDIS_URL=${CACHE_REDIS_URL}
+      - CACHE_REDIS_PREFIX_KEY=${CACHE_REDIS_PREFIX_KEY}
+      - CACHE_REDIS_TTL=${CACHE_REDIS_TTL}
+      - CACHE_REDIS_SAVE_INSTANCES=${CACHE_REDIS_SAVE_INSTANCES}
+      - CACHE_DRIVER=${CACHE_DRIVER}
 
       # Configurações do Banco de Dados (AGORA CONECTA AO APP EXTERNO 'foninhoiuri-postgresql')
-      - DATABASE_ENABLED=true
-      - DATABASE_PROVIDER=postgresql
-      - DATABASE_SAVE_DATA_INSTANCE=true
-      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default # Conecta-se ao serviço 'postgres' do app foninhoiuri-postgresql
+      - DATABASE_ENABLED=${DATABASE_ENABLED}
+      - DATABASE_PROVIDER=${DATABASE_PROVIDER}
+      - DATABASE_SAVE_DATA_INSTANCE=${DATABASE_SAVE_DATA_INSTANCE}
+      - DATABASE_CONNECTION_URI=${DATABASE_CONNECTION_URI} # Ex: postgresql://user:password@host:port/database
       
       # Configurações de Log
-      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET,REDIS,BAILEYS
-      - LOG_COLOR=true
-      - LOG_BAILEYS=trace
-      - SERVER_URL=http://${DEVICE_DOMAIN_NAME} # Variável fornecida pelo Umbrel
-      - TZ=America/Sao_Paulo # Fuso horário
+      - LOG_LEVEL=${LOG_LEVEL}
+      - LOG_COLOR=${LOG_COLOR}
+      - LOG_BAILEYS=${LOG_BAILEYS}
+      - SERVER_URL=${DEVICE_DOMAIN_NAME} # Variável fornecida pelo Umbrel
+      - TZ=${TZ} # Fuso horário
 
     ports:
       - "8080:8080" # Mapeia a porta da Evolution API para acesso externo

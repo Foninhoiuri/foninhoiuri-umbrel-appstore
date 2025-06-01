@@ -21,7 +21,7 @@ submission: https://github.com/foninhoiuri/umbrel-app-evolution-api # <--- SEU r
 gallery:
   - https://evoapicloud.com/images/img_image_1_360x688.png
   - https://evoapicloud.com/images/img_image.png
-port: 3707
+port: 8080
 dependencies:
   - foninhoiuri-redis      # ID do seu app Redis
   - foninhoiuri-postgresql # ID do seu app PostgreSQL

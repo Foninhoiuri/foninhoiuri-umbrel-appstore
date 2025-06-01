@@ -13,33 +13,33 @@ services:
       # 4. Clique em "Regenerate" para gerar uma nova chave.
       # 5. Clique em "Copy to clipboard" para copiar a chave gerada.
       # 6. Cole a chave copiada abaixo, substituindo "sua_chave_secreta_aqui".
-      - AUTHENTICATION_API_KEY="12345678901234567890123456789032" # MUDE ESTA CHAVE!
-      - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143 # versao do whatsapp , vai no web configuraçoes > ajuda > versao
+      - AUTHENTICATION_API_KEY="suakeydeveter32caracteresdeaze12" # MUDE ESTA CHAVE!
+      - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143
 
-      # Configurações do Redis (garanta que o serviço 'redis' esteja disponível)
+      # Configurações do Redis - Essenciais para persistência de sessão e cache
       - CACHE_REDIS_ENABLED=true
-      - CACHE_REDIS_URI=redis://redis:6379 # Já é referenciado pelo serviço 'redis' no docker-compose
+      - CACHE_REDIS_URI=redis://redis:6379
       - CACHE_REDIS_HOST=redis
       - CACHE_REDIS_PORT=6379
       - CACHE_REDIS_URL=redis://redis:6379/0
       - CACHE_REDIS_PREFIX_KEY=evolution
       - CACHE_REDIS_TTL=604800
-      - CACHE_REDIS_SAVE_INSTANCES=true
+      - CACHE_REDIS_SAVE_INSTANCES=true # Habilita o salvamento de credenciais/instâncias no Redis
       - CACHE_DRIVER=redis
+      # - CACHE_LOCAL_ENABLED=false # Pode ser explícito se necessário, mas geralmente não é preciso
 
-      # Configurações do Banco de Dados (garanta que o serviço 'postgres' esteja disponível)
+      # Configurações do Banco de Dados - PostgreSQL
       - DATABASE_ENABLED=true
       - DATABASE_PROVIDER=postgresql
       - DATABASE_SAVE_DATA_INSTANCE=true
-      # Formato: postgresql://<user>:<password>@<host>:<port>/<database>
-      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/evolutionapi # MUDE ISSO!
+      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
 
       # Configurações de Log
       - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET,REDIS,BAILEYS
       - LOG_COLOR=true
       - LOG_BAILEYS=trace
-      # SERVER_URL (DEVICE_DOMAIN_NAME) é injetado pelo Umbrel OS, não precisa ser exportado aqui
-      - TZ=America/Sao_Paulo # Fuso horário, ajuste se necessário
+      - SERVER_URL=http://${DEVICE_DOMAIN_NAME} # Variável fornecida pelo Umbrel
+      - TZ=America/Sao_Paulo # Fuso horário
       
     ports:
       - "8080:8080" # Mapeia a porta da Evolution API para acesso externo

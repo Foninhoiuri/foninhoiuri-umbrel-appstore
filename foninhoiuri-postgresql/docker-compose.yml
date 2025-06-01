@@ -1,23 +1,14 @@
 services:
   postgres:
-    image: postgres:latest # Usaremos a imagem oficial do PostgreSQL do Docker Hub
-    container_name: postgresql # Nome amigável para o contêiner
-    restart: unless-stopped # Garante que o contêiner reinicie automaticamente
+    image: postgres:latest
+    container_name: postgresql
+    restart: unless-stopped
     environment:
       POSTGRES_USER: default # Variável de ambiente para o usuário do banco de dados
       POSTGRES_PASSWORD: default # Variável de ambiente para a senha do banco de dados (Altamente recomendado ALTERAR!)
       POSTGRES_DB: default # Variável de ambiente para o nome do banco de dados padrão
       TZ: America/Sao_Paulo
-    # Portas: Geralmente não precisamos expor a porta do Postgres para o host no Umbrel,
-    # pois outros apps se conectarão a ele via rede interna do Docker (usando 'postgres:5432').
-    # Se você *precisar* de acesso externo (ex: pgAdmin rodando no seu PC), descomente:
     ports:
       - "5432:5432"
     volumes:
-      - ${APP_DATA_DIR}/data:/var/lib/postgresql/data # Volume persistente para os dados do PostgreSQL
-    healthcheck: # Garante que o serviço PostgreSQL esteja realmente pronto e funcional
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
-      interval: 5s # Verifica a cada 5 segundos
-      timeout: 5s # Tempo limite para a verificação
-      retries: 5 # Tenta 5 vezes antes de considerar falha
-      start_period: 30s # Período inicial para o contêiner se aquecer antes de começar as verificações
+      - ${APP_DATA_DIR}/data:/var/lib/postgresql/data

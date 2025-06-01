@@ -1,0 +1,32 @@
+manifestVersion: 1.1 # Mantendo a versão do manifesto atualizada
+id: foninhoiuri-redis-insight # <--- SEU ID único para este pacote
+name: RedisInsight
+tagline: Ferramenta gráfica para visualizar, analisar e otimizar dados Redis.
+icon: https://i.imgur.com/Gi6mxJ2.png
+category: database # Categoria para ferramentas de banco de dados
+version: "2.70" # Versão do seu pacote de app para Umbrel
+port: 5540 # A porta padrão que o RedisInsight usa
+mainApp: true # Este app tem uma interface principal
+description: >-
+  RedisInsight é uma poderosa ferramenta de interface gráfica de usuário (GUI) para Redis,
+  que permite visualizar, analisar e otimizar seus dados Redis de forma fácil e intuitiva.
+  Com ele, você pode navegar por chaves, executar comandos, inspecionar o uso de memória,
+  monitorar o desempenho em tempo real e gerenciar diversas instâncias Redis.
+  É a solução ideal para desenvolvedores e administradores que buscam uma visão aprofundada
+  e controle eficiente sobre seus bancos de dados Redis.
+releaseNotes: >-
+  Primeira versão do aplicativo RedisInsight para UmbrelOS, empacotado por Foninho.
+developer: Redis Labs # Desenvolvedor original do RedisInsight
+website: https://redis.com/redisinsight/ # Site oficial do RedisInsight
+submitter: Foninho # Seu nome como a pessoa que submeteu/empacotou
+submission: https://github.com/foninhoiuri/umbrel-app-redisinsight # <--- SEU repositório para ESTE aplicativo Umbrel
+repo: https://github.com/RedisInsight/RedisInsight # Repositório oficial do projeto RedisInsight
+support: https://github.com/RedisInsight/RedisInsight/issues # Suporte oficial do RedisInsight
+gallery: [] # <--- Vazio. Adicione URLs de imagens reais do RedisInsight aqui.
+# Exemplo: - https://i.imgur.com/screenshot1.png
+#          - https://i.imgur.com/screenshot2.png
+dependencies:
+  - foninhoiuri-redis # <--- Adicionado: Declara que o RedisInsight depende do seu app Redis
+path: "" # Geralmente acessado na raiz da porta
+defaultUsername: "" # RedisInsight geralmente tem um setup inicial ou não usa credenciais padrão simples
+defaultPassword: ""

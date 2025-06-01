@@ -1,0 +1,23 @@
+# docker-compose.yml para o pgAdmin (ou qualquer outra interface)
+
+services:
+  pgadmin: # Nome do serviço para o contêiner pgAdmin
+    image: dpage/pgadmin4:latest # Imagem Docker oficial do pgAdmin
+    container_name: foninhoiuri-pgadmin # Nome amigável para o contêiner
+    restart: unless-stopped
+    ports:
+      - "5051:5051" # <--- Mapeia a porta do HOST (ex: 8080) para a porta INTERNA do contêiner (80)
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@example.com # <--- Altamente recomendado mudar!
+      PGADMIN_DEFAULT_PASSWORD: supersecretpassword # <--- Altamente recomendado mudar!
+      PGADMIN_LISTEN_PORT: 5051 # Porta que o pgAdmin escuta internamente
+      # As variáveis de ambiente abaixo configuram a conexão INICIAL do pgAdmin ao servidor PostgreSQL
+      # Ele usará 'postgres' como host, que é o NOME DO SERVIÇO do seu app PostgreSQL.
+      # O pgAdmin configurará essa conexão automaticamente no primeiro boot.
+      PGADMIN_SETUP_WEB: "false" # Não iniciar o setup inicial via web se as variáveis estiverem preenchidas
+      PGADMIN_SETUP_EXPERT_MODE: "true" # Permite configurar mais detalhes no setup
+    volumes:
+      - ${APP_DATA_DIR}/data:/var/lib/pgadmin # Persistência de dados do pgAdmin (configurações, históricos)
+    depends_on:
+      postgres: # <--- IMPORTANTE: Depende do serviço 'postgres' do seu app 'foninhoiuri-postgresql'
+        condition: service_healthy # Garante que o PostgreSQL esteja saudável antes de iniciar

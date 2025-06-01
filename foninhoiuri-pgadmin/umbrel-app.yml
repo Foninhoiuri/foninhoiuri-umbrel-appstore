@@ -1,0 +1,30 @@
+# umbrel-app.yml para o pgAdmin (ou qualquer outra interface)
+manifestVersion: 1.1
+id: foninhoiuri-pgadmin # ID único para este novo app de interface
+name: pgAdmin # Nome que aparecerá na loja de apps
+tagline: Interface web para gerenciar bancos de dados PostgreSQL.
+icon: https://i.imgur.com/RVoDXOt.png
+category: database # ou "developer tools"
+version: "4.30" # Versão do pgAdmin (ou da sua interface)
+port: 5051 # A porta padrão que o pgAdmin (ou a interface) usa internamente
+mainApp: true # <--- MUITO IMPORTANTE: Indica que este app tem uma interface principal
+description: >-
+  O pgAdmin é a ferramenta de administração e desenvolvimento mais popular e rica em
+  recursos para PostgreSQL. Ele oferece uma interface gráfica de usuário (GUI) para
+  gerenciar seus bancos de dados PostgreSQL rodando no Umbrel, permitindo que você
+  execute consultas, visualize dados, gerencie tabelas e muito mais, tudo de forma
+  intuitiva pelo navegador.
+releaseNotes: >-
+  Versão inicial do pgAdmin empacotada para UmbrelOS.
+developer: pgAdmin Team
+website: https://www.pgadmin.org/
+submitter: Foninho
+submission: https://github.com/Foninhoiuri/foninhoiuri-umbrel-appstore
+repo: https://github.com/pgadmin-org/pgadmin4 # Repositório oficial do pgAdmin
+support: https://www.pgadmin.org/support/
+gallery: [] 
+dependencies:
+  - foninhoiuri-postgresql # <--- AQUI ESTÁ A INTEGRAÇÃO! Declara a dependência do seu app PostgreSQL
+path: "" # Se o pgAdmin for acessado na raiz (ex: http://umbrel.local:8080)
+defaultUsername: "" # pgAdmin usa e-mail como username padrão
+defaultPassword: "" # Você configurará isso no docker-compose.yml

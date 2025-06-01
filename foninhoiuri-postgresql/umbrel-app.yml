@@ -25,8 +25,8 @@ submitter: Foninho
 submission: https://github.com/foninhoiuri/umbrel-app-postgresql
 repo: https://github.com/postgres/postgres
 support: https://www.postgresql.org/support/
-gallery: [] # <--- Modificado: Removido os comentários e deixado a lista vazia se não houver imagens específicas da UI
+gallery: []
 dependencies: []
 path: ""
-defaultUsername: "postgres"
+defaultUsername: ""
 defaultPassword: ""

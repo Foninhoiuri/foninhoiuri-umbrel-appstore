@@ -1,0 +1,32 @@
+manifestVersion: 1.1
+id: foninhoiuri-postgresql
+name: PostgreSQL
+tagline: Um poderoso sistema de banco de dados relacional de código aberto.
+icon: https://i.imgur.com/HQywpQH.png
+category: database
+version: "16.3"
+port: 5432
+mainApp: false # <--- Adicionado: Explicitamente declara que este não é um aplicativo com UI principal
+description: >-
+  PostgreSQL é um sistema de banco de dados relacional de objeto-relacional (ORDBMS)
+  gratuito e de código aberto, com ênfase em extensibilidade e conformidade com padrões.
+  Ele se destaca por sua robustez, confiabilidade, desempenho e um rico conjunto de recursos.
+  Ideal para armazenar dados de forma segura e eficiente, o PostgreSQL é a escolha
+  preferida para diversas aplicações, desde pequenos projetos até grandes sistemas corporativos.
+  Sua arquitetura avançada garante alta integridade de dados e oferece suporte a funcionalidades
+  como transações ACID, chaves estrangeiras, visões, gatilhos, e procedimentos armazenados.
+  Esta versão empacotada para o UmbrelOS oferece uma solução de banco de dados estável
+  e facilmente gerenciável para seus aplicativos.
+releaseNotes: >-
+  Primeira versão do aplicativo PostgreSQL para UmbrelOS, empacotado por Foninho.
+developer: PostgreSQL Global Development Group
+website: https://www.postgresql.org/
+submitter: Foninho
+submission: https://github.com/foninhoiuri/umbrel-app-postgresql
+repo: https://github.com/postgres/postgres
+support: https://www.postgresql.org/support/
+gallery: [] # <--- Modificado: Removido os comentários e deixado a lista vazia se não houver imagens específicas da UI
+dependencies: []
+path: ""
+defaultUsername: "postgres"
+defaultPassword: ""

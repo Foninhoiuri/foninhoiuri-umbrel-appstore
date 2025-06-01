@@ -1,0 +1,49 @@
+manifestVersion: 1
+id: foninhoiuri-denny-doom # Mantido como no seu input
+name: Doom
+tagline: Um bilhete só de ida para o Inferno, e você está dirigindo o ônibus.
+icon: https://i.imgur.com/80A1iyM.png
+category: gaming
+version: "0.1"
+port: 4113
+description: >-
+  Doom é o clássico de ação definitivo que mudou para sempre o mundo dos videogames em 1993.
+  Em um mundo onde "atirar e correr" se tornou o lema de vida, você assume o papel de um
+  Fuzileiro Naval sem nome, abrindo caminho à força pelos portões do Inferno – sem medo,
+  sem piedade. Sua missão? Salvar a Terra de uma invasão de criaturas demoníacas do Inferno.
+  Parece simples, certo? Bem, o Inferno está cheio de surpresas, e os demônios estão de
+  muito mau humor!
+
+  Armado com nada além de sua confiança em balas e uma arma na mão, você deve aniquilar
+  hordas intermináveis de monstros – e fazê-lo nos cantos mais sombrios de estações
+  marcianas e fortalezas subterrâneas do Inferno. De Imps arrepiantes a Cyberdemons massivos,
+  Doom entrega tudo o que o coração de um fã de ação poderia desejar. E a melhor parte?
+  A velocidade do jogo é tão rápida que você mal perceberá como você desce ainda mais
+  na loucura enquanto conquista o Inferno, nível por nível.
+
+  Doom prova que tudo o que você precisa é uma arma rápida, um instinto de sobrevivência
+  inabalável e uma boa dose de loucura para abrir caminho pelo submundo. Pode ser antigo,
+  mas o Inferno nunca foi tão divertido.
+
+  Doom funciona em praticamente qualquer coisa! Do seu antigo PC gamer a um cortador de grama,
+  uma máquina de café, e agora até mesmo no seu servidor Umbrel - os demônios nunca
+  descansam, e nem o seu hardware!
+
+  ⚠️ Doom funciona melhor em navegadores baseados em Chromium. O Firefox pode encontrar
+  problemas de compatibilidade devido a WebGL ou restrições de segurança.
+developer: id Software # Mantido como no seu input
+website: https://github.com/id-Software/DOOM # Mantido como no seu input
+submitter: dennysubke # Mantido como no seu input
+submission: https://github.com/dennysubke/dennys-umbrel-app-store # Mantido como no seu input
+repo: https://github.com/CallumHoughton18/Doom-In-Docker # Mantido como no seu input
+support: https://github.com/CallumHoughton18/Doom-In-Docker/issues # Mantido como no seu input
+gallery:
+  - https://i.imgur.com/31l6Urr.png
+  - https://i.imgur.com/Brmm45M.png
+  - https://i.imgur.com/Fcw8Fwi.png
+releaseNotes: >-
+  O Inferno ainda está quente, os demônios estão mais furiosos, e suas armas estão mais barulhentas. 👹💥
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

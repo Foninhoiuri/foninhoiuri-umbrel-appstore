@@ -1,0 +1,69 @@
+manifestVersion: 1
+id: foninhoiuri-denny-tldraw # Mantido como no seu input
+name: tldraw
+tagline: Um quadro branco intuitivo para suas ideias.
+icon: https://i.imgur.com/whMjRSE.png
+category: files & productivity
+version: "2.0.0"
+port: 8505
+description: >-
+  🎨 tldraw é um quadro branco digital de código aberto, baseado em navegador,
+  projetado para capacitar os usuários a expressar suas ideias visualmente,
+  seja através de esboços, diagramas ou brainstorming colaborativo. Ele oferece
+  uma tela intuitiva e limpa onde os usuários podem desenhar livremente,
+  criar formas, adicionar texto e importar imagens — tudo sem a necessidade de
+  instalação ou configuração complexa. A interface é minimalista, mas funcional,
+  garantindo que o processo criativo permaneça suave e livre de distrações.
+
+  Uma das características marcantes do tldraw é sua capacidade de colaboração
+  em tempo real, permitindo que múltiplos usuários se juntem à mesma tela e
+  contribuam simultaneamente. Isso o torna uma excelente ferramenta para equipes
+  remotas, educadores e criativos que precisam de um espaço de trabalho visual
+  compartilhado. Cada usuário pode ver as mudanças dos outros instantaneamente,
+  promovendo sessões dinâmicas de brainstorming, trabalho de design ao vivo ou
+  até mesmo ensino remoto.
+
+  O que diferencia o tldraw é sua flexibilidade e abertura. Por ser de código
+  aberto, desenvolvedores podem modificá-lo, estendê-lo ou integrá-lo em seus
+  próprios projetos. Seja para incorporar o quadro branco em uma plataforma
+  existente ou personalizar a funcionalidade para um fluxo de trabalho especializado,
+  a arquitetura do tldraw suporta uma ampla gama de casos de uso. Essa
+  adaptabilidade levou a seu uso em diversos ambientes, desde design de software
+  e planejamento de produtos até educação e projetos de arte colaborativa.
+
+  Além disso, o tldraw adota tecnologias web modernas, garantindo desempenho suave
+  e acessibilidade em diferentes dispositivos e navegadores. Sua natureza leve
+  significa que ele carrega rapidamente, tornando-o ideal para sessões de ideation
+  espontâneas sem atrasos ou logins complicados. A plataforma suporta tanto o uso
+  pessoal — para esboços rápidos ou notas visuais — quanto cenários profissionais,
+  onde diagramas estruturados, fluxogramas ou mapas mentais colaborativos são necessários.
+
+  No geral, o tldraw se destaca como uma ferramenta versátil, amigável ao usuário
+  e personalizável que preenche a lacuna entre aplicativos de desenho casuais e
+  softwares profissionais de diagramação. Sua mistura de simplicidade, poder e
+  abertura o torna uma escolha atraente para qualquer pessoa que busca pensar
+  visualmente, seja sozinho ou em equipe.
+developer: Steve Ruiz
+website: https://www.tldraw.com/
+submitter: dennysubke # Mantido como no seu input
+submission: https://github.com/getumbrel/umbrel-apps/pull/ # Mantido como no seu input
+repo: https://github.com/tldraw/tldraw
+support: https://github.com/tldraw/tldraw/issues
+gallery:
+  - https://i.imgur.com/HauQ58C.png
+  - https://i.imgur.com/K8ZtjND.png
+  - https://i.imgur.com/IY0vvRZ.png
+  - https://i.imgur.com/sx3Dt3T.png
+  - https://i.imgur.com/w0jhm4X.png
+  - https://i.imgur.com/zYFEhMq.png
+releaseNotes: >-
+  Esta versão do tldraw apresenta diversas melhorias de desempenho, além de notas
+  adesivas (sticky notes) completamente redesenhadas.
+
+  ⚠️ O aplicativo tldraw está disponível em uma versão mais recente, mas ainda
+  não existe uma imagem Docker correspondente. Portanto, foi utilizada a última
+  imagem Docker disponível (v2.0.0) para fornecer o aplicativo.
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

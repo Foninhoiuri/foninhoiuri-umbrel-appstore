@@ -18,6 +18,6 @@ services:
       PGADMIN_SETUP_EXPERT_MODE: "true" # Permite configurar mais detalhes no setup
     volumes:
       - ${APP_DATA_DIR}/data:/var/lib/pgadmin # Persistência de dados do pgAdmin (configurações, históricos)
-    depends_on:
-      postgres: # <--- IMPORTANTE: Depende do serviço 'postgres' do seu app 'foninhoiuri-postgresql'
-        condition: service_healthy # Garante que o PostgreSQL esteja saudável antes de iniciar
+    #depends_on:
+    #  postgres: # <--- IMPORTANTE: Depende do serviço 'postgres' do seu app 'foninhoiuri-postgresql'
+    #    condition: service_healthy # Garante que o PostgreSQL esteja saudável antes de iniciar

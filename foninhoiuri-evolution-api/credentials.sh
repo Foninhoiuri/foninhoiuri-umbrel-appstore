@@ -40,5 +40,3 @@ export LOG_COLOR="true"
 export LOG_BAILEYS="trace"
 # SERVER_URL (DEVICE_DOMAIN_NAME) é injetado pelo Umbrel OS, não precisa ser exportado aqui
 export TZ="America/Sao_Paulo" # Fuso horário, ajuste se necessário
-
-echo "Variáveis de ambiente do Evolution API carregadas!"

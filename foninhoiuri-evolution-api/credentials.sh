@@ -18,7 +18,7 @@ export CONFIG_SESSION_PHONE_VERSION="2.3000.1020885143" #versao do whatsapp , va
 
 # Configurações do Redis (garanta que o serviço 'redis' esteja disponível)
 export CACHE_REDIS_ENABLED="true"
-# export CACHE_REDIS_URI="redis://redis:6379" # Já é referenciado pelo serviço 'redis' no docker-compose
+export CACHE_REDIS_URI="redis://redis:6379" # Já é referenciado pelo serviço 'redis' no docker-compose
 export CACHE_REDIS_HOST="redis"
 export CACHE_REDIS_PORT="6379"
 export CACHE_REDIS_URL="redis://redis:6379/0"

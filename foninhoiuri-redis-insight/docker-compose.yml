@@ -6,8 +6,8 @@ redisinsight:
       - "5540:5540" 
     volumes:
       # Volume para persistir dados e logs do RedisInsight.
-      - ${APP_DATA_DIR}/redisinsight_data:/data
-      - ${APP_DATA_DIR}/redisinsight_logs:/data/logs
+      - ${APP_DATA_DIR}/redisinsight/data:/data
+      - ${APP_DATA_DIR}/redisinsight/logs:/data/logs
     environment:
       # Conecta o RedisInsight ao seu servidor Redis.
       # 'redis_server' é o nome do serviço definido acima.

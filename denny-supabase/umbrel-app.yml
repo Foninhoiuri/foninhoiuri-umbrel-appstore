@@ -1,0 +1,77 @@
+manifestVersion: 1.1 # Mantendo a versão do manifesto atualizada
+id: foninhoiuri-denny-supabase # <--- Seu ID único para este pacote do app
+category: developer tools
+name: Supabase
+icon: https://i.imgur.com/IKOoCbJ.png
+tagline: Uma alternativa open source ao Firebase.
+version: "2025.05.21" # Versão do seu pacote de app para Umbrel
+port: 53000
+description: >-
+  🐊 Supabase é uma plataforma open-source de backend-as-a-service (BaaS) que oferece aos
+  desenvolvedores uma infraestrutura poderosa e escalável para construir aplicações
+  web e móveis modernas. Ela combina a conveniência de um backend tradicional com a
+  flexibilidade e o controle de uma stack open-source. Construída sobre o PostgreSQL,
+  o Supabase adiciona capacidades em tempo real, APIs instantâneas e autenticação de
+  usuários, eliminando a necessidade de escrever lógicas complexas de backend.
+
+  Em sua essência, o Supabase transforma um banco de dados Postgres em uma solução
+  de backend completa. Ao criar uma nova tabela no banco de dados, uma API RESTful
+  e em tempo real é automaticamente gerada, facilitando a interação com os dados a
+  partir do frontend. Isso acelera o tempo de desenvolvimento e elimina a necessidade
+  de código de backend repetitivo. Desenvolvedores podem gerenciar seus dados,
+  acompanhar mudanças em tempo real e até mesmo se inscrever em eventos do banco de
+  dados diretamente do cliente.
+
+  A autenticação é outra parte essencial do Supabase. Inclui um sistema completo
+  de gerenciamento de usuários com funcionalidades como login por e-mail e senha,
+  provedores OAuth de terceiros e magic links. Todos os eventos de autenticação
+  são integrados diretamente ao banco de dados, oferecendo aos desenvolvedores
+  controle total e visibilidade sobre o comportamento do usuário e as regras de acesso.
+
+  O armazenamento é tratado com uma simplicidade semelhante. O Supabase oferece uma
+  solução de armazenamento de arquivos que suporta uploads e downloads seguros, integra-se
+  com políticas de acesso e pode ser gerenciada inteiramente pelo painel ou via chamadas de API.
+  É particularmente útil para armazenar arquivos de mídia, documentos e outros ativos
+  estáticos relacionados a uma aplicação.
+
+  O painel do Supabase fornece uma interface amigável para gerenciar cada parte do backend.
+  Ele permite que os desenvolvedores naveguem pelo banco de dados, executem consultas SQL,
+  definam configurações de autenticação, gerenciem o armazenamento de arquivos e monitorem
+  o uso em tempo real. Combina facilidade de uso com funcionalidade profunda, tornando-o
+  acessível para iniciantes e poderoso o suficiente para usuários avançados.
+
+  No geral, o Supabase capacita os desenvolvedores a construir aplicações prontas para produção
+  mais rapidamente, abstraindo a complexidade do desenvolvimento de backend, enquanto
+  preserva a flexibilidade para personalizar e escalar conforme necessário.
+
+  ⚠️ Certifique-se de seguir os passos de configuração após instalar o Supabase,
+  consultando as instruções detalhadas em:
+  [Configuração Pós-Instalação do Supabase no Umbrel](https://github.com/foninhoiuri/umbrel-app-supabase/blob/main/README.md) # <--- Link atualizado
+developer: Supabase # Mantido o desenvolvedor original
+website: https://supabase.com
+submitter: Dennysubke # <--- Seu nome como o submitter
+submission: https://github.com/dennysubke/dennys-umbrel-app-store
+repo: https://github.com/supabase/supabase # Repositório oficial do Supabase
+support: https://supabase.com/support # Link de suporte oficial do Supabase
+gallery:
+  - https://i.imgur.com/CUfEm5O.png
+  - https://i.imgur.com/mHiOReH.png
+  - https://i.imgur.com/Mkp5RuX.png
+  - https://i.imgur.com/sx3Dt3T.png
+  - https://i.imgur.com/w0jhm4X.png
+  - https://i.imgur.com/zYFEhMq.png
+releaseNotes: >-
+  Esta atualização traz uma série de novos tutoriais e ferramentas, incluindo um componente
+  reutilizável de Equipe construído com Next.js e Shadcn, um aplicativo de Gerenciamento
+  de Compras (Grocery Tracker) usando Vue e Supabase, e o novo plugin SupaWP para
+  integração perfeita com o WordPress. Você também encontrará análises aprofundadas
+  sobre multi-tenancy com Clerk, construção de agentes de IA alimentados por n8n e Supabase,
+  configuração de SMTP personalizado para autenticação, e uso de Supabase MCP em VSCode,
+  Cursor e Agno.
+
+  No lado da plataforma, o Supabase agora suporta roles com escopo de projeto para
+  todos os planos Team, lançou um novo relatório SOC 2 e publicou documentações
+  abrangentes detalhando suas práticas de segurança.
+path: ""
+defaultUsername: "umbrel"
+defaultPassword: "umbrel"

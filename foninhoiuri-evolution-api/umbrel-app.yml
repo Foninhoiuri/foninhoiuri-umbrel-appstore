@@ -1,0 +1,30 @@
+manifestVersion: 1.1
+id: foninhoiuri-evolution-api # Seu ID único para este pacote do app
+name: Evolution API
+tagline: A maneira mais fácil de integrar o WhatsApp ao seu sistema.
+icon: https://i.imgur.com/CA2SZVA.png
+category: automação
+version: "2.2.3" # Versão do seu pacote de app para Umbrel (pode ser a mesma da Evolution API se preferir)
+description: >-
+  Evolution API é uma poderosa e fácil de usar API de bot do WhatsApp
+  que permite aos desenvolvedores integrar a funcionalidade do WhatsApp
+  em suas aplicações. Ele permite enviar e receber mensagens, gerenciar
+  contatos e construir soluções automatizadas de WhatsApp.
+releaseNotes: >-
+  Versão inicial do aplicativo Evolution API para UmbrelOS, empacotado por Foninho.
+developer: Evolution API # <--- O desenvolvedor original da Evolution API
+website: https://evolution-api.com/ # Site oficial do projeto Evolution API
+repo: https://github.com/EvolutionAPI/evolution-api # <--- Repositório oficial da Evolution API
+support: https://github.com/EvolutionAPI/evolution-api/issues # <--- Suporte oficial da Evolution API
+submitter: Foninho # <--- Seu nome como a pessoa que submeteu/empacotou
+submission: https://github.com/foninhoiuri/umbrel-app-evolution-api # <--- SEU repositório no GitHub para ESTE aplicativo Umbrel
+gallery:
+  - https://evoapicloud.com/images/img_image_1_360x688.png
+  - https://evoapicloud.com/images/img_image.png
+port: 8080
+dependencies:
+  - foninhoiuri-redis      # ID do seu app Redis
+  - foninhoiuri-postgresql # ID do seu app PostgreSQL
+path: "/manager"
+defaultUsername: ""
+defaultPassword: ""

@@ -42,7 +42,7 @@ services:
       - TZ=America/Sao_Paulo # Fuso horário, ajuste se necessário
       
     ports:
-      - "3707:3707" # Mapeia a porta da Evolution API para acesso externo
+      - "8080:8080" # Mapeia a porta da Evolution API para acesso externo
     volumes:
       - ${APP_DATA_DIR}/data/evolution-api/store:/evolution/store # Volume para dados da API
       - ${APP_DATA_DIR}/data/evolution-api/instances:/evolution/instances # Volume para instâncias

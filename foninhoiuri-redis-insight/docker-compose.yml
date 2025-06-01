@@ -1,0 +1,14 @@
+redisinsight:
+    container_name: redis-insight # Nome do container para o RedisInsight.
+    image: redis/redisinsight:latest # Imagem oficial do RedisInsight.
+    restart: on-failure # Reinicia apenas se houver falha.
+    ports:
+      - "5540:5540" 
+    volumes:
+      # Volume para persistir dados e logs do RedisInsight.
+      - ${APP_DATA_DIR}/redisinsight_data:/data
+      - ${APP_DATA_DIR}/redisinsight_logs:/data/logs
+    environment:
+      # Conecta o RedisInsight ao seu servidor Redis.
+      # 'redis_server' é o nome do serviço definido acima.
+      RI_REDIS_URL: "redis://redis_server:6379" 

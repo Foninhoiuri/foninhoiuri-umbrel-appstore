@@ -24,7 +24,7 @@ repo: https://github.com/pgadmin-org/pgadmin4 # Repositório oficial do pgAdmin
 support: https://www.pgadmin.org/support/
 gallery: [] 
 dependencies:
-  - foninhoiuri-postgresql # <--- AQUI ESTÁ A INTEGRAÇÃO! Declara a dependência do seu app PostgreSQL
+  - community-app-store/foninhoiuri/foninhoiuri-postgresql # <--- AQUI ESTÁ A INTEGRAÇÃO! Declara a dependência do seu app PostgreSQL
 path: "" # Se o pgAdmin for acessado na raiz (ex: http://umbrel.local:8080)
 defaultUsername: "" # pgAdmin usa e-mail como username padrão
 defaultPassword: "" # Você configurará isso no docker-compose.yml

@@ -5,14 +5,19 @@ services:
     image: dpage/pgadmin4:latest # Imagem Docker oficial do pgAdmin
     container_name: foninhoiuri-pgadmin # Nome amigável para o contêiner
     restart: unless-stopped
-    user: "1000:1000" # Executar o contêiner como o usuário Umbrel (UID 1000, GID 1000)
+    # user: "1000:1000" # <--- REMOVIDO: ESTE ESTAVA CAUSANDO O ERRO 'uid not found'
     ports:
-      - "5051:5051" # <--- ALTERADO: Mapeia a porta 5051 do HOST para a porta 5051 do contêiner
+      - "5051:5051" # Mapeia a porta 5051 do HOST para a porta 5051 do contêiner
     environment:
       PGADMIN_DEFAULT_EMAIL: user@example.com # Altamente recomendado mudar!
       PGADMIN_DEFAULT_PASSWORD: supersecretpassword # Altamente recomendado mudar!
-      PGADMIN_LISTEN_PORT: 5051 # <--- ALTERADO: Porta que o pgAdmin escuta internamente
+      PGADMIN_LISTEN_PORT: 5051 # Porta que o pgAdmin escuta internamente
       PGADMIN_SETUP_WEB: "false"
       PGADMIN_SETUP_EXPERT_MODE: "true"
+      # Opcional: Definir os diretórios de configuração e log se o padrão não funcionar bem
+      # PGADMIN_DATA_DIR: /var/lib/pgadmin # Este é o padrão, não precisa ser explícito
+      # PGADMIN_LOG_FILE: /var/log/pgadmin/pgadmin4.log # Este é o padrão, não precisa ser explícito
     volumes:
-      - ${APP_DATA_DIR}/data:/var/lib/pgadmin # Persistência de dados do pgAdmin (configurações, históricos)
+      # Novo nome para o volume de dados do pgAdmin para evitar conflitos de cache/permissões antigas
+      - ${APP_DATA_DIR}/data/pgadmin_data:/var/lib/pgadmin # <--- Volume para dados persistentes do pgAdmin
+      - ${APP_DATA_DIR}/data/pgadmin_logs:/var/log/pgadmin # <--- ADICIONADO: Volume para logs do pgAdmin

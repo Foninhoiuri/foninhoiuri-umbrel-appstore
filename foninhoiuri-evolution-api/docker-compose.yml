@@ -12,7 +12,7 @@ services:
       # 3. Aumente o "Length" para 32 (para garantir uma chave longa e robusta).
       # 4. Clique em "Regenerate" para gerar uma nova chave.
       # 5. Clique em "Copy to clipboard" para copiar a chave gerada.
-      # 6. Cole a chave copiada abaixo, substituindo "sua_chave_secreta_aqui".
+      # 6. Cole a chave copiada em AUTHENTICATION_API_KEY, substituindo "sua_chave_secreta_aqui".
       - AUTHENTICATION_API_KEY="suakeydeveter32caracteresdeaze12" # MUDE ESTA CHAVE!
       - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143
 

@@ -18,7 +18,8 @@ services:
       PGADMIN_UID: "5050" # <--- ADICIONADO: UID do usuário 'pgadmin' na imagem
       PGADMIN_GID: "5050" # <--- ADICIONADO: GID do grupo 'pgadmin' na imagem
     volumes:
-      - ${APP_DATA_DIR}/data/pgadmin_data:/var/lib/pgadmin # Volume para dados persistentes
+      - ${APP_DATA_DIR}/data/pgadmin_data:/var/lib/pgadmin
+      - ${APP_DATA_DIR}/data/pgadmin_data/sessions:/var/lib/pgadmin/sessions
       - ${APP_DATA_DIR}/data/pgadmin_logs:/var/log/pgadmin # Volume para logs
     command: > # <--- ADICIONADO: Comando para corrigir permissões na inicialização
       sh -c "

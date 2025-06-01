@@ -17,8 +17,14 @@ services:
       # UID e GID esperados pelo usuário interno 'pgadmin' na imagem Docker
       PGADMIN_UID: "5050" # <--- ADICIONADO: UID do usuário 'pgadmin' na imagem
       PGADMIN_GID: "5050" # <--- ADICIONADO: GID do grupo 'pgadmin' na imagem
-    volumes:
+   volumes:
       - ${APP_DATA_DIR}/data/pgadmin_data:/var/lib/pgadmin
       - ${APP_DATA_DIR}/data/pgadmin_data/sessions:/var/lib/pgadmin/sessions
       - ${APP_DATA_DIR}/data/pgadmin_data/storage:/var/lib/pgadmin/storage
-      - ${APP_DATA_DIR}/data/pgadmin_logs:/var/log/pgadmin # Volume para logs
+      - ${APP_DATA_DIR}/data/pgadmin_logs:/var/log/pgadmin
+    command: >
+      /bin/bash -c "
+        mkdir -p /var/lib/pgadmin/sessions /var/lib/pgadmin/storage /var/log/pgadmin &&
+        chown -R 5050:5050 /var/lib/pgadmin /var/log/pgadmin &&
+        /entrypoint.sh
+      "

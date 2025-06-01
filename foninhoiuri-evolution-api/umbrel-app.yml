@@ -36,5 +36,5 @@ settings:
       Insira a chave de API para autenticação da Evolution API.
       Mantenha esta chave segura e secreta.
     type: text # Ou password, se você quiser que o valor seja ocultado na interface
-    # defaultValue: "GERAR_SENHA_FORTE_AQUI" # Você pode definir um valor padrão forte se desejar
-    # showOnlyOnFirstInstall: true # Se quiser que apareça só na primeira instalação
+    defaultValue: "BXP377jz43g6haCWIkK2q1dA4OdXcC4F" # Você pode definir um valor padrão forte se desejar
+    showOnlyOnFirstInstall: true # Se quiser que apareça só na primeira instalação

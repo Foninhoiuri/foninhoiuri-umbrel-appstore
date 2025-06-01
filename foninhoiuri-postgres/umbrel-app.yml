@@ -1,11 +1,12 @@
 manifestVersion: 1.1
-id: foninhoiuri-postgresql # Seu ID único para este pacote do app
+id: foninhoiuri-postgresql
 name: PostgreSQL
 tagline: Um poderoso sistema de banco de dados relacional de código aberto.
 icon: https://i.imgur.com/HQywpQH.png
 category: database
-version: "16.3" # Versão do seu pacote de app para Umbrel (pode coincidir com a versão do PostgreSQL)
-port: 5432 # A porta padrão do PostgreSQL
+version: "16.3"
+port: 5432
+mainApp: false # <--- Adicionado: Explicitamente declara que este não é um aplicativo com UI principal
 description: >-
   PostgreSQL é um sistema de banco de dados relacional de objeto-relacional (ORDBMS)
   gratuito e de código aberto, com ênfase em extensibilidade e conformidade com padrões.
@@ -18,18 +19,14 @@ description: >-
   e facilmente gerenciável para seus aplicativos.
 releaseNotes: >-
   Primeira versão do aplicativo PostgreSQL para UmbrelOS, empacotado por Foninho.
-developer: PostgreSQL Global Development Group # O desenvolvedor original
+developer: PostgreSQL Global Development Group
 website: https://www.postgresql.org/
-submitter: Foninho # Seu nome como a pessoa que submeteu/empacotou
-submission: https://github.com/foninhoiuri/umbrel-app-postgresql # SEU repositório para este app no GitHub
-repo: https://github.com/postgres/postgres # Repositório oficial do PostgreSQL (GitHub mirror)
-support: https://www.postgresql.org/support/ # Link de suporte oficial do PostgreSQL
-gallery:
-  # Você pode adicionar URLs de imagens da interface de ferramentas de gerenciamento de Postgres aqui
-  # Exemplo: - https://i.imgur.com/exemplo1.png
-  # Para um serviço de backend como Postgres, talvez não haja uma interface visual.
-  # Você pode usar capturas de tela de ferramentas como pgAdmin ou de algum status/dashboard.
+submitter: Foninho
+submission: https://github.com/foninhoiuri/umbrel-app-postgresql
+repo: https://github.com/postgres/postgres
+support: https://www.postgresql.org/support/
+gallery: [] # <--- Modificado: Removido os comentários e deixado a lista vazia se não houver imagens específicas da UI
 dependencies: []
-path: "" # PostgreSQL geralmente não tem uma UI web que precisa de um 'path'
-defaultUsername: "postgres" # Usuário padrão, embora muitas apps usem variáveis de ambiente para isso
-defaultPassword: "" # Senha padrão, que será definida via docker-compose.yml
+path: ""
+defaultUsername: "postgres"
+defaultPassword: ""

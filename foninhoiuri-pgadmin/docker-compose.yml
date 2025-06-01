@@ -1,10 +1,11 @@
 # docker-compose.yml para o pgAdmin
+
 services:
   pgadmin: # Nome do serviço para o contêiner pgAdmin
     image: dpage/pgadmin4:latest # Imagem Docker oficial do pgAdmin
     container_name: foninhoiuri-pgadmin # Nome amigável para o contêiner
     restart: unless-stopped
-    # user: "1000:1000" # <--- ESTA LINHA DEVE ESTAR REMOVIDA
+    # user: "1000:1000" # REMOVIDO
     ports:
       - "5051:5051" # Mapeia a porta 5051 do HOST para a porta 5051 do contêiner
     environment:
@@ -13,7 +14,14 @@ services:
       PGADMIN_LISTEN_PORT: 5051 # Porta que o pgAdmin escuta internamente
       PGADMIN_SETUP_WEB: "false"
       PGADMIN_SETUP_EXPERT_MODE: "true"
+      # UID e GID esperados pelo usuário interno 'pgadmin' na imagem Docker
+      PGADMIN_UID: "5050" # <--- ADICIONADO: UID do usuário 'pgadmin' na imagem
+      PGADMIN_GID: "5050" # <--- ADICIONADO: GID do grupo 'pgadmin' na imagem
     volumes:
-      # É crucial que esses volumes sejam criados com as permissões corretas pelo Docker
       - ${APP_DATA_DIR}/data/pgadmin_data:/var/lib/pgadmin # Volume para dados persistentes
       - ${APP_DATA_DIR}/data/pgadmin_logs:/var/log/pgadmin # Volume para logs
+    command: > # <--- ADICIONADO: Comando para corrigir permissões na inicialização
+      sh -c "
+        chown -R ${PGADMIN_UID}:${PGADMIN_GID} /var/lib/pgadmin &&
+        chown -R ${PGADMIN_UID}:${PGADMIN_GID} /var/log/pgadmin &&
+        /entrypoint.sh" # Executa o entrypoint original da imagem do pgAdmin

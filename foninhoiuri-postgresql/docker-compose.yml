@@ -12,8 +12,8 @@ services:
     # Portas: Geralmente não precisamos expor a porta do Postgres para o host no Umbrel,
     # pois outros apps se conectarão a ele via rede interna do Docker (usando 'postgres:5432').
     # Se você *precisar* de acesso externo (ex: pgAdmin rodando no seu PC), descomente:
-    # ports:
-    #   - "5432:5432"
+    ports:
+      - "5432:5432"
     volumes:
       - ${APP_DATA_DIR}/data:/var/lib/postgresql/data # Volume persistente para os dados do PostgreSQL
     healthcheck: # Garante que o serviço PostgreSQL esteja realmente pronto e funcional

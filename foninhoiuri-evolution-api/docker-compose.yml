@@ -5,34 +5,42 @@ services:
     restart: unless-stopped
     environment:
       # Variáveis de autenticação
-      - AUTHENTICATION_ENABLED=${AUTHENTICATION_ENABLED}
-      - AUTHENTICATION_API_KEY=${AUTHENTICATION_API_KEY} # Mantenha esta chave secreta!
-      - CONFIG_SESSION_PHONE_VERSION=${CONFIG_SESSION_PHONE_VERSION}
-      
-      # Configurações do Redis (AGORA CONECTA AO APP EXTERNO 'foninhoiuri-redis')
-      - CACHE_REDIS_ENABLED=${CACHE_REDIS_ENABLED}
-      - CACHE_REDIS_URI=${CACHE_REDIS_URI} 
-      - CACHE_REDIS_HOST=${CACHE_REDIS_HOST}
-      - CACHE_REDIS_PORT=${CACHE_REDIS_PORT}
-      - CACHE_REDIS_URL=${CACHE_REDIS_URL}
-      - CACHE_REDIS_PREFIX_KEY=${CACHE_REDIS_PREFIX_KEY}
-      - CACHE_REDIS_TTL=${CACHE_REDIS_TTL}
-      - CACHE_REDIS_SAVE_INSTANCES=${CACHE_REDIS_SAVE_INSTANCES}
-      - CACHE_DRIVER=${CACHE_DRIVER}
+      - AUTHENTICATION_ENABLED=true
+      # Para gerar uma AUTHENTICATION_API_KEY segura:
+      # 1. Acesse o site: https://strpwdgen.pages.dev/
+      # 2. Desative a caixa "Include Special Symbols" (para evitar caracteres que possam causar problemas em alguns ambientes).
+      # 3. Aumente o "Length" para 32 (para garantir uma chave longa e robusta).
+      # 4. Clique em "Regenerate" para gerar uma nova chave.
+      # 5. Clique em "Copy to clipboard" para copiar a chave gerada.
+      # 6. Cole a chave copiada abaixo, substituindo "sua_chave_secreta_aqui".
+      - AUTHENTICATION_API_KEY="sua_chave_secreta_aqui" # MUDE ESTA CHAVE!
+      - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143 # versao do whatsapp , vai no web configuraçoes > ajuda > versao
 
-      # Configurações do Banco de Dados (AGORA CONECTA AO APP EXTERNO 'foninhoiuri-postgresql')
-      - DATABASE_ENABLED=${DATABASE_ENABLED}
-      - DATABASE_PROVIDER=${DATABASE_PROVIDER}
-      - DATABASE_SAVE_DATA_INSTANCE=${DATABASE_SAVE_DATA_INSTANCE}
-      - DATABASE_CONNECTION_URI=${DATABASE_CONNECTION_URI} # Ex: postgresql://user:password@host:port/database
-      
+      # Configurações do Redis (garanta que o serviço 'redis' esteja disponível)
+      - CACHE_REDIS_ENABLED=true
+      - CACHE_REDIS_URI=redis://redis:6379 # Já é referenciado pelo serviço 'redis' no docker-compose
+      - CACHE_REDIS_HOST=redis
+      - CACHE_REDIS_PORT=6379
+      - CACHE_REDIS_URL=redis://redis:6379/0
+      - CACHE_REDIS_PREFIX_KEY=evolution
+      - CACHE_REDIS_TTL=604800
+      - CACHE_REDIS_SAVE_INSTANCES=true
+      - CACHE_DRIVER=redis
+
+      # Configurações do Banco de Dados (garanta que o serviço 'postgres' esteja disponível)
+      - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_SAVE_DATA_INSTANCE=true
+      # Formato: postgresql://<user>:<password>@<host>:<port>/<database>
+      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/evolutionapi # MUDE ISSO!
+
       # Configurações de Log
-      - LOG_LEVEL=${LOG_LEVEL}
-      - LOG_COLOR=${LOG_COLOR}
-      - LOG_BAILEYS=${LOG_BAILEYS}
-      - SERVER_URL=${DEVICE_DOMAIN_NAME} # Variável fornecida pelo Umbrel
-      - TZ=${TZ} # Fuso horário
-
+      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET,REDIS,BAILEYS
+      - LOG_COLOR=true
+      - LOG_BAILEYS=trace
+      # SERVER_URL (DEVICE_DOMAIN_NAME) é injetado pelo Umbrel OS, não precisa ser exportado aqui
+      - TZ=America/Sao_Paulo # Fuso horário, ajuste se necessário
+      
     ports:
       - "3707:3707" # Mapeia a porta da Evolution API para acesso externo
     volumes:

@@ -1,6 +1,6 @@
 manifestVersion: 1.1 # Mantendo a versão do manifesto atualizada
 id: foninhoiuri-redis-insight # <--- SEU ID único para este pacote
-name: RedisInsight
+name: Redis Insight
 tagline: Ferramenta gráfica para visualizar, analisar e otimizar dados Redis.
 icon: https://i.imgur.com/Gi6mxJ2.png
 category: database # Categoria para ferramentas de banco de dados

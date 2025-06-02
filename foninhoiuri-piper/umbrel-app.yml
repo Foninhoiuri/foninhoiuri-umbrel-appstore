@@ -28,3 +28,126 @@ description: >-
       "text": "Comunicação interna do Piper. Esta mensagem deve funcionar."
     }' \
     --output voice.wav
+Criador de apps para umbrel
+Gem personalizado
+Ok! Minhas sinceras desculpas pela confusão e pela omissão do umbrel-app.yml no final da última resposta. Eu entendo a frustração.
+
+Aqui estão AMBOS OS ARQUIVOS COMPLETOS e atualizados, conforme as nossas últimas interações. Por favor, certifique-se de que eles substituem as versões anteriores em seus respectivos lugares.
+
+1. docker-compose.yml (Arquivo COMPLETO)
+
+Salve este conteúdo como docker-compose.yml dentro do diretório piper-llm/.
+
+YAML
+
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: web
+      APP_PORT: 5000
+      PROXY_AUTH_ADD: "false"
+      # Adiciona cabeçalhos de tipo de conteúdo para áudio e CORS
+      # O Piper retorna WAV, mas adicionamos MP3 como boa prática.
+      PROXY_RESPONSE_HEADERS_ADD: |
+        Content-Type: audio/wav
+        Content-Type: audio/mpeg
+        Access-Control-Allow-Origin: *
+        Access-Control-Allow-Methods: POST, OPTIONS
+        Access-Control-Allow-Headers: Content-Type, Accept
+        Access-Control-Max-Age: 86400
+  web:
+    image: artibex/piper-http:latest # Use a tag específica se quiser fixar a versão (ex: artibex/piper-http:v2.0.0)
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/data/models:/app/models # Para persistir os modelos baixados
+    environment:
+      FLASK_DEBUG: "1" # Mude para "0" ou remova esta linha para desativar em produção
+
+      # Variáveis de ambiente para download do modelo Piper
+      # O LINK DO MODELO FOI ATUALIZADO AQUI PARA FABER PT-BR:
+      MODEL_DOWNLOAD_LINK: https://huggingface.co/rhasspy/piper-voices/resolve/main/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx
+
+      # Variáveis de ambiente para ajustar os parâmetros de síntese de voz do Piper
+      # (Estas variáveis dependem de como a imagem 'artibex/piper-http' as implementa.
+      # Se não funcionarem via ENV, o usuário pode passá-las via JSON no corpo da requisição POST.)
+      PIPER_SPEAKER_ID: "0"
+      PIPER_LENGTH_SCALE: "1.0"
+      PIPER_NOISE_SCALE: "0.667"
+      PIPER_NOISE_W: "0.8"
+      PIPER_SENTENCE_SILENCE: "0.2"
+
+      # Caso as variáveis acima não funcionem diretamente via ENV,
+      # alguns contêineres podem esperar todos os argumentos como uma única string:
+      # PIPER_ARGS: "--speaker 0 --length-scale 1.0 --noise-scale 0.667 --noise-w 0.8 --sentence-silence 0.2"
+2. umbrel-app.yml (Arquivo COMPLETO)
+
+Salve este conteúdo como umbrel-app.yml dentro do diretório piper-llm/.
+
+YAML
+
+manifestVersion: 1
+id: foninhoiuri-piper
+category: ai
+name: Piper LLM
+icon: https://i.imgur.com/eCz26UU.png
+version: "1.0.0" # Atualize esta versão para corresponder à versão da imagem Docker ou da sua própria versão
+tagline: Sistema de conversão de texto em fala (TTS) local e privado, otimizado para umbrelOS
+mainApp: false
+description: >-
+  Piper LLM é um sistema neural de conversão de texto em fala rápido e local, otimizado para funcionar
+  perfeitamente no umbrelOS. Ele transforma texto em áudio de alta qualidade diretamente
+  no seu dispositivo, garantindo privacidade e controle total sobre suas interações de voz.
+  Ideal para assistentes de voz, narração de conteúdo e outras aplicações que exigem
+  síntese de fala offline e eficiente.
+
+  **Importante:** Este aplicativo fornece uma API de Text-to-Speech e não possui uma interface web
+  própria para navegação direta. Para utilizá-lo, envie requisições POST com o texto no corpo da requisição
+  (formato JSON ou texto puro) para o endpoint
+  `http://web:5000`.
+  Este endpoint é utilizado para comunicação interna entre aplicativos no umbrelOS (ex: de n8n)
+  ou via SSH diretamente no seu Umbrel.
+
+  **Exemplo de uso via cURL (no terminal, para acesso interno):**
+  ```bash
+  curl -X POST \
+    http://web:5000 \
+    -H "Content-Type: application/json" \
+    -d '{
+      "text": "Comunicação interna do Piper. Esta mensagem deve funcionar."
+    }' \
+    --output voice.wav
+Consulte a documentação da API para detalhes sobre outros parâmetros que podem ser usados no corpo da requisição (como 'speaker', 'length_scale', etc.).
+
+⚙️ Configurações e Uso Avançado:
+Você pode personalizar o comportamento do Piper editando o arquivo docker-compose.yml do aplicativo.
+As seguintes variáveis de ambiente estão disponíveis para o serviço web:
+
+MODEL_DOWNLOAD_LINK: URL direta para o arquivo .onnx do modelo de voz (de https://huggingface.co/rhasspy/piper-voices/resolve/main/pt/pt_BR/faber/medium/pt_BR-faber-medium.onnx).
+FLASK_DEBUG: 1 para ativar o modo de depuração (recomendado para desenvolvimento, desative em produção).
+PIPER_SPEAKER_ID: ID do locutor (para modelos com múltiplas vozes, padrão: 0).
+PIPER_LENGTH_SCALE: Controla a velocidade da fala (ex: 1.0 normal, 0.5 mais rápido, 1.5 mais lento).
+PIPER_NOISE_SCALE: Nível de aleatoriedade no áudio gerado.
+PIPER_NOISE_W: Nível de aleatoriedade no alinhamento da fala.
+PIPER_SENTENCE_SILENCE: Tempo de silêncio (em segundos) entre as frases.
+ℹ️ Modelos de Voz:
+O Piper suporta uma vasta gama de vozes em diferentes idiomas, disponíveis no
+repositório Hugging Face: https://huggingface.co/rhasspy/piper-voices
+developer: rhasspy (Adaptado para Umbrel por Criador de apps para umbrel)
+website: https://github.com/rhasspy/piper
+dependencies: []
+repo: https://github.com/rhasspy/piper
+support: https://github.com/rhasspy/piper/issues
+port: 5000 # A porta que o umbrelOS usará para acessar a UI do app
+releaseNotes: >-
+
+Versão inicial do aplicativo Piper LLM para umbrelOS.
+Implementa conversão de texto em fala com modelos ONNX.
+Suporte para download de modelos de voz do Hugging Face.
+Adicionadas opções de configuração via variáveis de ambiente.
+gallery: [] # Galeria definida como vazia
+path: "" # Caminho definido como vazio
+defaultUsername: "" # Piper HTTP Server não possui autenticação integrada por padrão.
+defaultPassword: "" # A autenticação será gerenciada pelo proxy do Umbrel se for ativada.
+

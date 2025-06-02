@@ -5,6 +5,7 @@ name: Piper LLM
 icon: https://i.imgur.com/eCz26UU.png
 version: "1.0.0" # Atualize esta versão para corresponder à versão da imagem Docker ou da sua própria versão
 tagline: Sistema de conversão de texto em fala (TTS) local e privado, otimizado para umbrelOS
+mainApp: false
 description: >-
   Piper LLM é um sistema neural de conversão de texto em fala rápido e local, otimizado para funcionar
   perfeitamente no umbrelOS. Ele transforma texto em áudio de alta qualidade diretamente
@@ -12,17 +13,20 @@ description: >-
   Ideal para assistentes de voz, narração de conteúdo e outras aplicações que exigem
   síntese de fala offline e eficiente.
 
-  ⚙️ **Como Usar:**
-  Acesse a interface web do Piper através da porta configurada. Você pode interagir com a API HTTP
-  para enviar texto e receber áudio. Modelos de voz adicionais podem ser configurados
-  para download persistente através do volume de dados do aplicativo.
+  **Importante:** Este aplicativo fornece uma API de Text-to-Speech e não possui uma interface web
+  própria para navegação direta. Para utilizá-lo, envie requisições POST para o endpoint
+  `/api/tts` (ex: `http://foninhoiuri-piper.umbrel.local/api/tts`) com o texto no corpo da requisição
+  (formato JSON ou texto puro).
 
-  ℹ️ **Modelos de Voz:**
-  O Piper suporta uma vasta gama de vozes em diferentes idiomas, disponíveis no
-  repositório Hugging Face: https://huggingface.co/rhasspy/piper-voices
-
-  Você pode alterar o modelo padrão editando o arquivo `docker-compose.yml` e
-  fornecendo o `MODEL_DOWNLOAD_LINK` para o modelo desejado.
+  **Exemplo de uso via cURL (no terminal):**
+  ```bash
+  curl -X POST \
+    [http://foninhoiuri-piper.umbrel.local/api/tts](http://foninhoiuri-piper.umbrel.local/api/tts) \
+    -H "Content-Type: application/json" \
+    -d '{
+      "text": "Olá, este é um teste de voz do Piper rodando no umbrelOS."
+    }' \
+    --output audio_output.wav
 developer: rhasspy (Adaptado para Umbrel por Criador de apps para umbrel)
 website: https://github.com/rhasspy/piper
 dependencies: []

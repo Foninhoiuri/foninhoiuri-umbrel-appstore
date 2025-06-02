@@ -29,11 +29,11 @@ services:
       # Variáveis de ambiente para ajustar os parâmetros de síntese de voz do Piper
       # (Estas variáveis dependem de como a imagem 'artibex/piper-http' as implementa.
       # Se não funcionarem via ENV, o usuário pode passá-las via JSON no corpo da requisição POST.)
-      PIPER_SPEAKER_ID: "0"
-      PIPER_LENGTH_SCALE: "1.0"
-      PIPER_NOISE_SCALE: "0.667"
-      PIPER_NOISE_W: "0.8"
-      PIPER_SENTENCE_SILENCE: "0.2"
+      #PIPER_SPEAKER_ID: "0"
+      #PIPER_LENGTH_SCALE: "1.0"
+      #PIPER_NOISE_SCALE: "0.667"
+      #PIPER_NOISE_W: "0.8"
+      #PIPER_SENTENCE_SILENCE: "0.2"
 
       # Caso as variáveis acima não funcionem diretamente via ENV,
       # alguns contêineres podem esperar todos os argumentos como uma única string:

@@ -15,7 +15,7 @@ description: >-
 
   **Importante:** Este aplicativo fornece uma API de Text-to-Speech e não possui uma interface web
   própria para navegação direta. Para utilizá-lo, envie requisições POST para o endpoint
-  `/api/tts` (ex: `http://foninhoiuri-piper.umbrel.local/api/tts`) com o texto no corpo da requisição
+ web:5000 com o texto no corpo da requisição
   (formato JSON ou texto puro).
 
   **Exemplo de uso via cURL (no terminal):**

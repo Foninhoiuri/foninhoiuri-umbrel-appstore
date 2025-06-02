@@ -21,12 +21,12 @@ description: >-
   **Exemplo de uso via cURL (no terminal):**
   ```bash
   curl -X POST \
-    [http://foninhoiuri-piper.umbrel.local/api/tts](http://foninhoiuri-piper.umbrel.local/api/tts) \
-    -H "Content-Type: application/json" \
-    -d '{
-      "text": "Olá, este é um teste de voz do Piper rodando no umbrelOS."
-    }' \
-    --output audio_output.wav
+  http://web:5000 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Comunicação interna do Piper. Esta mensagem deve funcionar."
+  }' \
+  --output voice.wav
 developer: rhasspy (Adaptado para Umbrel por Criador de apps para umbrel)
 website: https://github.com/rhasspy/piper
 dependencies: []

@@ -2,10 +2,9 @@ manifestVersion: 1.1
 id: foninhoiuri-marytts
 name: MARY TTS
 tagline: Síntese de fala (Text-to-Speech) local, fácil de usar via API.
-icon: >-
-  data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMjg4IDM1Mi4wMTNjNTYuNDctOTkuNjM5IDEyMS41OS0xNzEuNDY2IDE5Mi0yNTZhMjkuOTY4IDI5Ljk2OCAwIDAgMC00MS45OTYtNDEuOTk2Yy03Ny45MSAxMDEuNzk0LTE0Mi43NCAxNzEuNjg4LTIwOCAzNzMuNzM4LTYuMiAxOC44MDMtMTguMjIyIDM1Ljg0NS0zNi40NTUgNDUuOTg0LTYuNjM1IDMuNjA3LTIxLjk4MiA5LjI2MS0zMi41NDUgOS4yNjEtMy42MjQgMC0xNi41NzEtMi4xOTgtMTkuNDY0LTQuNjYzLTMxLjgzNS0yNi40MDYtNDIuMzIzLTYxLjMzMy0zNy4wNi05OS40MjQgMTIuOTQzLTkuOTIzIDI4LjM3OC0xNy43MzUgNDYuNTYzLTI3LjQ0IDE2LTAuNDk1IDQxLjc0MS0xMC41NzYgNTYuNjQ5LTIyLjkyNWMzMC44NzMtMjUuMTUgNjQtNTUuOTU1IDY0LTg4LjA4NCAwLTQ0LjEyNS00NS45NTItNzguMDM3LTc0Ljg3Mi05MC43NjYtMTYuNzktNy4zMDUtMzMuNDYtMTMuNjM3LTQ5LjEzOC0xOS44ODItMjYuMTU5LTEwLjE2NS01My4xNjctMjAuNjQ3LTc5Ljg0OC0yNC42MTMtMTAuMDk1LTEuNTA2LTI1LjA2My01Ljg4NC0zMy4xNjMtNy4wMTEtNS42MjgtMC43ODYtMTEuNzA4LTIuMjQyLTE1LjI0My0zLjk1Ny0xNC40OTMtNi43NjEtMTcuMjgtMjUuMzIyLTE0LjE5Mi0zMS4yMjcgMi40NTgtNC42NzYgMTIuMjk3LTQuNjc2IDE0LjEyOC00LjY3NiA2Ljc5MiAwIDQ1LjQ2MSAzLjI4MyA3MC40MDggNi44MTUgMzIuODUzIDQuNjUgNzEuNDg4IDguOTkyIDExMi4zOTcgMTYuNDQzIDE3Ljk0NSAzLjMxIDI4LjIzNyAzLjYzNSAzMi4wMzIgNC4wNzEgNDMuNjI4IDQuOTgxIDg2Ljg3MSAxMi45MDYgMTIwLjgyOCAyMS4wMzIgMjMuODg4IDUuNTcgNDcuMTgzIDEyLjE2MSA3NS41NDEgMjEuOTk0IDQ0LjYzNSA0My42MTEgNTguOTEyIDU0LjUzMSA2Mi44NzkgNjAuOTY2LTI4LjA1NSA2OC44MDUtNzMuMDQ5IDE1Ny4yODYtMTYwLjgwOSAzMDIuNTc3LTIuNTI3IDYuNjQ5LTUuNjQ2IDcuNjYxLTExLjYyNyAxMy45NzItNC41MzggMy43MDctMTEuOTc4IDQuMDktMTMuOTg5IDQuMDktMi45ODkgMC02LjE4OS0uODE4LTMwLjIyLTcuNDg1LTI0LjA5My02LjUyNy0zMS4yODEtMTAuNDg0LTM3LjAxNy0xMy41MTh6Ii8+PC9zdmc+
-category: automação
-version: "5.2" # Versão do pacote ou do app empacotado (ajuste conforme o MARY TTS)
+icon: https://i.imgur.com/kCIBUuU.png
+category: ai
+version: "5.2.1" # Versão do pacote ou do app empacotado (ajuste conforme o MARY TTS)
 description: >-
   MARY TTS é um sistema de síntese de fala de código aberto que oferece uma API
   local para conversão de texto em áudio. Ideal para aplicações que exigem TTS rápido,
@@ -20,12 +19,9 @@ repo: https://github.com/marytts/marytts
 support: https://github.com/marytts/marytts/issues
 submitter: Foninho
 submission: https://github.com/foninhoiuri/umbrel-app-marytts
-
-gallery:
-  - https://mary.opendigitalradio.org/images/marytts-screenshot.png
-
+gallery: []
 port: 59125
-path: "/"
+path: ""
 defaultUsername: ""
 defaultPassword: ""
 dependencies: []

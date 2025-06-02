@@ -15,29 +15,16 @@ description: >-
 
   **Importante:** Este aplicativo fornece uma API de Text-to-Speech e não possui uma interface web
   própria para navegação direta. Para utilizá-lo, envie requisições POST para o endpoint
- web:5000 com o texto no corpo da requisição
-  (formato JSON ou texto puro).
+  `http://web:5000` com o texto no corpo da requisição (formato JSON ou texto puro).
+  Este endpoint é utilizado para comunicação interna entre aplicativos no umbrelOS (ex: de n8n)
+  ou via SSH diretamente no seu Umbrel.
 
-  **Exemplo de uso via cURL (no terminal):**
+  **Exemplo de uso via cURL (no terminal, para acesso interno):**
   ```bash
   curl -X POST \
-  http://web:5000 \
-  -H "Content-Type: application/json" \
-  -d '{
-    "text": "Comunicação interna do Piper. Esta mensagem deve funcionar."
-  }' \
-  --output voice.wav
-developer: rhasspy (Adaptado para Umbrel por Criador de apps para umbrel)
-website: https://github.com/rhasspy/piper
-dependencies: []
-repo: https://github.com/rhasspy/piper
-support: https://github.com/rhasspy/piper/issues
-port: 5000 # A porta que o umbrelOS usará para acessar a UI do app
-gallery: [] # Adicione imagens da galeria do seu aplicativo aqui (ex: 1.jpg, 2.jpg)
-path: "" # A URL base para acessar a interface web do aplicativo
-defaultUsername: "" # Piper HTTP Server não possui autenticação integrada por padrão.
-defaultPassword: "" # A autenticação será gerenciada pelo proxy do Umbrel se for ativada.
-releaseNotes: >-
-  - Versão inicial do aplicativo Piper LLM para umbrelOS.
-  - Implementa conversão de texto em fala com modelos ONNX.
-  - Suporte para download de modelos de voz do Hugging Face.
+    http://web:5000 \
+    -H "Content-Type: application/json" \
+    -d '{
+      "text": "Comunicação interna do Piper. Esta mensagem deve funcionar."
+    }' \
+    --output voice.wav

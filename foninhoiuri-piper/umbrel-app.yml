@@ -1,0 +1,39 @@
+manifestVersion: 1
+id: foninhoiuri-piper
+category: ai
+name: Piper LLM
+icon: https://i.imgur.com/eCz26UU.png
+version: "1.0.0" # Atualize esta versão para corresponder à versão da imagem Docker ou da sua própria versão
+tagline: Sistema de conversão de texto em fala (TTS) local e privado, otimizado para umbrelOS
+description: >-
+  Piper LLM é um sistema neural de conversão de texto em fala rápido e local, otimizado para funcionar
+  perfeitamente no umbrelOS. Ele transforma texto em áudio de alta qualidade diretamente
+  no seu dispositivo, garantindo privacidade e controle total sobre suas interações de voz.
+  Ideal para assistentes de voz, narração de conteúdo e outras aplicações que exigem
+  síntese de fala offline e eficiente.
+
+  ⚙️ **Como Usar:**
+  Acesse a interface web do Piper através da porta configurada. Você pode interagir com a API HTTP
+  para enviar texto e receber áudio. Modelos de voz adicionais podem ser configurados
+  para download persistente através do volume de dados do aplicativo.
+
+  ℹ️ **Modelos de Voz:**
+  O Piper suporta uma vasta gama de vozes em diferentes idiomas, disponíveis no
+  repositório Hugging Face: https://huggingface.co/rhasspy/piper-voices
+
+  Você pode alterar o modelo padrão editando o arquivo `docker-compose.yml` e
+  fornecendo o `MODEL_DOWNLOAD_LINK` para o modelo desejado.
+developer: rhasspy (Adaptado para Umbrel por Criador de apps para umbrel)
+website: https://github.com/rhasspy/piper
+dependencies: []
+repo: https://github.com/rhasspy/piper
+support: https://github.com/rhasspy/piper/issues
+port: 5000 # A porta que o umbrelOS usará para acessar a UI do app
+gallery: [] # Adicione imagens da galeria do seu aplicativo aqui (ex: 1.jpg, 2.jpg)
+path: "" # A URL base para acessar a interface web do aplicativo
+defaultUsername: "" # Piper HTTP Server não possui autenticação integrada por padrão.
+defaultPassword: "" # A autenticação será gerenciada pelo proxy do Umbrel se for ativada.
+releaseNotes: >-
+  - Versão inicial do aplicativo Piper LLM para umbrelOS.
+  - Implementa conversão de texto em fala com modelos ONNX.
+  - Suporte para download de modelos de voz do Hugging Face.

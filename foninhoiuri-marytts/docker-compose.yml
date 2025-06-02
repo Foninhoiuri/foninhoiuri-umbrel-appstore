@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   marytts:
-    image: marytts/marytts:latest # Usará a imagem pré-existente no Docker Hub ou registry configurado
+    image: marytts:latest # Usará a imagem pré-existente no Docker Hub ou registry configurado
     container_name: marytts
     ports:
       - "59125:59125" # Mapeia a porta do contêiner para a porta do host

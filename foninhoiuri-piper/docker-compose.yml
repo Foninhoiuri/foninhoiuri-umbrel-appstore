@@ -14,6 +14,7 @@ services:
       - ${APP_DATA_DIR}/data/models:/app/models # Para persistir os modelos baixados
     # REMOVIDO: A linha 'ports: - "5000:5000"' foi removida para evitar conflito de portas
     environment:
+      FLASK_DEBUG: "1"
       # Exemplo de download de um modelo específico do Hugging Face.
       # Você pode alterar esta URL para o modelo que desejar.
       # Consulte https://huggingface.co/rhasspy/piper-voices/tree/v1.0.0

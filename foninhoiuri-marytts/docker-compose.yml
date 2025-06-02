@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  marytts:
+    image: marytts/marytts:latest # Usará a imagem pré-existente no Docker Hub ou registry configurado
+    container_name: marytts
+    ports:
+      - "59125:59125" # Mapeia a porta do contêiner para a porta do host
+    restart: unless-stopped
+    volumes:
+      # Exemplo de volume para persistir dados, se o MARY TTS usar.
+      # Você pode precisar criar uma pasta 'data' no diretório raiz do seu app umbrel.
+     - ${APP_DATA_DIR}/data:/app/data

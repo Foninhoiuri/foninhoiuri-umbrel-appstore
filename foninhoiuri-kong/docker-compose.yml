@@ -3,33 +3,50 @@ version: '3.8'
 
 services:
   # O serviço 'kong-database' foi removido, pois o Kong usará um PostgreSQL existente.
+  # O nome do serviço do seu PostgreSQL existente no Umbrel é 'postgresql' (confirmado por 'docker ps -a').
 
-  # Serviço para executar as migrações do Kong.
-  # Todas as configurações de DB são passadas diretamente no comando para garantir que sejam lidas.
-  kong-migrations:
-    image: kong:latest
+  # Serviço auxiliar para garantir que o banco de dados 'kong' exista no PostgreSQL externo
+  db-setup:
+    image: postgres:latest # Usamos uma imagem postgres para ter o cliente psql
     command: >
       sh -c "
-        sleep 10;
-        # Tenta criar o banco de dados 'kong' se ele não existir, usando credenciais e host diretos
-        PGPASSWORD=postgres psql -h foninhoiuri-postgresql -U postgres -d postgres -tc 'SELECT 1 FROM pg_database WHERE datname = ''kong''' | grep -q 1 || PGPASSWORD=postgres psql -h foninhoiuri-postgresql -U postgres -d postgres -c 'CREATE DATABASE kong ENCODING UTF8 LC_COLLATE ''C'' LC_CTYPE ''C'' TEMPLATE template0;';
-        
-        # Executa as migrações do Kong, passando as variáveis de ambiente diretamente para o comando 'kong'
-        KONG_DATABASE=postgres KONG_PG_HOST=foninhoiuri-postgresql KONG_PG_USER=postgres KONG_PG_PASSWORD=postgres KONG_PG_DATABASE=kong kong migrations bootstrap;
+        echo 'Aguardando o PostgreSQL estar saudável para criar o banco de dados...';
+        sleep 10; # Dá um tempo extra para o PostgreSQL estar totalmente pronto
+        PGPASSWORD=postgres psql -h postgresql -U postgres -d postgres -tc 'SELECT 1 FROM pg_database WHERE datname = ''kong''' | grep -q 1 && echo 'Banco de dados kong já existe.' || PGPASSWORD=postgres psql -h postgresql -U postgres -d postgres -c 'CREATE DATABASE kong ENCODING UTF8 LC_COLLATE ''C'' LC_CTYPE ''C'' TEMPLATE template0;';
+        echo 'Verificação/Criação do banco de dados kong concluída.';
       "
-    # O bloco 'environment' foi removido deste serviço para contornar o problema de parsing.
-    restart: "no" # Garante que este serviço roda apenas uma vez com sucesso
+    depends_on:
+      postgresql: # Depende do serviço PostgreSQL existente no Umbrel (nome real do contêiner)
+        condition: service_healthy # Garante que o PostgreSQL esteja saudável
+    restart: "no" # Roda apenas uma vez com sucesso e depois sai
+
+  # Serviço para executar as migrações do Kong
+  kong-migrations:
+    image: kong:latest
+    # Agora só roda as migrações do Kong, o DB já deve ter sido criado pelo db-setup
+    command: >
+      sh -c "
+        echo 'Iniciando as migrações do Kong...';
+        KONG_DATABASE=postgres KONG_PG_HOST=postgresql KONG_PG_USER=postgres KONG_PG_PASSWORD=postgres KONG_PG_DATABASE=kong kong migrations bootstrap;
+      "
+    depends_on:
+      postgresql: # Ainda depende do PostgreSQL para a conectividade
+        condition: service_healthy
+      db-setup: # Depende que o banco de dados 'kong' tenha sido criado
+        condition: service_completed_successfully # Garante que o db-setup terminou com sucesso
+    restart: "no"
 
   kong:
     image: kong:latest
     restart: unless-stopped
     depends_on:
+      postgresql: # O Kong também depende do PostgreSQL
+        condition: service_healthy
       kong-migrations: # O Kong principal só inicia após as migrações terem sido concluídas
         condition: service_completed_successfully
     environment:
-      # Variáveis de ambiente para o serviço Kong principal (este bloco é necessário para o Kong)
       KONG_DATABASE: postgres
-      KONG_PG_HOST: foninhoiuri-postgresql
+      KONG_PG_HOST: postgresql # Ajustado para o nome real do serviço PostgreSQL
       KONG_PG_USER: postgres
       KONG_PG_PASSWORD: postgres
       KONG_PG_DATABASE: kong
@@ -40,10 +57,10 @@ services:
       KONG_ADMIN_LISTEN: 0.0.0.0:8001,0.0.0.0:8444 ssl
       KONG_PROXY_LISTEN: 0.0.0.0:8000,0.0.0.0:8443 ssl
     ports:
-      - "8000:8000/tcp" # Porta do proxy HTTP
-      - "8443:8443/tcp" # Porta do proxy HTTPS
-      - "8001:8001/tcp" # Porta da API Admin HTTP
-      - "8444:8444/tcp" # Porta da API Admin HTTPS
+      - "8000:8000/tcp"
+      - "8443:8443/tcp"
+      - "8001:8001/tcp"
+      - "8444:8444/tcp"
     healthcheck:
       test: ["CMD", "kong", "health"]
       interval: 5s

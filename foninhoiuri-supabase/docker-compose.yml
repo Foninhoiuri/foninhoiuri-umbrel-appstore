@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   auth:
-    image: supabase/gotrue:v2.128.0
+    image: supabase/gotrue:latest
     restart: unless-stopped
     environment:
       # Conecta ao PostgreSQL externo
@@ -13,7 +13,7 @@ services:
     # Não há mais dependência direta de 'db' aqui, mas sim do serviço externo
 
   storage:
-    image: supabase/storage:v0.44.1
+    image: supabase/storage:latest
     restart: unless-stopped
     environment:
       # Conecta ao PostgreSQL externo
@@ -27,7 +27,7 @@ services:
     # Não há mais dependência direta de 'db' aqui
 
   rest:
-    image: supabase/postgrest:v12.0.0
+    image: supabase/postgrest:latest
     restart: unless-stopped
     environment:
       # Conecta ao PostgreSQL externo
@@ -38,7 +38,7 @@ services:
     # Não há mais dependência direta de 'db' aqui
 
   realtime: # Mantemos o serviço realtime e o configuramos para usar o Redis externo
-    image: supabase/realtime:v2.16.1
+    image: supabase/realtime:latest
     restart: unless-stopped
     environment:
       DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default # Conecta ao PostgreSQL externo

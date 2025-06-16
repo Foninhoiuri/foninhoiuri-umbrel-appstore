@@ -4,7 +4,7 @@ id: foninhoiuri-kong_postgresql
 name: Kong API Gateway + PostgreSQL
 tagline: Um API Gateway de código aberto e gerenciamento de microsserviços.
 icon: https://i.imgur.com/u3MIVVk.png
-category: combo
+category: Combo
 version: "1.0.0"
 description: >-
   Kong é um API Gateway e plataforma de gerenciamento de microsserviços de código aberto

@@ -9,9 +9,9 @@ services:
     environment:
       # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
       # Assumimos que o serviço PostgreSQL dentro de foninhoiuri-kong_postrgresql é acessível na porta 5432
-      DB_URL: postgresql://default:default@foninhoiuri-kong_postrgresql:5432/default
+      DB_URL: postgresql://default:default@postrgres:5432/supabase
       JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
-      SITE_URL: http://foninhoiuri-kong_postrgresql:8000/auth/v1 # Aponta para o Kong Gateway existente
+      SITE_URL: http://${DEVICE_DOMAIN_NAME}:8000/auth/v1 # Aponta para o Kong Gateway existente
       DISABLE_SIGNUP: "false"
 
   storage:
@@ -19,7 +19,7 @@ services:
     restart: unless-stopped
     environment:
       # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
-      DB_URL: postgresql://default:default@foninhoiuri-kong_postrgresql:5432/default
+      DB_URL: postgresql://default:default@postrgres:5432/supabase
       JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
       STORAGE_BACKEND: s3
       GLOBAL_S3_BUCKET: your-supabase-bucket
@@ -34,7 +34,7 @@ services:
     restart: unless-stopped
     environment:
       # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
-      PGRST_DB_URI: postgresql://default:default@foninhoiuri-kong_postrgresql:5432/default
+      PGRST_DB_URI: postgresql://default:default@postrgres:5432/supabase
       PGRST_JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
       PGRST_DB_SCHEMA: public,storage,auth,extensions
       PGRST_DB_ANON_ROLE: anon
@@ -44,16 +44,16 @@ services:
     restart: unless-stopped
     environment:
       # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
-      DB_URL: postgresql://default:default@foninhoiuri-kong_postrgresql:5432/default
+      DB_URL: postgresql://default:default@postrgres:5432/supabase
       JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
-      REDIS_URL: redis://foninhoiuri-redis:6379 # O Redis continua sendo um app separado
+      REDIS_URL: redis://redis:6379 # O Redis continua sendo um app separado
 
   studio:
     image: supabase/studio:20240605-728b172
     restart: unless-stopped
     environment:
       # Aponta para o Kong Gateway existente
-      SUPABASE_URL: http://foninhoiuri-kong_postrgresql:8000
+      SUPABASE_URL: http://${DEVICE_DOMAIN_NAME}:8000
       SUPABASE_ANON_KEY: ${ANON_KEY} # Será lido do ambiente
       SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY} # Será lido do ambiente
       OPENAI_API_KEY: ${OPENAI_API_KEY:-} # Opcional, será lido do ambiente
@@ -61,4 +61,3 @@ services:
 
 volumes:
   supabase-storage:
-  supabase-functions: # Apenas se você incluir o serviço 'functions'

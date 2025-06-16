@@ -5,9 +5,11 @@ services:
   # O serviço 'kong-database' foi removido, pois o Kong usará um PostgreSQL existente.
   # O serviço 'db-setup' também foi removido conforme sua solicitação.
   #
-  # Lembre-se: O banco de dados 'kong' DEVE ser criado manualmente no seu PostgreSQL existente.
-  # Conecte-se ao seu PostgreSQL (host: postgresql, user: default, password: default) e execute:
-  # CREATE DATABASE kong;
+  # ATENÇÃO MUITO IMPORTANTE:
+  # O banco de dados 'kong' DEVE ser criado manualmente no seu PostgreSQL existente.
+  # Conecte-se ao seu PostgreSQL (host: postgresql, user: default, password: default)
+  # e execute o comando SQL: CREATE DATABASE kong;
+  # Se você não fizer isso, a instalação do Kong FALHARÁ!
 
   # Serviço para executar as migrações do Kong
   kong-migrations:
@@ -16,10 +18,9 @@ services:
       sh -c "
         echo 'Aguardando o PostgreSQL estar saudável para migrações...';
         sleep 10; # Dá um tempo extra para o PostgreSQL estar totalmente pronto
-        # Usando credenciais 'default' e host 'postgresql'
+        # Usando credenciais 'default' e host 'postgresql' (confirmado pelo seu outro app 'api evolution')
         KONG_DATABASE=postgres KONG_PG_HOST=postgresql KONG_PG_USER=default KONG_PG_PASSWORD=default KONG_PG_DATABASE=kong kong migrations bootstrap;
       "
-    # A dependência de 'db-setup' foi removida, pois 'db-setup' também foi removido.
     restart: "no"
 
   kong:
@@ -30,9 +31,9 @@ services:
         condition: service_completed_successfully
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: postgresql # Ajustado para o nome do contêiner PostgreSQL existente
-      KONG_PG_USER: default   # Ajustado para 'default' conforme docker-compose do seu PostgreSQL
-      KONG_PG_PASSWORD: default # Ajustado para 'default' conforme docker-compose do seu PostgreSQL
+      KONG_PG_HOST: postgresql # DEFINITIVO: Nome do contêiner PostgreSQL existente
+      KONG_PG_USER: default   # DEFINITIVO: Usuário 'default'
+      KONG_PG_PASSWORD: default # DEFINITIVO: Senha 'default'
       KONG_PG_DATABASE: kong
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
@@ -50,3 +51,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    volumes:
+      # Volume para dados gerais do aplicativo Kong (não dados do banco de dados)
+      # Isso cria uma pasta 'data/foninhoiuri-kong/app_data' no seu Umbrel para persistir esses dados.
+      - ${APP_DATA_DIR}/data:/usr/local/kong/prefix/

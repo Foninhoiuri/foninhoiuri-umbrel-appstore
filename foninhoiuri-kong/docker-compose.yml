@@ -12,17 +12,15 @@ services:
     environment:
       KONG_DATABASE: postgres
       KONG_PG_HOST: foninhoiuri-postgresql # Host do seu PostgreSQL existente no Umbrel
-      KONG_PG_USER: default             # Usuário padrão do PostgreSQL (ajuste se for diferente)
-      KONG_PG_PASSWORD: default          # Senha padrão do PostgreSQL (ajuste se for diferente)
+      KONG_PG_USER: postgres              # <<-- CORRIGIDO: Deve ser 'postgres'
+      KONG_PG_PASSWORD: postgres          # <<-- CORRIGIDO: Deve ser 'postgres'
       KONG_PG_DATABASE: kong              # Nome do banco de dados para o Kong
-    # Remove a dependência do 'kong-database'
     restart: "no" # Garante que este serviço roda apenas uma vez com sucesso
 
   kong:
     image: kong:latest
     restart: unless-stopped
     depends_on:
-      # Remove a dependência do 'kong-database'
       kong-migrations: # O Kong agora depende do serviço de migrações
         condition: service_completed_successfully # Garante que as migrações terminaram com sucesso
     environment:

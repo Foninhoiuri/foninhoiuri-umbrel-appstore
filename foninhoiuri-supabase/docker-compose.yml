@@ -1,70 +1,51 @@
 version: '3.8'
 
 services:
-  db:
-    image: supabase/postgres:15.1.0.129
-    restart: unless-stopped
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: postgres
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-  realtime:
-    image: supabase/realtime:v2.16.1
-    restart: unless-stopped
-    environment:
-      DB_URL: postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/postgres
-      JWT_SECRET: ${JWT_SECRET}
-    depends_on:
-      db:
-        condition: service_healthy
-
   auth:
     image: supabase/gotrue:v2.128.0
     restart: unless-stopped
     environment:
-      DB_URL: postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/postgres
+      # Conecta ao PostgreSQL externo
+      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default # Substitua 'default:default' pelas credenciais do seu PG
       JWT_SECRET: ${JWT_SECRET}
       SITE_URL: http://localhost:3000 # Será substituído pelo URL do Umbrel
       # Outras variáveis SMTP para e-mail de autenticação, se necessário
-    depends_on:
-      db:
-        condition: service_healthy
+    # Não há mais dependência direta de 'db' aqui, mas sim do serviço externo
 
   storage:
     image: supabase/storage:v0.44.1
     restart: unless-stopped
     environment:
-      DB_URL: postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/postgres
+      # Conecta ao PostgreSQL externo
+      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default # Substitua 'default:default' pelas credenciais do seu PG
       JWT_SECRET: ${JWT_SECRET}
       STORAGE_S3_BUCKET: supa-storage-bucket # Nome do seu bucket de armazenamento
       STORAGE_S3_ENDPOINT: http://minio:9000 # Se usar MinIO ou outro S3 compatível
       STORAGE_S3_REGION: us-east-1
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID} # Se usar AWS S3
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY} # Se usar AWS S3
-    depends_on:
-      db:
-        condition: service_healthy
+    # Não há mais dependência direta de 'db' aqui
 
   rest:
     image: supabase/postgrest:v12.0.0
     restart: unless-stopped
     environment:
-      PGRST_DB_URI: postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/postgres
+      # Conecta ao PostgreSQL externo
+      PGRST_DB_URI: postgresql://default:default@foninhoiuri-postgresql:5432/default # Substitua 'default:default' pelas credenciais do seu PG
       PGRST_JWT_SECRET: ${JWT_SECRET}
       PGRST_DB_SCHEMA: public,storage,auth,extensions
       PGRST_DB_ANON_ROLE: anon
-    depends_on:
-      db:
-        condition: service_healthy
+    # Não há mais dependência direta de 'db' aqui
+
+  realtime: # Mantemos o serviço realtime e o configuramos para usar o Redis externo
+    image: supabase/realtime:v2.16.1
+    restart: unless-stopped
+    environment:
+      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default # Conecta ao PostgreSQL externo
+      JWT_SECRET: ${JWT_SECRET}
+      # Configurações do Redis para o Realtime
+      REDIS_URL: redis://foninhoiuri-redis:6379 # Aponta para o serviço Redis externo
+    # Não há mais dependência direta de 'db' ou 'redis' interno aqui
 
   studio:
     image: supabase/studio:20240605-728b172
@@ -75,15 +56,17 @@ services:
       SUPABASE_URL: http://localhost:8000 # Porta da API Gateway (pode ser ajustada)
       SUPABASE_ANON_KEY: ${ANON_KEY}
       SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
+    # As dependências aqui são lógicas para que o Studio só inicie quando os serviços necessários estiverem UP
     depends_on:
-      db:
-        condition: service_healthy
       auth:
         condition: service_started
       rest:
         condition: service_started
       storage:
         condition: service_started
+      realtime:
+        condition: service_started
 
-volumes:
-  db-data:
+# Não há volumes para 'db-data' pois o banco de dados é externo
+# volumes:
+#   db-data:

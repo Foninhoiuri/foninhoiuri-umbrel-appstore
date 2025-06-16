@@ -32,7 +32,7 @@ services:
       - DATABASE_ENABLED=true
       - DATABASE_PROVIDER=postgresql
       - DATABASE_SAVE_DATA_INSTANCE=true
-      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/default
+      - DATABASE_CONNECTION_URI=postgresql://default:default@postgres:5432/evolutionapi
 
       # Configurações de Log
       - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS,WEBSOCKET,REDIS,BAILEYS

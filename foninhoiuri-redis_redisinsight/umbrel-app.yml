@@ -3,7 +3,7 @@ id: foninhoiuri-redis_redisinsight
 name: Redis + redisinsight
 tagline: Armazenamento em memória de chave-valor
 icon: https://i.imgur.com/YZOX3l9.png
-category: database
+category: Combo
 version: "7.3"
 port: 6379
 description: >-

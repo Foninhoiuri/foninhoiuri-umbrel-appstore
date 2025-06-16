@@ -25,7 +25,7 @@ port: 8080
 dependencies:
   - foninhoiuri-redis      # ID do seu app Redis
   - foninhoiuri-postgresql # ID do seu app PostgreSQL
-path: /
+path: []
 defaultUsername: ""
 defaultPassword: ""
 interfaces:

@@ -4,7 +4,7 @@ services:
   # O serviço Kong foi REMOVIDO daqui, pois você já tem um Kong rodando como app separado.
 
   auth:
-    image: supabase/gotrue:v2.128.0
+    image: supabase/gotrue:v2.176.1
     restart: unless-stopped
     environment:
       # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
@@ -15,7 +15,7 @@ services:
       DISABLE_SIGNUP: "false"
 
   storage:
-    image: supabase/storage:v0.44.1
+    image: supabase/storage-api:latest
     restart: unless-stopped
     environment:
       # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
@@ -29,18 +29,18 @@ services:
     volumes:
       - ${APP_DATA_DIR}/data/supabase-storage:/var/log/supabase/storage
 
-  rest:
-    image: supabase/postgrest:v12.0.0
-    restart: unless-stopped
-    environment:
-      # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
-      PGRST_DB_URI: postgresql://default:default@postrgres:5432/supabase
-      PGRST_JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
-      PGRST_DB_SCHEMA: public,storage,auth,extensions
-      PGRST_DB_ANON_ROLE: anon
+  #rest:
+  #  image: supabase/postgrest:v12.0.0
+  #  restart: unless-stopped
+  #  environment:
+  #    # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
+  #    PGRST_DB_URI: postgresql://default:default@postrgres:5432/supabase
+  #    PGRST_JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
+  #    PGRST_DB_SCHEMA: public,storage,auth,extensions
+  #    PGRST_DB_ANON_ROLE: anon
 
   realtime:
-    image: supabase/realtime:v2.16.1
+    image: supabase/realtime:latest
     restart: unless-stopped
     environment:
       # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
@@ -49,7 +49,7 @@ services:
       REDIS_URL: redis://redis:6379 # O Redis continua sendo um app separado
 
   studio:
-    image: supabase/studio:20240605-728b172
+    image: supabase/studio:latest
     restart: unless-stopped
     environment:
       # Aponta para o Kong Gateway existente

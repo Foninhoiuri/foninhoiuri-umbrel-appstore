@@ -56,3 +56,9 @@ services:
       # Volume para dados gerais do aplicativo Kong (não dados do banco de dados)
       # Isso cria uma pasta 'data/foninhoiuri-kong/app_data' no seu Umbrel para persistir esses dados.
       - ${APP_DATA_DIR}/data:/usr/local/kong/prefix/
+
+app_proxy:
+  - frontend: 8000
+    backend: 8000
+  - frontend: 8443
+    backend: 8443

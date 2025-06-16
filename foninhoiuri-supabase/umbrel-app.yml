@@ -26,5 +26,17 @@ port: 8000
 dependencies:
   - foninhoiuri-redis
   - foninhoiuri-postgresql
+environment: # PREENCHA TODAS ESTAS VARIÁVEIS COM SEUS VALORES REAIS E SEGUROS!
+  POSTGRES_PASSWORD: "sua_senha_do_postgres_do_kong_externo" # Mude esta senha!
+  JWT_SECRET: "sua_jwt_secret_muito_segura_aqui_min_32_caracteres" # Gere um novo!
+  ANON_KEY: "chave_anon_gerada_a_partir_da_jwt_secret" # Gerada a partir da JWT_SECRET
+  SERVICE_ROLE_KEY: "chave_service_role_gerada_a_partir_da_jwt_secret" # Gerada a partir da JWT_SECRET
+  DASHBOARD_USERNAME: "supabase_admin" # Mude este nome de usuário!
+  DASHBOARD_PASSWORD: "senha_do_dashboard_segura" # Mude esta senha!
+  GLOBAL_S3_BUCKET: "your-supabase-bucket" # Mude este nome, se usar S3
+  STORAGE_S3_REGION: "us-east-1" # Mude esta região, se usar S3
+  AWS_ACCESS_KEY_ID: "sua_chave_de_acesso_aws" # Mude esta chave, se usar S3
+  AWS_SECRET_ACCESS_KEY: "seu_segredo_aws" # Mude esta chave, se usar S3
+  OPENAI_API_KEY: "" # Opcional: sua chave OpenAI, se usar AI Assistant
 defaultUsername: ""
 defaultPassword: ""

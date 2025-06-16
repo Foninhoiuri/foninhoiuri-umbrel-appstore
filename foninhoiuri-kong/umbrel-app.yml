@@ -25,7 +25,7 @@ gallery:
   - https://i.imgur.com/ti26NnN.png
 port: 8001
 dependencies:
-  - foninhoiuri-postgresql # A dependência do PostgreSQL agora está aqui, sem duplicidade.
+  - foninhoiuri-postgresql
 defaultUsername: ""
 defaultPassword: ""
 networks:
@@ -46,3 +46,7 @@ interfaces:
     port: 8443
     path: /
     external: true
+
+app_proxy:
+  port: 8000
+  subdomain: kong

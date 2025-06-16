@@ -2,20 +2,7 @@
 version: '3.8'
 
 services:
-  kong-database:
-    image: postgres:13
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: kong
-      POSTGRES_DB: kong
-      POSTGRES_PASSWORD: ${KONG_DB_PASSWORD:-kong} # Você pode definir KONG_DB_PASSWORD no seu .env ou deixar o padrão
-    volumes:
-      - kong_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U kong -d kong"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+  # O serviço 'kong-database' foi removido, pois o Kong usará um PostgreSQL existente.
 
   # Serviço para executar as migrações do Kong com um pequeno atraso
   kong-migrations:
@@ -24,29 +11,26 @@ services:
     command: ["sh", "-c", "sleep 10 && kong migrations bootstrap"]
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: kong-database
-      KONG_PG_USER: kong
-      KONG_PG_PASSWORD: ${KONG_DB_PASSWORD:-kong}
-      KONG_PG_DATABASE: kong
-    depends_on:
-      kong-database:
-        condition: service_healthy
+      KONG_PG_HOST: foninhoiuri-postgresql # Host do seu PostgreSQL existente no Umbrel
+      KONG_PG_USER: default             # Usuário padrão do PostgreSQL (ajuste se for diferente)
+      KONG_PG_PASSWORD: default          # Senha padrão do PostgreSQL (ajuste se for diferente)
+      KONG_PG_DATABASE: kong              # Nome do banco de dados para o Kong
+    # Remove a dependência do 'kong-database'
     restart: "no" # Garante que este serviço roda apenas uma vez com sucesso
 
   kong:
     image: kong:latest
     restart: unless-stopped
     depends_on:
-      kong-database:
-        condition: service_healthy
+      # Remove a dependência do 'kong-database'
       kong-migrations: # O Kong agora depende do serviço de migrações
         condition: service_completed_successfully # Garante que as migrações terminaram com sucesso
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: kong-database
-      KONG_PG_USER: kong
-      KONG_PG_PASSWORD: ${KONG_DB_PASSWORD:-kong}
-      KONG_PG_DATABASE: kong
+      KONG_PG_HOST: foninhoiuri-postgresql # Host do seu PostgreSQL existente no Umbrel
+      KONG_PG_USER: postgres              # Usuário padrão do PostgreSQL (ajuste se for diferente)
+      KONG_PG_PASSWORD: postgres          # Senha padrão do PostgreSQL (ajuste se for diferente)
+      KONG_PG_DATABASE: kong              # Nome do banco de dados para o Kong
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
@@ -64,5 +48,5 @@ services:
       timeout: 5s
       retries: 5
 
-volumes:
-  kong_data:
+# A declaração de volumes nomeados como 'kong_data' foi removida,
+# pois o banco de dados agora é externo.

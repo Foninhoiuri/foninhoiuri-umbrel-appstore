@@ -1,14 +1,14 @@
 manifestVersion: 1
 id: foninhoiuri-redis_redisinsight
 name: Redis + redisinsight
-tagline: Armazenamento em memória de chave-valor
+tagline: Redis ja com Interface
 icon: https://i.imgur.com/YZOX3l9.png
 category: Combo
 version: "7.3"
 port: 6379
 description: >-
-  Redis é um armazenamento de estrutura de dados em memória, usado como banco de dados, cache e broker de mensagens.
-developer: Redis Labs
+  Redis é um armazenamento de estrutura de dados em memória, e o Insight Ferramenta gráfica para visualizar, analisar e otimizar dados Redis.
+developer: Redis Labs / Foninhoiuri
 website: https://redis.io
 repo: https://github.com/redis/redis
 support: https://github.com/redis/redis/issues
@@ -23,7 +23,7 @@ gallery:
   - https://i.imgur.com/OKTkqtx.png
   - https://i.imgur.com/pFlPBdv.png
 releaseNotes: >-
-  Primeira versão do aplicativo Redis para UmbrelOS.
+  Primeira versão do aplicativo Redis com grafico para UmbrelOS.
 dependencies: []
 path: ""
 defaultUsername: ""

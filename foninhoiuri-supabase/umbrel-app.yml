@@ -3,7 +3,7 @@ id: foninhoiuri-supabase
 name: Supabase
 tagline: Uma plataforma de backend de código aberto completa, usando seu PostgreSQL e Redis existentes do Umbrel.
 icon: https://yt3.googleusercontent.com/KVjptxDSWT7rjVfGax2TgTNVAYgplgo1z_fwaV3MFjPpcmNVZC0TIgQV030BPJ0ybCP3_Fz-2w=s160-c-k-c0x00ffffff-no-rj
-category: developer
+category: em desenvolvimento...
 version: "1.0.0"
 description: >-
   Supabase é uma plataforma de código aberto que fornece um banco de dados PostgreSQL,

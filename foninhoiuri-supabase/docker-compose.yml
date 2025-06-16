@@ -1,72 +1,130 @@
 version: '3.8'
 
 services:
+  # O serviço DB (PostgreSQL) foi removido pois usaremos o PostgreSQL externo do Umbrel.
+  # O serviço Supavisor também foi removido.
+  # O serviço MinIO (para armazenamento S3 local) também foi removido para focar no S3 remoto ou volume local.
+
+  kong:
+    image: kong:latest # Usando latest
+    restart: unless-stopped
+    environment:
+      KONG_DATABASE: "off"
+      KONG_PROXY_ACCESS_LOG: "/dev/stdout"
+      KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
+      KONG_PROXY_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001"
+      KONG_PROXY_LISTEN: "0.0.0.0:8000"
+      KONG_DNS_RESOLVER: "8.8.8.8" # Pode ser ajustado para um DNS local se o Umbrel tiver um
+      KONG_DECLARATIVE_CONFIG: "/opt/kong/kong.yml" # Caminho para o arquivo de configuração do Kong
+      # Variáveis para autenticação do Dashboard
+      DASHBOARD_USERNAME: ${DASHBOARD_USERNAME} # O nome de usuário do painel
+      DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD} # A senha do painel
+    volumes:
+      - ./kong.yml:/opt/kong/kong.yml:ro # Monta o arquivo kong.yml para configuração do Kong
+    ports:
+      - "8000:8000" # Porta para o API Gateway (Supabase Studio acessa por aqui)
+      - "8001:8001" # Porta do Admin API do Kong (geralmente não exposta)
+    depends_on:
+      - auth
+      - storage
+      - rest
+      - realtime
+      - studio
+      # Funções Edge, se for usar
+      # - functions
+
   auth:
-    image: supabase/gotrue:latest
-    restart: unless-stopped
-    environment:
-      # Conecta ao PostgreSQL externo
-      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default # Substitua 'default:default' pelas credenciais do seu PG
-      JWT_SECRET: ${JWT_SECRET}
-      SITE_URL: http://localhost:3000 # Será substituído pelo URL do Umbrel
-      # Outras variáveis SMTP para e-mail de autenticação, se necessário
-    # Não há mais dependência direta de 'db' aqui, mas sim do serviço externo
-
-  storage:
-    image: supabase/storage:latest
-    restart: unless-stopped
-    environment:
-      # Conecta ao PostgreSQL externo
-      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default # Substitua 'default:default' pelas credenciais do seu PG
-      JWT_SECRET: ${JWT_SECRET}
-      STORAGE_S3_BUCKET: supa-storage-bucket # Nome do seu bucket de armazenamento
-      STORAGE_S3_ENDPOINT: http://minio:9000 # Se usar MinIO ou outro S3 compatível
-      STORAGE_S3_REGION: us-east-1
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID} # Se usar AWS S3
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY} # Se usar AWS S3
-    # Não há mais dependência direta de 'db' aqui
-
-  rest:
-    image: supabase/postgrest:latest
-    restart: unless-stopped
-    environment:
-      # Conecta ao PostgreSQL externo
-      PGRST_DB_URI: postgresql://default:default@foninhoiuri-postgresql:5432/default # Substitua 'default:default' pelas credenciais do seu PG
-      PGRST_JWT_SECRET: ${JWT_SECRET}
-      PGRST_DB_SCHEMA: public,storage,auth,extensions
-      PGRST_DB_ANON_ROLE: anon
-    # Não há mais dependência direta de 'db' aqui
-
-  realtime: # Mantemos o serviço realtime e o configuramos para usar o Redis externo
-    image: supabase/realtime:latest
+    image: supabase/gotrue:latest # Usando latest
     restart: unless-stopped
     environment:
       DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default # Conecta ao PostgreSQL externo
       JWT_SECRET: ${JWT_SECRET}
-      # Configurações do Redis para o Realtime
+      SITE_URL: http://${DEVICE_DOMAIN_NAME}:8000 # Será o URL do seu Umbrel com a porta do Kong
+      DISABLE_SIGNUP: "false" # Ou "true" para desabilitar novos cadastros
+      # Variáveis SMTP para e-mail de autenticação, se necessário
+      # SMTP_ADMIN_EMAIL: your@example.com
+      # SMTP_HOST: smtp.example.com
+      # SMTP_PORT: "587"
+      # SMTP_USER: user
+      # SMTP_PASS: pass
+      # SMTP_SENDER_NAME: "Sua Empresa"
+    # Depende do PostgreSQL externo, não de um serviço local 'db'
+
+  storage:
+    image: supabase/storage:latest # Usando latest
+    restart: unless-stopped
+    environment:
+      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default # Conecta ao PostgreSQL externo
+      JWT_SECRET: ${JWT_SECRET}
+      # Configuração para usar S3 remoto (recomendado para persistência)
+      STORAGE_BACKEND: s3
+      GLOBAL_S3_BUCKET: your-supabase-bucket # Nome do seu bucket S3 (crie um no AWS S3, DigitalOcean Spaces, etc.)
+      STORAGE_S3_REGION: us-east-1 # Região do seu bucket S3
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID} # Suas chaves de acesso AWS, se usar S3
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY} # Suas chaves de acesso AWS, se usar S3
+      # Para armazenamento local se não quiser S3, descomente abaixo e gerencie o volume
+      # STORAGE_BACKEND: file
+      # STORAGE_FILE_PATH: /storage/files
+    volumes:
+      # Se for usar armazenamento de arquivos local (não S3), descomente e crie o volume
+      # - ${APP_DATA_DIR}/data/storage-files:/storage/files
+      # Se usar S3, este volume não é estritamente necessário para os arquivos em si,
+      # mas pode ser útil para logs ou cache internos do serviço Storage
+      - ${APP_DATA_DIR}/data/supabase-storage:/var/log/supabase/storage # Volume para logs e dados internos do Storage
+    # Depende do PostgreSQL externo
+
+  rest:
+    image: supabase/postgrest:latest # Usando latest
+    restart: unless-stopped
+    environment:
+      PGRST_DB_URI: postgresql://default:default@foninhoiuri-postgresql:5432/default # Conecta ao PostgreSQL externo
+      PGRST_JWT_SECRET: ${JWT_SECRET}
+      PGRST_DB_SCHEMA: public,storage,auth,extensions # Schemas que serão expostos pela API
+      PGRST_DB_ANON_ROLE: anon
+    # Depende do PostgreSQL externo
+
+  realtime:
+    image: supabase/realtime:latest # Usando latest
+    restart: unless-stopped
+    environment:
+      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default # Conecta ao PostgreSQL externo
+      JWT_SECRET: ${JWT_SECRET}
       REDIS_URL: redis://foninhoiuri-redis:6379 # Aponta para o serviço Redis externo
-    # Não há mais dependência direta de 'db' ou 'redis' interno aqui
+      # Realtime usa o Redis para pub/sub
+    # Depende do PostgreSQL e Redis externos
 
   studio:
-    image: supabase/studio:20240605-728b172
+    image: supabase/studio:latest # Usando latest
     restart: unless-stopped
-    ports:
-      - "3000:3000" # Porta para acessar o Supabase Studio
     environment:
-      SUPABASE_URL: http://localhost:8000 # Porta da API Gateway (pode ser ajustada)
+      SUPABASE_URL: http://kong:8000 # Aponta para o Kong Gateway
       SUPABASE_ANON_KEY: ${ANON_KEY}
       SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
-    # As dependências aqui são lógicas para que o Studio só inicie quando os serviços necessários estiverem UP
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-} # Opcional: para o AI Assistant, deixe vazio se não usar
+      # SUPABASE_PUBLIC_URL: http://${DEVICE_DOMAIN_NAME}:8000 # Para habilitar todos os recursos fora do localhost
     depends_on:
-      auth:
-        condition: service_started
-      rest:
-        condition: service_started
-      storage:
-        condition: service_started
-      realtime:
-        condition: service_started
+      - kong # O Studio depende do Kong para acessar as APIs
+    # O Studio não precisa expor portas diretamente, pois é acessado via Kong (porta 8000)
+    # Mas como o Umbrel espera uma main_port para o app, manteremos a referência 3000 no umbrel-app.yml
+    # e mapearemos a porta do Kong para 8000 para o acesso principal.
+
+  # Funções Edge (opcional, se for usar)
+  # functions:
+  #   image: supabase/edge-runtime:latest # Usando latest
+  #   restart: unless-stopped
+  #   environment:
+  #     JWT_SECRET: ${JWT_SECRET}
+  #     DENO_ORIGIN: "https://deno.land" # ou seu próprio servidor Deno
+  #   volumes:
+  #     - ${APP_DATA_DIR}/data/supabase-functions:/supabase/functions # Volume para as Edge Functions
+  #   depends_on:
+  #     - kong
 
 # Não há volumes para 'db-data' pois o banco de dados é externo
-# volumes:
-#   db-data:
+volumes:
+  # Se for usar armazenamento de arquivos local para o Storage, você precisará de um volume aqui:
+  # supabase-storage-files:
+  supabase-storage: # Volume para logs e dados internos do serviço Storage
+  supabase-functions: # Volume para as Edge Functions, se você incluir o serviço 'functions'

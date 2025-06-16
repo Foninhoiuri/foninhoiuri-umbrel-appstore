@@ -2,7 +2,7 @@ manifestVersion: 1.1
 id: foninhoiuri-supabase
 name: Supabase
 tagline: Uma plataforma de backend de código aberto completa, usando seu PostgreSQL e Redis existentes do Umbrel.
-icon: https://raw.githubusercontent.com/supabase/supabase/master/apps/www/public/supabase-logo-icon.svg
+icon: https://yt3.googleusercontent.com/KVjptxDSWT7rjVfGax2TgTNVAYgplgo1z_fwaV3MFjPpcmNVZC0TIgQV030BPJ0ybCP3_Fz-2w=s160-c-k-c0x00ffffff-no-rj
 category: developer
 version: "1.0.0"
 description: >-
@@ -14,11 +14,11 @@ releaseNotes: >-
   - Lançamento inicial do Supabase para Umbrel, com dependência de PostgreSQL e Redis existentes.
   - Otimizado para usar os serviços de banco de dados e cache já instalados no seu Umbrel.
   - Todas as imagens do Docker configuradas para usar a tag 'latest'.
-developer: Supabase / Seu Nome
+developer: Supabase / Foninhoiuri
 website: https://supabase.com/
 repo: https://github.com/supabase/supabase
 support: https://github.com/supabase/supabase/issues
-submitter: Seu Nome Aqui
+submitter: Foninhoiuri
 submission: https://github.com/SeuUsuario/seu-repositorio-supabase-umbrel
 gallery:
   - https://raw.githubusercontent.com/supabase/supabase/master/.github/assets/supabase-og-image.png

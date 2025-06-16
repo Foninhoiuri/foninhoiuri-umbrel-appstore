@@ -116,9 +116,9 @@ services:
     image: supabase/realtime:latest
     restart: unless-stopped
     environment:
-      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default
+      DB_URL: postgresql://default:default@postgres:5432/supabase
       JWT_SECRET: ${JWT_SECRET}
-      REDIS_URL: redis://foninhoiuri-redis:6379
+      REDIS_URL: redis://redis:6379/0
 
   studio:
     image: supabase/studio:latest
@@ -130,7 +130,3 @@ services:
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
     depends_on:
       - kong
-
-volumes:
-  supabase-storage:
-  supabase-functions:

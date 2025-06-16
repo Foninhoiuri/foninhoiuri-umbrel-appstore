@@ -27,6 +27,8 @@ port: 8001 # A porta da API Admin do Kong para acesso via navegador
 dependencies: [] # O Kong neste setup usa seu próprio DB, então não há dependências de apps Umbrel
 defaultUsername: "" # Kong não tem um username/password padrão para a interface admin out-of-the-box
 defaultPassword: ""
+dependencies:
+  - foninhoiuri-postgresql # Adicionada a dependência do seu PostgreSQL
 networks:
   - services # Necessário para que o aplicativo seja executado na rede padrão do Umbrel
 interfaces:

@@ -1,0 +1,22 @@
+# foninhoiuri-kong/
+id: foninhoiuri-kong
+name: Kong API Gateway
+description: Um API Gateway de código aberto e gerenciamento de microsserviços.
+icon: https://i.imgur.com/ti26NnN.png
+category: development
+developer: Kong Inc. (adaptado por foninhoiuri)
+port: 8001 # A porta da API Admin do Kong para acesso via navegador
+gallery:
+  - https://i.imgur.com/ti26NnN.png # Exemplo: imagem da interface do Kong se houver
+releaseNotes: "Versão inicial do Kong API Gateway para umbrelOS."
+dependencies: [] # Se houver dependências de sistema, elas iriam aqui
+torOnly: false
+overrideContainerName: false
+networks:
+  - services
+interfaces:
+  main:
+    display: Kong Admin UI
+    port: 8001 # A porta da API Admin do Kong
+    path: /
+    external: true # Permite acesso externo à interface da API Admin

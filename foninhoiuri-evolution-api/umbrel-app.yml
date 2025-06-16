@@ -25,6 +25,12 @@ port: 8080
 dependencies:
   - foninhoiuri-redis      # ID do seu app Redis
   - foninhoiuri-postgresql # ID do seu app PostgreSQL
-path: "/manager"
+path: /
 defaultUsername: ""
 defaultPassword: ""
+interfaces:
+  main:
+    display: Evolution APi Mananger
+    port: 8080
+    path: /manager
+    external: true # Permite acesso externo à API Admin para configuração

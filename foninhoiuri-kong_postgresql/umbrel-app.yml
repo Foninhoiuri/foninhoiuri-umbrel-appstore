@@ -24,8 +24,7 @@ submission: https://github.com/SeuUsuario/seu-repositorio-kong-umbrel # Adapte p
 gallery:
   - https://i.imgur.com/ti26NnN.png
 port: 8001
-dependencies:
-  - foninhoiuri-postgresql
+dependencies: []
 defaultUsername: ""
 defaultPassword: ""
 interfaces:

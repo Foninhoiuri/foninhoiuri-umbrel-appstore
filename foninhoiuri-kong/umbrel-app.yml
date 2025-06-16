@@ -1,22 +1,47 @@
-# foninhoiuri-kong/
+# foninhoiuri-kong/umbrel-app.yml
+manifestVersion: 1.1
 id: foninhoiuri-kong
 name: Kong API Gateway
-description: Um API Gateway de código aberto e gerenciamento de microsserviços.
-icon: https://i.imgur.com/ti26NnN.png
-category: development
-developer: Kong Inc. (adaptado por foninhoiuri)
-port: 8001 # A porta da API Admin do Kong para acesso via navegador
+tagline: Um API Gateway de código aberto e gerenciamento de microsserviços.
+icon: https://i.imgur.com/ti26NnN.png # Seu ícone fornecido
+category: em desenvolvimento...
+version: "1.0.0" # Versão inicial
+description: >-
+  Kong é um API Gateway e plataforma de gerenciamento de microsserviços de código aberto
+  que fornece funcionalidade, segurança e desempenho para suas APIs e microsserviços.
+  Ele é altamente extensível através de plugins e oferece um painel de administração
+  para gerenciamento fácil.
+releaseNotes: >-
+  - Lançamento inicial do Kong API Gateway para umbrelOS.
+  - Inclui sua própria instância PostgreSQL para gerenciamento de configuração.
+  - Imagem do Docker configurada para usar a tag 'latest'.
+developer: Kong Inc. / Foninhoiuri
+website: https://konghq.com/
+repo: https://github.com/Kong/kong
+support: https://github.com/Kong/kong/issues
+submitter: Foninhoiuri
+submission: https://github.com/SeuUsuario/seu-repositorio-kong-umbrel # Adapte para o seu repositório
 gallery:
   - https://i.imgur.com/ti26NnN.png # Exemplo: imagem da interface do Kong se houver
-releaseNotes: "Versão inicial do Kong API Gateway para umbrelOS."
-dependencies: [] # Se houver dependências de sistema, elas iriam aqui
-torOnly: false
-overrideContainerName: false
+port: 8001 # A porta da API Admin do Kong para acesso via navegador
+dependencies: [] # O Kong neste setup usa seu próprio DB, então não há dependências de apps Umbrel
+defaultUsername: "" # Kong não tem um username/password padrão para a interface admin out-of-the-box
+defaultPassword: ""
 networks:
-  - services
+  - services # Necessário para que o aplicativo seja executado na rede padrão do Umbrel
 interfaces:
   main:
-    display: Kong Admin UI
-    port: 8001 # A porta da API Admin do Kong
+    display: Kong Admin API
+    port: 8001
     path: /
-    external: true # Permite acesso externo à interface da API Admin
+    external: true # Permite acesso externo à API Admin para configuração
+  proxy_http:
+    display: Kong Proxy (HTTP)
+    port: 8000
+    path: /
+    external: true
+  proxy_https:
+    display: Kong Proxy (HTTPS)
+    port: 8443
+    path: /
+    external: true

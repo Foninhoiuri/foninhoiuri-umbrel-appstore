@@ -1,0 +1,21 @@
+id: supabase
+name: Supabase
+category: developer
+version: 1.0.0 # Versão inicial do seu pacote Supabase para Umbrel
+developer: Your Name/Community # Seu nome ou o nome da comunidade
+description: "Uma alternativa de código aberto ao Firebase, fornecendo um banco de dados Postgres, autenticação, armazenamento e funções Edge."
+icon: https://raw.githubusercontent.com/supabase/supabase/master/apps/www/public/supabase-logo-icon.svg # Ícone oficial do Supabase
+main_port: 3000 # Porta principal para acessar o Supabase Studio
+upstream_repository: https://github.com/supabase/supabase
+release_notes: |
+  - Lançamento inicial do Supabase para Umbrel.
+  - Inclui serviços essenciais: PostgreSQL, Autenticação, API REST, Armazenamento, Realtime e Studio.
+assets:
+  - https://raw.githubusercontent.com/supabase/supabase/master/.github/assets/supabase-og-image.png # Exemplo de imagem para o app store
+dependencies: [] # Se houver dependências de outros apps Umbrel
+# Adicione variáveis de ambiente aqui, se desejar que sejam configuráveis pelo usuário no Umbrel
+# environment:
+#  POSTGRES_PASSWORD: ""
+#  JWT_SECRET: ""
+#  ANON_KEY: ""
+#  SERVICE_ROLE_KEY: ""

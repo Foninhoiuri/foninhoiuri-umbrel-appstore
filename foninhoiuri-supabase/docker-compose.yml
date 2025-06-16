@@ -1,12 +1,8 @@
 version: '3.8'
 
 services:
-  # O serviço DB (PostgreSQL) foi removido pois usaremos o PostgreSQL externo do Umbrel.
-  # O serviço Supavisor também foi removido.
-  # O serviço MinIO (para armazenamento S3 local) também foi removido para focar no S3 remoto ou volume local.
-
   kong:
-    image: kong:latest # Usando latest
+    image: kong:latest
     restart: unless-stopped
     environment:
       KONG_DATABASE: "off"
@@ -16,115 +12,125 @@ services:
       KONG_ADMIN_ERROR_LOG: "/dev/stderr"
       KONG_ADMIN_LISTEN: "0.0.0.0:8001"
       KONG_PROXY_LISTEN: "0.0.0.0:8000"
-      KONG_DNS_RESOLVER: "8.8.8.8" # Pode ser ajustado para um DNS local se o Umbrel tiver um
-      KONG_DECLARATIVE_CONFIG: "/opt/kong/kong.yml" # Caminho para o arquivo de configuração do Kong
-      # Variáveis para autenticação do Dashboard
-      DASHBOARD_USERNAME: ${DASHBOARD_USERNAME} # O nome de usuário do painel
-      DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD} # A senha do painel
-    volumes:
-      - ./kong.yml:/opt/kong/kong.yml:ro # Monta o arquivo kong.yml para configuração do Kong
+      KONG_DNS_RESOLVER: "8.8.8.8"
+      KONG_DECLARATIVE_CONFIG: "/opt/kong/kong.yml"
+      DASHBOARD_USERNAME: ${DASHBOARD_USERNAME}
+      DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD}
+    command: >
+      /bin/sh -c "
+      echo '_format_version: \"3.0\"' > /opt/kong/kong.yml &&
+      echo '_file_content_version: \"2.1\"' >> /opt/kong/kong.yml &&
+      echo 'services:' >> /opt/kong/kong.yml &&
+      echo '  - name: supabase-auth-service' >> /opt/kong/kong.yml &&
+      echo '    url: http://auth:9999' >> /opt/kong/kong.yml &&
+      echo '    routes:' >> /opt/kong/kong.yml &&
+      echo '      - name: auth-route' >> /opt/kong/kong.yml &&
+      echo '        paths: [\"/auth/v1\"]' >> /opt/kong/kong.yml &&
+      echo '        strip_path: false' >> /opt/kong/kong.yml &&
+      echo '    plugins:' >> /opt/kong/kong.yml &&
+      echo '      - name: basic-auth' >> /opt/kong/kong.yml &&
+      echo '        config:' >> /opt/kong/kong.yml &&
+      echo '          hide_credentials: true' >> /opt/kong/kong.yml &&
+      echo '      - name: jwt' >> /opt/kong/kong.yml &&
+      echo '        config:' >> /opt/kong/kong.yml &&
+      echo '          uri_param_names: [\"access_token\"]' >> /opt/kong/kong.yml &&
+      echo '          claims_paths: [\"payload.role\"]' >> /opt/kong/kong.yml &&
+      echo '          key_set_uri: http://auth:9999/.well-known/jwks.json' >> /opt/kong/kong.yml &&
+      echo '  - name: supabase-storage-service' >> /opt/kong/kong.yml &&
+      echo '    url: http://storage:5000' >> /opt/kong/kong.yml &&
+      echo '    routes:' >> /opt/kong/kong.yml &&
+      echo '      - name: storage-route' >> /opt/kong/kong.yml &&
+      echo '        paths: [\"/storage/v1\"]' >> /opt/kong/kong.yml &&
+      echo '        strip_path: false' >> /opt/kong/kong.yml &&
+      echo '  - name: supabase-rest-service' >> /opt/kong/kong.yml &&
+      echo '    url: http://rest:3000' >> /opt/kong/kong.yml &&
+      echo '    routes:' >> /opt/kong/kong.yml &&
+      echo '      - name: rest-route' >> /opt/kong/kong.yml &&
+      echo '        paths: [\"/rest/v1\"]' >> /opt/kong/kong.yml &&
+      echo '        strip_path: false' >> /opt/kong/kong.yml &&
+      echo '  - name: supabase-realtime-service' >> /opt/kong/kong.yml &&
+      echo '    url: http://realtime:8080' >> /opt/kong/kong.yml &&
+      echo '    routes:' >> /opt/kong/kong.yml &&
+      echo '      - name: realtime-route' >> /opt/kong/kong.yml &&
+      echo '        paths: [\"/realtime/v1\"]' >> /opt/kong/kong.yml &&
+      echo '        strip_path: false' >> /opt/kong/kong.yml &&
+      echo '  - name: supabase-studio-service' >> /opt/kong/kong.yml &&
+      echo '    url: http://studio:3000' >> /opt/kong/kong.yml &&
+      echo '    routes:' >> /opt/kong/kong.yml &&
+      echo '      - name: studio-route' >> /opt/kong/kong.yml &&
+      echo '        paths: [\"/\"]' >> /opt/kong/kong.yml &&
+      echo 'consumers:' >> /opt/kong/kong.yml &&
+      echo '  - username: DASHBOARD' >> /opt/kong/kong.yml &&
+      echo '    basicauth_credentials:' >> /opt/kong/kong.yml &&
+      echo '      - username: ${DASHBOARD_USERNAME}' >> /opt/kong/kong.yml &&
+      echo '        password: ${DASHBOARD_PASSWORD}' >> /opt/kong/kong.yml &&
+      echo 'plugins:' >> /opt/kong/kong.yml &&
+      echo '  - name: http-log' >> /opt/kong/kong.yml &&
+      echo '    service: kong-http-log-service' >> /opt/kong/kong.yml &&
+      echo '    config:' >> /opt/kong/kong.yml &&
+      echo '      http_endpoint: http://kong:8001/' >> /opt/kong/kong.yml &&
+      " && kong start --database "off"
     ports:
-      - "8000:8000" # Porta para o API Gateway (Supabase Studio acessa por aqui)
-      - "8001:8001" # Porta do Admin API do Kong (geralmente não exposta)
+      - "8000:8000"
+      - "8001:8001"
     depends_on:
       - auth
       - storage
       - rest
       - realtime
       - studio
-      # Funções Edge, se for usar
-      # - functions
 
   auth:
-    image: supabase/gotrue:latest # Usando latest
+    image: supabase/gotrue:latest
     restart: unless-stopped
     environment:
-      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default # Conecta ao PostgreSQL externo
+      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default
       JWT_SECRET: ${JWT_SECRET}
-      SITE_URL: http://${DEVICE_DOMAIN_NAME}:8000 # Será o URL do seu Umbrel com a porta do Kong
-      DISABLE_SIGNUP: "false" # Ou "true" para desabilitar novos cadastros
-      # Variáveis SMTP para e-mail de autenticação, se necessário
-      # SMTP_ADMIN_EMAIL: your@example.com
-      # SMTP_HOST: smtp.example.com
-      # SMTP_PORT: "587"
-      # SMTP_USER: user
-      # SMTP_PASS: pass
-      # SMTP_SENDER_NAME: "Sua Empresa"
-    # Depende do PostgreSQL externo, não de um serviço local 'db'
+      SITE_URL: http://${DEVICE_DOMAIN_NAME}:8000
+      DISABLE_SIGNUP: "false"
 
   storage:
-    image: supabase/storage:latest # Usando latest
+    image: supabase/storage:latest
     restart: unless-stopped
     environment:
-      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default # Conecta ao PostgreSQL externo
+      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default
       JWT_SECRET: ${JWT_SECRET}
-      # Configuração para usar S3 remoto (recomendado para persistência)
       STORAGE_BACKEND: s3
-      GLOBAL_S3_BUCKET: your-supabase-bucket # Nome do seu bucket S3 (crie um no AWS S3, DigitalOcean Spaces, etc.)
-      STORAGE_S3_REGION: us-east-1 # Região do seu bucket S3
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID} # Suas chaves de acesso AWS, se usar S3
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY} # Suas chaves de acesso AWS, se usar S3
-      # Para armazenamento local se não quiser S3, descomente abaixo e gerencie o volume
-      # STORAGE_BACKEND: file
-      # STORAGE_FILE_PATH: /storage/files
+      GLOBAL_S3_BUCKET: your-supabase-bucket
+      STORAGE_S3_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
     volumes:
-      # Se for usar armazenamento de arquivos local (não S3), descomente e crie o volume
-      # - ${APP_DATA_DIR}/data/storage-files:/storage/files
-      # Se usar S3, este volume não é estritamente necessário para os arquivos em si,
-      # mas pode ser útil para logs ou cache internos do serviço Storage
-      - ${APP_DATA_DIR}/data/supabase-storage:/var/log/supabase/storage # Volume para logs e dados internos do Storage
-    # Depende do PostgreSQL externo
+      - ${APP_DATA_DIR}/data/supabase-storage:/var/log/supabase/storage
 
   rest:
-    image: supabase/postgrest:latest # Usando latest
+    image: supabase/postgrest:latest
     restart: unless-stopped
     environment:
-      PGRST_DB_URI: postgresql://default:default@foninhoiuri-postgresql:5432/default # Conecta ao PostgreSQL externo
+      PGRST_DB_URI: postgresql://default:default@foninhoiuri-postgresql:5432/default
       PGRST_JWT_SECRET: ${JWT_SECRET}
-      PGRST_DB_SCHEMA: public,storage,auth,extensions # Schemas que serão expostos pela API
+      PGRST_DB_SCHEMA: public,storage,auth,extensions
       PGRST_DB_ANON_ROLE: anon
-    # Depende do PostgreSQL externo
 
   realtime:
-    image: supabase/realtime:latest # Usando latest
+    image: supabase/realtime:latest
     restart: unless-stopped
     environment:
-      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default # Conecta ao PostgreSQL externo
+      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default
       JWT_SECRET: ${JWT_SECRET}
-      REDIS_URL: redis://foninhoiuri-redis:6379 # Aponta para o serviço Redis externo
-      # Realtime usa o Redis para pub/sub
-    # Depende do PostgreSQL e Redis externos
+      REDIS_URL: redis://foninhoiuri-redis:6379
 
   studio:
-    image: supabase/studio:latest # Usando latest
+    image: supabase/studio:latest
     restart: unless-stopped
     environment:
-      SUPABASE_URL: http://kong:8000 # Aponta para o Kong Gateway
+      SUPABASE_URL: http://kong:8000
       SUPABASE_ANON_KEY: ${ANON_KEY}
       SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-} # Opcional: para o AI Assistant, deixe vazio se não usar
-      # SUPABASE_PUBLIC_URL: http://${DEVICE_DOMAIN_NAME}:8000 # Para habilitar todos os recursos fora do localhost
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
     depends_on:
-      - kong # O Studio depende do Kong para acessar as APIs
-    # O Studio não precisa expor portas diretamente, pois é acessado via Kong (porta 8000)
-    # Mas como o Umbrel espera uma main_port para o app, manteremos a referência 3000 no umbrel-app.yml
-    # e mapearemos a porta do Kong para 8000 para o acesso principal.
+      - kong
 
-  # Funções Edge (opcional, se for usar)
-  # functions:
-  #   image: supabase/edge-runtime:latest # Usando latest
-  #   restart: unless-stopped
-  #   environment:
-  #     JWT_SECRET: ${JWT_SECRET}
-  #     DENO_ORIGIN: "https://deno.land" # ou seu próprio servidor Deno
-  #   volumes:
-  #     - ${APP_DATA_DIR}/data/supabase-functions:/supabase/functions # Volume para as Edge Functions
-  #   depends_on:
-  #     - kong
-
-# Não há volumes para 'db-data' pois o banco de dados é externo
 volumes:
-  # Se for usar armazenamento de arquivos local para o Storage, você precisará de um volume aqui:
-  # supabase-storage-files:
-  supabase-storage: # Volume para logs e dados internos do serviço Storage
-  supabase-functions: # Volume para as Edge Functions, se você incluir o serviço 'functions'
+  supabase-storage:
+  supabase-functions:

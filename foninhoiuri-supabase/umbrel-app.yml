@@ -1,29 +1,30 @@
 manifestVersion: 1.1
-id: foninhoiuri-supabase # ID único para este pacote do app Supabase
+id: foninhoiuri-supabase
 name: Supabase
-tagline: Uma alternativa de código aberto ao Firebase, usando seu PostgreSQL e Redis existentes.
-icon: https://yt3.googleusercontent.com/KVjptxDSWT7rjVfGax2TgTNVAYgplgo1z_fwaV3MFjPpcmNVZC0TIgQV030BPJ0ybCP3_Fz-2w=s160-c-k-c0x00ffffff-no-rj
+tagline: Uma plataforma de backend de código aberto completa, usando seu PostgreSQL e Redis existentes do Umbrel.
+icon: https://raw.githubusercontent.com/supabase/supabase/master/apps/www/public/supabase-logo-icon.svg
 category: developer
-version: "1.0.0" # Versão do seu pacote de app Supabase para Umbrel
+version: "1.0.0"
 description: >-
   Supabase é uma plataforma de código aberto que fornece um banco de dados PostgreSQL,
-  autenticação, armazenamento e funções Edge, utilizando as instâncias existentes
-  de PostgreSQL e Redis no seu Umbrel para otimização de recursos.
+  autenticação, armazenamento, Realtime e Studio. Esta versão é otimizada para
+  utilizar suas instâncias existentes de PostgreSQL e Redis instaladas no Umbrel,
+  reduzindo o uso de recursos e simplificando a gestão de dados.
 releaseNotes: >-
   - Lançamento inicial do Supabase para Umbrel, com dependência de PostgreSQL e Redis existentes.
   - Otimizado para usar os serviços de banco de dados e cache já instalados no seu Umbrel.
-developer: Supabase / Your Name # <--- Pode adicionar seu nome aqui como empacotador
+  - Todas as imagens do Docker configuradas para usar a tag 'latest'.
+developer: Supabase / Seu Nome
 website: https://supabase.com/
 repo: https://github.com/supabase/supabase
 support: https://github.com/supabase/supabase/issues
-submitter: Seu Nome Aqui # <--- Seu nome como a pessoa que submeteu/empacotou
-submission: https://github.com/SeuUsuario/seu-repositorio-supabase-umbrel # <--- SEU repositório no GitHub para ESTE aplicativo Umbrel
+submitter: Seu Nome Aqui
+submission: https://github.com/SeuUsuario/seu-repositorio-supabase-umbrel
 gallery:
-  - https://raw.githubusercontent.com/supabase/supabase/master/.github/assets/supabase-og-image.png # Exemplo de imagem
-port: 3000 # Porta principal para acessar o Supabase Studio
+  - https://raw.githubusercontent.com/supabase/supabase/master/.github/assets/supabase-og-image.png
+port: 8000
 dependencies:
-  - foninhoiuri-redis # ID do seu app Redis no Umbrel
-  - foninhoiuri-postgresql # ID do seu app PostgreSQL no Umbrel
-# path: "/manager" # O Supabase Studio não tem um path padrão como a Evolution API, acessa a raiz.
+  - foninhoiuri-redis
+  - foninhoiuri-postgresql
 defaultUsername: ""
 defaultPassword: ""

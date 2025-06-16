@@ -24,7 +24,6 @@ submission: https://github.com/SeuUsuario/seu-repositorio-kong-umbrel # Adapte p
 gallery:
   - https://i.imgur.com/ti26NnN.png # Exemplo: imagem da interface do Kong se houver
 port: 8001 # A porta da API Admin do Kong para acesso via navegador
-dependencies: [] # O Kong neste setup usa seu próprio DB, então não há dependências de apps Umbrel
 defaultUsername: "" # Kong não tem um username/password padrão para a interface admin out-of-the-box
 defaultPassword: ""
 dependencies:

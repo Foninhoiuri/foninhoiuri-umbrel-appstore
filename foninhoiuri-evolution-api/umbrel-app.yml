@@ -4,7 +4,7 @@ name: Evolution API
 tagline: A maneira mais fácil de integrar o WhatsApp ao seu sistema.
 icon: https://i.imgur.com/CA2SZVA.png
 category: automação
-version: "2.2.3" # Versão do seu pacote de app para Umbrel (pode ser a mesma da Evolution API se preferir)
+version: "1.8.7" # Versão do seu pacote de app para Umbrel (pode ser a mesma da Evolution API se preferir)
 description: >-
   Evolution API é uma poderosa e fácil de usar API de bot do WhatsApp
   que permite aos desenvolvedores integrar a funcionalidade do WhatsApp

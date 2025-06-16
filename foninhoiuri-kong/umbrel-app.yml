@@ -1,9 +1,9 @@
 # foninhoiuri-kong/umbrel-app.yml
 manifestVersion: 1.1
-id: foninhoiuri-kong_postgresql
+id: foninhoiuri-kong
 name: Kong API Gateway
 tagline: Um API Gateway de código aberto e gerenciamento de microsserviços.
-icon: https://i.imgur.com/u3MIVVk.png
+icon: hhttps://i.imgur.com/ti26NnN.png
 category: em desenvolvimento...
 version: "1.0.0"
 description: >-

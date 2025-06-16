@@ -14,15 +14,14 @@ services:
   # Serviço para executar as migrações do Kong
   kong-migrations:
     image: kong:latest
-    command: >
-      sh -c "
-        echo 'Aguardando o PostgreSQL estar saudável para migrações...';
-        sleep 10; # Dá um tempo extra para o PostgreSQL estar totalmente pronto
-        # Usando credenciais 'default' e host 'postgresql' (confirmado pelo seu outro app 'api evolution')
-        KONG_DATABASE=postgres KONG_PG_HOST=postgresql KONG_PG_USER=default KONG_PG_PASSWORD=default KONG_PG_DATABASE=kong kong migrations bootstrap;
-      "
+    command: ["sh", "-c", "sleep 10 && kong migrations bootstrap"]
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: postgresql # DEFINITIVO: Nome do contêiner PostgreSQL existente
+      KONG_PG_USER: default   # DEFINITIVO: Usuário 'default'
+      KONG_PG_PASSWORD: default # DEFINITIVO: Senha 'default'
+      KONG_PG_DATABASE: kong
     restart: "no"
-
   kong:
     image: kong:latest
     restart: unless-stopped

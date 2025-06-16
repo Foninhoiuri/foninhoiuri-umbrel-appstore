@@ -3,7 +3,7 @@ version: '3.8'
 
 services:
   # O serviço 'kong-database' foi removido, pois o Kong usará um PostgreSQL existente.
-  # O nome do serviço do seu PostgreSQL existente no Umbrel é 'postgresql' (confirmado por 'docker ps -a').
+  # O nome do seu PostgreSQL existente no Umbrel é 'foninhoiuri-postgresql'.
 
   # Serviço auxiliar para garantir que o banco de dados 'kong' exista no PostgreSQL externo
   db-setup:
@@ -12,44 +12,38 @@ services:
       sh -c "
         echo 'Aguardando o PostgreSQL estar saudável para criar o banco de dados...';
         sleep 10; # Dá um tempo extra para o PostgreSQL estar totalmente pronto
-        PGPASSWORD=postgres psql -h postgresql -U postgres -d postgres -tc 'SELECT 1 FROM pg_database WHERE datname = ''kong''' | grep -q 1 && echo 'Banco de dados kong já existe.' || PGPASSWORD=postgres psql -h postgresql -U postgres -d postgres -c 'CREATE DATABASE kong ENCODING UTF8 LC_COLLATE ''C'' LC_CTYPE ''C'' TEMPLATE template0;';
+        # Usando credenciais padrão do PostgreSQL ('postgres'/'postgres') e host 'foninhoiuri-postgresql'
+        PGPASSWORD=postgres psql -h foninhoiuri-postgresql -U postgres -d postgres -tc 'SELECT 1 FROM pg_database WHERE datname = ''kong''' | grep -q 1 && echo 'Banco de dados kong já existe.' || PGPASSWORD=postgres psql -h foninhoiuri-postgresql -U postgres -d postgres -c 'CREATE DATABASE kong ENCODING UTF8 LC_COLLATE ''C'' LC_CTYPE ''C'' TEMPLATE template0;';
         echo 'Verificação/Criação do banco de dados kong concluída.';
       "
-    depends_on:
-      postgresql: # Depende do serviço PostgreSQL existente no Umbrel (nome real do contêiner)
-        condition: service_healthy # Garante que o PostgreSQL esteja saudável
     restart: "no" # Roda apenas uma vez com sucesso e depois sai
 
   # Serviço para executar as migrações do Kong
   kong-migrations:
     image: kong:latest
-    # Agora só roda as migrações do Kong, o DB já deve ter sido criado pelo db-setup
     command: >
       sh -c "
         echo 'Iniciando as migrações do Kong...';
-        KONG_DATABASE=postgres KONG_PG_HOST=postgresql KONG_PG_USER=postgres KONG_PG_PASSWORD=postgres KONG_PG_DATABASE=kong kong migrations bootstrap;
+        # Usando credenciais padrão do PostgreSQL ('postgres'/'postgres') e host 'foninhoiuri-postgresql'
+        KONG_DATABASE=postgres KONG_PG_HOST=foninhoiuri-postgresql KONG_PG_USER=postgres KONG_PG_PASSWORD=postgres KONG_PG_DATABASE=kong kong migrations bootstrap;
       "
     depends_on:
-      postgresql: # Ainda depende do PostgreSQL para a conectividade
-        condition: service_healthy
       db-setup: # Depende que o banco de dados 'kong' tenha sido criado
-        condition: service_completed_successfully # Garante que o db-setup terminou com sucesso
+        condition: service_completed_successfully
     restart: "no"
 
   kong:
     image: kong:latest
     restart: unless-stopped
     depends_on:
-      postgresql: # O Kong também depende do PostgreSQL
-        condition: service_healthy
       kong-migrations: # O Kong principal só inicia após as migrações terem sido concluídas
         condition: service_completed_successfully
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: postgresql # Ajustado para o nome real do serviço PostgreSQL
-      KONG_PG_USER: postgres
-      KONG_PG_PASSWORD: postgres
-      KONG_PG_DATABASE: kong
+      KONG_PG_HOST: foninhoiuri-postgresql # Host do seu PostgreSQL existente no Umbrel
+      KONG_PG_USER: default # Usuário padrão do PostgreSQL (assumindo 'default' = 'postgres')
+      KONG_PG_PASSWORD: default # Senha padrão do PostgreSQL (assumindo 'default' = 'postgres')
+      KONG_PG_DATABASE: kong # Nome do banco de dados para o Kong
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr

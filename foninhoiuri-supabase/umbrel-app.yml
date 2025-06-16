@@ -40,3 +40,13 @@ environment: # PREENCHA TODAS ESTAS VARIÁVEIS COM SEUS VALORES REAIS E SEGUROS!
   OPENAI_API_KEY: "" # Opcional: sua chave OpenAI, se usar AI Assistant
 defaultUsername: ""
 defaultPassword: ""
+settings:
+  - id: JWT_SECRET
+    label: JWT Secret Key
+    description: >-
+      Uma chave secreta forte e aleatória para assinar os tokens JWT.
+      Deve ter no mínimo 32 caracteres (idealmente 64+).
+      Use um gerador de senhas seguras.
+    type: password
+    defaultValue: "sua_jwt_secret_muito_insegura_aqui_altere_imediatamente" # ATENÇÃO: Altere esta chave!
+    showOnlyOnFirstInstall: true

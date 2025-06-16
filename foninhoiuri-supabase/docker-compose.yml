@@ -11,7 +11,8 @@ services:
       # Assumimos que o serviço PostgreSQL dentro de foninhoiuri-kong_postrgresql é acessível na porta 5432
       DB_URL: postgresql://default:default@postrgres:5432/supabase
       JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
-      SITE_URL: http://foninhoiuri-kong_postrgresql:8000/auth/v1 # Aponta para o Kong Gateway existente
+      # SITE_URL aponta para o Kong Gateway existente. Use o ID do app Kong para comunicação interna.
+      SITE_URL: http://foninhoiuri-kong_postrgresql:8000/auth/v1
       DISABLE_SIGNUP: "false"
 
   storage:

@@ -1,132 +1,64 @@
 version: '3.8'
 
 services:
-  kong:
-    image: kong:latest
-    restart: unless-stopped
-    environment:
-      KONG_DATABASE: "off"
-      KONG_PROXY_ACCESS_LOG: "/dev/stdout"
-      KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
-      KONG_PROXY_ERROR_LOG: "/dev/stderr"
-      KONG_ADMIN_ERROR_LOG: "/dev/stderr"
-      KONG_ADMIN_LISTEN: "0.0.0.0:8001"
-      KONG_PROXY_LISTEN: "0.0.0.0:8000"
-      KONG_DNS_RESOLVER: "8.8.8.8"
-      KONG_DECLARATIVE_CONFIG: "/opt/kong/kong.yml"
-      DASHBOARD_USERNAME: ${DASHBOARD_USERNAME}
-      DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD}
-    command: >
-      /bin/sh -c "
-      echo '_format_version: \"3.0\"' > /opt/kong/kong.yml &&
-      echo '_file_content_version: \"2.1\"' >> /opt/kong/kong.yml &&
-      echo 'services:' >> /opt/kong/kong.yml &&
-      echo '  - name: supabase-auth-service' >> /opt/kong/kong.yml &&
-      echo '    url: http://auth:9999' >> /opt/kong/kong.yml &&
-      echo '    routes:' >> /opt/kong/kong.yml &&
-      echo '      - name: auth-route' >> /opt/kong/kong.yml &&
-      echo '        paths: [\"/auth/v1\"]' >> /opt/kong/kong.yml &&
-      echo '        strip_path: false' >> /opt/kong/kong.yml &&
-      echo '    plugins:' >> /opt/kong/kong.yml &&
-      echo '      - name: basic-auth' >> /opt/kong/kong.yml &&
-      echo '        config:' >> /opt/kong/kong.yml &&
-      echo '          hide_credentials: true' >> /opt/kong/kong.yml &&
-      echo '      - name: jwt' >> /opt/kong/kong.yml &&
-      echo '        config:' >> /opt/kong/kong.yml &&
-      echo '          uri_param_names: [\"access_token\"]' >> /opt/kong/kong.yml &&
-      echo '          claims_paths: [\"payload.role\"]' >> /opt/kong/kong.yml &&
-      echo '          key_set_uri: http://auth:9999/.well-known/jwks.json' >> /opt/kong/kong.yml &&
-      echo '  - name: supabase-storage-service' >> /opt/kong/kong.yml &&
-      echo '    url: http://storage:5000' >> /opt/kong/kong.yml &&
-      echo '    routes:' >> /opt/kong/kong.yml &&
-      echo '      - name: storage-route' >> /opt/kong/kong.yml &&
-      echo '        paths: [\"/storage/v1\"]' >> /opt/kong/kong.yml &&
-      echo '        strip_path: false' >> /opt/kong/kong.yml &&
-      echo '  - name: supabase-rest-service' >> /opt/kong/kong.yml &&
-      echo '    url: http://rest:3000' >> /opt/kong/kong.yml &&
-      echo '    routes:' >> /opt/kong/kong.yml &&
-      echo '      - name: rest-route' >> /opt/kong/kong.yml &&
-      echo '        paths: [\"/rest/v1\"]' >> /opt/kong/kong.yml &&
-      echo '        strip_path: false' >> /opt/kong/kong.yml &&
-      echo '  - name: supabase-realtime-service' >> /opt/kong/kong.yml &&
-      echo '    url: http://realtime:8080' >> /opt/kong/kong.yml &&
-      echo '    routes:' >> /opt/kong/kong.yml &&
-      echo '      - name: realtime-route' >> /opt/kong/kong.yml &&
-      echo '        paths: [\"/realtime/v1\"]' >> /opt/kong/kong.yml &&
-      echo '        strip_path: false' >> /opt/kong/kong.yml &&
-      echo '  - name: supabase-studio-service' >> /opt/kong/kong.yml &&
-      echo '    url: http://studio:3000' >> /opt/kong/kong.yml &&
-      echo '    routes:' >> /opt/kong/kong.yml &&
-      echo '      - name: studio-route' >> /opt/kong/kong.yml &&
-      echo '        paths: [\"/\"]' >> /opt/kong/kong.yml &&
-      echo 'consumers:' >> /opt/kong/kong.yml &&
-      echo '  - username: DASHBOARD' >> /opt/kong/kong.yml &&
-      echo '    basicauth_credentials:' >> /opt/kong/kong.yml &&
-      echo '      - username: ${DASHBOARD_USERNAME}' >> /opt/kong/kong.yml &&
-      echo '        password: ${DASHBOARD_PASSWORD}' >> /opt/kong/kong.yml &&
-      echo 'plugins:' >> /opt/kong/kong.yml &&
-      echo '  - name: http-log' >> /opt/kong/kong.yml &&
-      echo '    service: kong-http-log-service' >> /opt/kong/kong.yml &&
-      echo '    config:' >> /opt/kong/kong.yml &&
-      echo '      http_endpoint: http://kong:8001/' >> /opt/kong/kong.yml &&
-      " && kong start --database "off"
-    ports:
-      - "8000:8000"
-      - "8001:8001"
-    depends_on:
-      - auth
-      - storage
-      - rest
-      - realtime
-      - studio
+  # O serviço Kong foi REMOVIDO daqui, pois você já tem um Kong rodando como app separado.
 
   auth:
-    image: supabase/gotrue:v2.176.2-rc.1
+    image: supabase/gotrue:v2.128.0
     restart: unless-stopped
     environment:
-      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default
-      JWT_SECRET: ${JWT_SECRET}
-      SITE_URL: http://${DEVICE_DOMAIN_NAME}:8000
+      # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
+      # Assumimos que o serviço PostgreSQL dentro de foninhoiuri-kong_postrgresql é acessível na porta 5432
+      DB_URL: postgresql://default:default@foninhoiuri-kong_postrgresql:5432/default
+      JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
+      SITE_URL: http://foninhoiuri-kong_postrgresql:8000/auth/v1 # Aponta para o Kong Gateway existente
       DISABLE_SIGNUP: "false"
 
   storage:
-    image: supabase/storage-api:latest
+    image: supabase/storage:v0.44.1
     restart: unless-stopped
     environment:
-      DB_URL: postgresql://default:default@foninhoiuri-postgresql:5432/default
-      JWT_SECRET: ${JWT_SECRET}
+      # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
+      DB_URL: postgresql://default:default@foninhoiuri-kong_postrgresql:5432/default
+      JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
       STORAGE_BACKEND: s3
       GLOBAL_S3_BUCKET: your-supabase-bucket
       STORAGE_S3_REGION: us-east-1
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID} # Será lido do ambiente
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY} # Será lido do ambiente
     volumes:
       - ${APP_DATA_DIR}/data/supabase-storage:/var/log/supabase/storage
 
   rest:
-    image: supabase/postgres:15.8.1.100
+    image: supabase/postgrest:v12.0.0
     restart: unless-stopped
     environment:
-      PGRST_DB_URI: postgresql://default:default@foninhoiuri-postgresql:5432/default
-      PGRST_JWT_SECRET: ${JWT_SECRET}
+      # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
+      PGRST_DB_URI: postgresql://default:default@foninhoiuri-kong_postrgresql:5432/default
+      PGRST_JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
       PGRST_DB_SCHEMA: public,storage,auth,extensions
       PGRST_DB_ANON_ROLE: anon
 
   realtime:
-    image: supabase/realtime:latest
+    image: supabase/realtime:v2.16.1
     restart: unless-stopped
     environment:
-      DB_URL: postgresql://default:default@postgres:5432/supabase
-      JWT_SECRET: ${JWT_SECRET}
-      REDIS_URL: redis://redis:6379/0
+      # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
+      DB_URL: postgresql://default:default@foninhoiuri-kong_postrgresql:5432/default
+      JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
+      REDIS_URL: redis://foninhoiuri-redis:6379 # O Redis continua sendo um app separado
 
   studio:
-    image: supabase/studio:latest
+    image: supabase/studio:20240605-728b172
     restart: unless-stopped
     environment:
-      SUPABASE_URL: http://kong:8000
-      SUPABASE_ANON_KEY: ${ANON_KEY}
-      SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
-    depends_on:
-      - kong
+      # Aponta para o Kong Gateway existente
+      SUPABASE_URL: http://foninhoiuri-kong_postrgresql:8000
+      SUPABASE_ANON_KEY: ${ANON_KEY} # Será lido do ambiente
+      SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY} # Será lido do ambiente
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-} # Opcional, será lido do ambiente
+    # Não há depends_on no Kong, pois o Kong é externo.
+
+volumes:
+  supabase-storage:
+  supabase-functions: # Apenas se você incluir o serviço 'functions'

@@ -8,7 +8,12 @@ services:
   kong-migrations:
     image: kong:latest
     # Adicionando um atraso de 10 segundos antes de rodar o comando de migração
-    command: ["sh", "-c", "sleep 10 && kong migrations bootstrap"]
+    command: >
+      sh -c "
+        sleep 10;
+        PGPASSWORD=${KONG_PG_PASSWORD} psql -h ${KONG_PG_HOST} -U ${KONG_PG_USER} -d postgres -tc 'SELECT 1 FROM pg_database WHERE datname = ''${KONG_PG_DATABASE}''' | grep -q 1 || PGPASSWORD=${KONG_PG_PASSWORD} psql -h ${KONG_PG_HOST} -U ${KONG_PG_USER} -d postgres -c 'CREATE DATABASE ${KONG_PG_DATABASE} ENCODING UTF8 LC_COLLATE ''C'' LC_CTYPE ''C'' TEMPLATE template0;';
+        kong migrations bootstrap;
+      "
     environment:
       KONG_DATABASE: postgres
       KONG_PG_HOST: foninhoiuri-postgresql # Host do seu PostgreSQL existente no Umbrel

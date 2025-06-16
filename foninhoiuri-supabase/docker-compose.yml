@@ -11,7 +11,7 @@ services:
       # Assumimos que o serviço PostgreSQL dentro de foninhoiuri-kong_postrgresql é acessível na porta 5432
       DB_URL: postgresql://default:default@postrgres:5432/supabase
       JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
-      SITE_URL: http://${DEVICE_DOMAIN_NAME}:8000/auth/v1 # Aponta para o Kong Gateway existente
+      SITE_URL: http://foninhoiuri-kong_postrgresql:8000/auth/v1 # Aponta para o Kong Gateway existente
       DISABLE_SIGNUP: "false"
 
   storage:
@@ -29,15 +29,15 @@ services:
     volumes:
       - ${APP_DATA_DIR}/data/supabase-storage:/var/log/supabase/storage
 
-  #rest:
-  #  image: supabase/postgrest:v12.0.0
-  #  restart: unless-stopped
-  #  environment:
-  #    # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
-  #    PGRST_DB_URI: postgresql://default:default@postrgres:5432/supabase
-  #    PGRST_JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
-  #    PGRST_DB_SCHEMA: public,storage,auth,extensions
-  #    PGRST_DB_ANON_ROLE: anon
+  rest:
+    image: postgrest/postgrest:latest
+    restart: unless-stopped
+    environment:
+      # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
+      PGRST_DB_URI: postgresql://default:default@postrgres:5432/supabase
+      PGRST_JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
+      PGRST_DB_SCHEMA: public,storage,auth,extensions
+      PGRST_DB_ANON_ROLE: anon
 
   realtime:
     image: supabase/realtime:latest

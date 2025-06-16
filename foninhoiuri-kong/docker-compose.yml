@@ -17,7 +17,7 @@ services:
     command: ["sh", "-c", "sleep 10 && kong migrations bootstrap"]
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: postgresql # DEFINITIVO: Nome do contêiner PostgreSQL existente
+      KONG_PG_HOST: foninhoiuri-postgresql # DEFINITIVO: Nome do contêiner PostgreSQL existente
       KONG_PG_USER: default   # DEFINITIVO: Usuário 'default'
       KONG_PG_PASSWORD: default # DEFINITIVO: Senha 'default'
       KONG_PG_DATABASE: kong
@@ -30,7 +30,7 @@ services:
         condition: service_completed_successfully
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: postgresql # DEFINITIVO: Nome do contêiner PostgreSQL existente
+      KONG_PG_HOST: foninhoiuri-postgresql # DEFINITIVO: Nome do contêiner PostgreSQL existente
       KONG_PG_USER: default   # DEFINITIVO: Usuário 'default'
       KONG_PG_PASSWORD: default # DEFINITIVO: Senha 'default'
       KONG_PG_DATABASE: kong

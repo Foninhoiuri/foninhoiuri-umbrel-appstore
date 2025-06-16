@@ -4,7 +4,7 @@ name: PostgreSQL
 tagline: Um poderoso sistema de banco de dados relacional de código aberto.
 icon: https://i.imgur.com/HQywpQH.png
 category: database
-version: "16.3"
+version: "16"
 port: 5432
 mainApp: false
 description: >-

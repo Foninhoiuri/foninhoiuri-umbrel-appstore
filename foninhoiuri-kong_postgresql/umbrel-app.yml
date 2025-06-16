@@ -1,0 +1,46 @@
+# foninhoiuri-kong/umbrel-app.yml
+manifestVersion: 1.1
+id: foninhoiuri-kong
+name: Kong API Gateway + PostgreSQL
+tagline: Um API Gateway de código aberto e gerenciamento de microsserviços.
+icon: https://i.imgur.com/u3MIVVk.png
+category: combo
+version: "1.0.0"
+description: >-
+  Kong é um API Gateway e plataforma de gerenciamento de microsserviços de código aberto
+  que fornece funcionalidade, segurança e desempenho para suas APIs e microsserviços.
+  Ele é altamente extensível através de plugins e oferece um painel de administração
+  para gerenciamento fácil.
+releaseNotes: >-
+  - Lançamento inicial do Kong API Gateway para umbrelOS.
+  - Configurado para utilizar uma instância PostgreSQL existente no seu Umbrel.
+  - Imagem do Docker configurada para usar a tag 'latest'.
+developer: Kong Inc. / Foninhoiuri
+website: https://konghq.com/
+repo: https://github.com/Kong/kong
+support: https://github.com/Kong/kong/issues
+submitter: Foninhoiuri
+submission: https://github.com/SeuUsuario/seu-repositorio-kong-umbrel # Adapte para o seu repositório
+gallery:
+  - https://i.imgur.com/ti26NnN.png
+port: 8001
+dependencies:
+  - foninhoiuri-postgresql
+defaultUsername: ""
+defaultPassword: ""
+interfaces:
+  main:
+    display: Kong Admin API
+    port: 8001
+    path: /
+    external: true
+  proxy_http:
+    display: Kong Proxy (HTTP)
+    port: 8000
+    path: /
+    external: true
+  proxy_https:
+    display: Kong Proxy (HTTPS)
+    port: 8443
+    path: /
+    external: true

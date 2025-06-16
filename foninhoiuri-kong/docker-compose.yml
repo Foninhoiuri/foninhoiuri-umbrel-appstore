@@ -4,42 +4,41 @@ version: '3.8'
 services:
   # O serviço 'kong-database' foi removido, pois o Kong usará um PostgreSQL existente.
 
-  # Serviço para executar as migrações do Kong com um pequeno atraso
+  # Serviço para executar as migrações do Kong.
+  # Todas as configurações de DB são passadas diretamente no comando para garantir que sejam lidas.
   kong-migrations:
     image: kong:latest
-    # Adicionando um atraso de 10 segundos antes de rodar o comando de migração
     command: >
       sh -c "
         sleep 10;
-        PGPASSWORD=${KONG_PG_PASSWORD} psql -h ${KONG_PG_HOST} -U ${KONG_PG_USER} -d postgres -tc 'SELECT 1 FROM pg_database WHERE datname = ''${KONG_PG_DATABASE}''' | grep -q 1 || PGPASSWORD=${KONG_PG_PASSWORD} psql -h ${KONG_PG_HOST} -U ${KONG_PG_USER} -d postgres -c 'CREATE DATABASE ${KONG_PG_DATABASE} ENCODING UTF8 LC_COLLATE ''C'' LC_CTYPE ''C'' TEMPLATE template0;';
-        kong migrations bootstrap;
+        # Tenta criar o banco de dados 'kong' se ele não existir, usando credenciais e host diretos
+        PGPASSWORD=postgres psql -h foninhoiuri-postgresql -U postgres -d postgres -tc 'SELECT 1 FROM pg_database WHERE datname = ''kong''' | grep -q 1 || PGPASSWORD=postgres psql -h foninhoiuri-postgresql -U postgres -d postgres -c 'CREATE DATABASE kong ENCODING UTF8 LC_COLLATE ''C'' LC_CTYPE ''C'' TEMPLATE template0;';
+        
+        # Executa as migrações do Kong, passando as variáveis de ambiente diretamente para o comando 'kong'
+        KONG_DATABASE=postgres KONG_PG_HOST=foninhoiuri-postgresql KONG_PG_USER=postgres KONG_PG_PASSWORD=postgres KONG_PG_DATABASE=kong kong migrations bootstrap;
       "
-    environment:
-      KONG_DATABASE: postgres
-      KONG_PG_HOST: foninhoiuri-postgresql # Host do seu PostgreSQL existente no Umbrel
-      KONG_PG_USER: postgres              # <<-- CORRIGIDO: Deve ser 'postgres'
-      KONG_PG_PASSWORD: postgres          # <<-- CORRIGIDO: Deve ser 'postgres'
-      KONG_PG_DATABASE: kong              # Nome do banco de dados para o Kong
+    # O bloco 'environment' foi removido deste serviço para contornar o problema de parsing.
     restart: "no" # Garante que este serviço roda apenas uma vez com sucesso
 
   kong:
     image: kong:latest
     restart: unless-stopped
     depends_on:
-      kong-migrations: # O Kong agora depende do serviço de migrações
-        condition: service_completed_successfully # Garante que as migrações terminaram com sucesso
+      kong-migrations: # O Kong principal só inicia após as migrações terem sido concluídas
+        condition: service_completed_successfully
     environment:
+      # Variáveis de ambiente para o serviço Kong principal (este bloco é necessário para o Kong)
       KONG_DATABASE: postgres
-      KONG_PG_HOST: foninhoiuri-postgresql # Host do seu PostgreSQL existente no Umbrel
-      KONG_PG_USER: postgres              # Usuário padrão do PostgreSQL (ajuste se for diferente)
-      KONG_PG_PASSWORD: postgres          # Senha padrão do PostgreSQL (ajuste se for diferente)
-      KONG_PG_DATABASE: kong              # Nome do banco de dados para o Kong
+      KONG_PG_HOST: foninhoiuri-postgresql
+      KONG_PG_USER: postgres
+      KONG_PG_PASSWORD: postgres
+      KONG_PG_DATABASE: kong
       KONG_PROXY_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
       KONG_PROXY_ERROR_LOG: /dev/stderr
       KONG_ADMIN_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
-      KONG_PROXY_LISTEN: 0.0.0.0:8000, 0.0.0.0:8443 ssl
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001,0.0.0.0:8444 ssl
+      KONG_PROXY_LISTEN: 0.0.0.0:8000,0.0.0.0:8443 ssl
     ports:
       - "8000:8000/tcp" # Porta do proxy HTTP
       - "8443:8443/tcp" # Porta do proxy HTTPS
@@ -50,6 +49,3 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
-# A declaração de volumes nomeados como 'kong_data' foi removida,
-# pois o banco de dados agora é externo.

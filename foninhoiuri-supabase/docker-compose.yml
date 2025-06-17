@@ -4,25 +4,23 @@ services:
   auth:
     image: supabase/gotrue:v2.176.1
     restart: unless-stopped
-    networks:
-      - umbrel-external
     environment:
-      DB_URL: postgresql://default:default@postgresql:5432/supabase
+      DB_URL: postgresql://default:${POSTGRES_PASSWORD}@foninhoiuri-postgresql:5432/supabase
       JWT_SECRET: ${JWT_SECRET}
-      SITE_URL: http://kong:8000/auth/v1
+      SITE_URL: http://localhost:3000/auth/v1
       DISABLE_SIGNUP: "false"
 
   storage:
     image: supabase/storage-api:latest
     restart: unless-stopped
-    networks:
-      - umbrel-external
+    ports:
+      - 5000:5000
     environment:
-      DB_URL: postgresql://default:default@postgresql:5432/supabase
+      DB_URL: postgresql://default:${POSTGRES_PASSWORD}@foninhoiuri-postgresql:5432/supabase
       JWT_SECRET: ${JWT_SECRET}
       STORAGE_BACKEND: s3
-      GLOBAL_S3_BUCKET: your-supabase-bucket
-      STORAGE_S3_REGION: us-east-1
+      GLOBAL_S3_BUCKET: ${GLOBAL_S3_BUCKET}
+      STORAGE_S3_REGION: ${STORAGE_S3_REGION}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
     volumes:
@@ -31,10 +29,10 @@ services:
   rest:
     image: postgrest/postgrest:latest
     restart: unless-stopped
-    networks:
-      - umbrel-external
+    ports:
+      - 3001:3000
     environment:
-      PGRST_DB_URI: postgresql://default:default@postgresql:5432/supabase
+      PGRST_DB_URI: postgresql://default:${POSTGRES_PASSWORD}@foninhoiuri-postgresql:5432/supabase
       PGRST_JWT_SECRET: ${JWT_SECRET}
       PGRST_DB_SCHEMA: public,storage,auth,extensions
       PGRST_DB_ANON_ROLE: anon
@@ -42,27 +40,20 @@ services:
   realtime:
     image: supabase/realtime:latest
     restart: unless-stopped
-    networks:
-      - umbrel-external
+    ports:
+      - 4000:4000
     environment:
-      DB_URL: postgresql://default:default@postgresql:5432/supabase
+      DB_URL: postgresql://default:${POSTGRES_PASSWORD}@foninhoiuri-postgresql:5432/supabase
       JWT_SECRET: ${JWT_SECRET}
-      REDIS_URL: redis://redis:6379
+      REDIS_URL: redis://foninhoiuri-redis:6379
 
   studio:
     image: supabase/studio:latest
     restart: unless-stopped
-    networks:
-      - umbrel-external
+    ports:
+      - 3000:3000
     environment:
-      SUPABASE_URL: http://kong:8000
+      SUPABASE_URL: http://localhost:3000
       SUPABASE_ANON_KEY: ${ANON_KEY}
       SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
-
-volumes:
-  supabase-storage:
-
-networks:
-  umbrel-external:
-    external: true

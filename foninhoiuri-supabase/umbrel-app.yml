@@ -22,7 +22,7 @@ submitter: Foninhoiuri
 submission: https://github.com/SeuUsuario/seu-repositorio-supabase-umbrel
 gallery:
   - https://raw.githubusercontent.com/supabase/supabase/master/.github/assets/supabase-og-image.png
-port: 8000
+port: 3000
 dependencies:
   - foninhoiuri-redis
   - foninhoiuri-postgresql

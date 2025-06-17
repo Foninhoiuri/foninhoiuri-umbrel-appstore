@@ -1,64 +1,68 @@
 version: '3.8'
 
 services:
-  # O serviço Kong foi REMOVIDO daqui, pois você já tem um Kong rodando como app separado.
-
   auth:
     image: supabase/gotrue:v2.176.1
     restart: unless-stopped
+    networks:
+      - umbrel-external
     environment:
-      # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
-      # Assumimos que o serviço PostgreSQL dentro de foninhoiuri-kong_postrgresql é acessível na porta 5432
-      DB_URL: postgresql://default:default@postrgres:5432/supabase
-      JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
-      # SITE_URL aponta para o Kong Gateway existente. Use o ID do app Kong para comunicação interna.
-      SITE_URL: http://foninhoiuri-kong_postrgresql:8000/auth/v1
+      DB_URL: postgresql://default:default@postgresql:5432/supabase
+      JWT_SECRET: ${JWT_SECRET}
+      SITE_URL: http://kong:8000/auth/v1
       DISABLE_SIGNUP: "false"
 
   storage:
     image: supabase/storage-api:latest
     restart: unless-stopped
+    networks:
+      - umbrel-external
     environment:
-      # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
-      DB_URL: postgresql://default:default@postrgres:5432/supabase
-      JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
+      DB_URL: postgresql://default:default@postgresql:5432/supabase
+      JWT_SECRET: ${JWT_SECRET}
       STORAGE_BACKEND: s3
       GLOBAL_S3_BUCKET: your-supabase-bucket
       STORAGE_S3_REGION: us-east-1
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID} # Será lido do ambiente
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY} # Será lido do ambiente
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
     volumes:
       - ${APP_DATA_DIR}/data/supabase-storage:/var/log/supabase/storage
 
   rest:
     image: postgrest/postgrest:latest
     restart: unless-stopped
+    networks:
+      - umbrel-external
     environment:
-      # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
-      PGRST_DB_URI: postgresql://default:default@postrgres:5432/supabase
-      PGRST_JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
+      PGRST_DB_URI: postgresql://default:default@postgresql:5432/supabase
+      PGRST_JWT_SECRET: ${JWT_SECRET}
       PGRST_DB_SCHEMA: public,storage,auth,extensions
       PGRST_DB_ANON_ROLE: anon
 
   realtime:
     image: supabase/realtime:latest
     restart: unless-stopped
+    networks:
+      - umbrel-external
     environment:
-      # Conecta ao PostgreSQL do seu app Kong/PostgreSQL existente
-      DB_URL: postgresql://default:default@postrgres:5432/supabase
-      JWT_SECRET: ${JWT_SECRET} # Será lido do ambiente
-      REDIS_URL: redis://redis:6379 # O Redis continua sendo um app separado
+      DB_URL: postgresql://default:default@postgresql:5432/supabase
+      JWT_SECRET: ${JWT_SECRET}
+      REDIS_URL: redis://redis:6379
 
   studio:
     image: supabase/studio:latest
     restart: unless-stopped
+    networks:
+      - umbrel-external
     environment:
-      # Aponta para o Kong Gateway existente
-      SUPABASE_URL: http://${DEVICE_DOMAIN_NAME}:8000
-      SUPABASE_ANON_KEY: ${ANON_KEY} # Será lido do ambiente
-      SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY} # Será lido do ambiente
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-} # Opcional, será lido do ambiente
-    # Não há depends_on no Kong, pois o Kong é externo.
+      SUPABASE_URL: http://kong:8000
+      SUPABASE_ANON_KEY: ${ANON_KEY}
+      SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
 
 volumes:
   supabase-storage:
+
+networks:
+  umbrel-external:
+    external: true

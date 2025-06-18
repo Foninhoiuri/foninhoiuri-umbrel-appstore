@@ -7,7 +7,7 @@ services:
     environment:
       DB_URL: postgresql://default:${POSTGRES_PASSWORD}@foninhoiuri-postgresql:5432/supabase
       JWT_SECRET: ${JWT_SECRET}
-      SITE_URL: http://localhost:3000/auth/v1
+      SITE_URL: http://${DEVICE_DOMAIN_NAME}:8000/auth/v1
       DISABLE_SIGNUP: "false"
 
   storage:
@@ -53,7 +53,7 @@ services:
     ports:
       - 3000:3000
     environment:
-      SUPABASE_URL: http://localhost:3000
+      SUPABASE_URL: http://${DEVICE_DOMAIN_NAME}:3000
       SUPABASE_ANON_KEY: ${ANON_KEY}
       SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}

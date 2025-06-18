@@ -7,9 +7,10 @@ services:
     ports:
       - 8001:8000
     environment:
+      API_EXTERNAL_URL: http://supabase.umbrel.local # URL externa para o umbrelOS
       DB_URL: postgresql://default:default@postgres:5432/supabase
-      JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 ALTERE: use uma string aleatória com no mínimo 32 caracteres
-      SITE_URL: http://${DEVICE_DOMAIN_NAME}:3000/auth/v1 # 🌐 ALTERE se o domínio real do app for diferente
+      JWT_SECRET: changesupersecretjwtwith32chars! # 🔐 ALTERE: use uma string aleatória com no mínimo 32 caracteres
+      SUPABASE_URL: http://${DEVICE_DOMAIN_NAME}:3000
       DISABLE_SIGNUP: "false" # 🚫 Você pode definir como "true" para desativar registros públicos
 
   storage:
@@ -19,12 +20,13 @@ services:
       - 8002:5000
     environment:
       DB_URL: postgresql://default:default@postgres:5432/supabase
-      JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MANTENHA igual ao JWT usado nos outros serviços
+      JWT_SECRET: changesupersecretjwtwith32chars! # 🔐 MANTENHA igual ao JWT usado nos outros serviços
       STORAGE_BACKEND: s3 # ☁️ ALTERE para "file" se não for usar S3
       GLOBAL_S3_BUCKET: my-supabase-bucket # 📦 ALTERE: nome do bucket na AWS
       STORAGE_S3_REGION: us-east-1 # 🌍 ALTERE: região onde seu bucket S3 está hospedado
       AWS_ACCESS_KEY_ID: myawsaccesskeyid # 🔑 ALTERE: sua chave de acesso da AWS
       AWS_SECRET_ACCESS_KEY: myawssecretaccesskey # 🔐 ALTERE: seu segredo da AWS
+      FILE_SIZE_LIMIT: 52428800
     volumes:
       - ${APP_DATA_DIR}/data/storage:/var/log/supabase/storage
 
@@ -38,6 +40,8 @@ services:
       PGRST_JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MANTENHA igual ao dos outros serviços
       PGRST_DB_SCHEMA: public,storage,auth,extensions # 📂 ALTERE se usar schemas personalizados
       PGRST_DB_ANON_ROLE: anon # 👤 ALTERE se quiser outro role default para acesso anônimo
+      PGRST_DB_PREFER_RATIO: "1.5" # Exemplo, ajuste conforme necessário
+      # Adicione outras variáveis de ambiente do PostgREST conforme necessário
 
   realtime:
     image: supabase/realtime:latest
@@ -45,9 +49,17 @@ services:
     ports:
       - 8004:4000
     environment:
+    # Variáveis de ambiente ESSENCIAIS
+      APP_NAME: realtime
+      PORT: 4000
+      NODE_ENV: production
       DB_URL: postgresql://default:default@postgres:5432/supabase
       JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MESMA JWT para autenticação
       REDIS_URL: redis://redis:6379 # ⚠️ Confirme o ID/nome do seu Redis no Umbrel
+      # Ajuste RLIMIT_NOFILE se necessário, ou remova se o problema for no script de inicialização da imagem
+      # Se o problema for na imagem do Docker, pode ser necessário construir uma imagem customizada
+      # ou verificar se há uma variável de ambiente equivalente para o limite de arquivos.
+      # Por enquanto, vou supor que o erro RLIMIT_NOFILE vem de um script interno da imagem.
 
   studio:
     image: supabase/studio:latest
@@ -55,7 +67,7 @@ services:
     ports:
       - 8000:3000
     environment:
-      SUPABASE_URL: http://${DEVICE_DOMAIN_NAME}:3000 # 🌍 ALTERE se o domínio mudar
+      SUPABASE_URL: http://supabase-rest:3000 # 🌍 ALTERE se o domínio mudar
       SUPABASE_ANON_KEY: anon_key_generated_from_jwt # 🔑 ALTERE: gere baseado no JWT real
-      SUPABASE_SERVICE_ROLE_KEY: service_role_key_generated # 🔑 ALTERE: gere baseado no JWT real
-      OPENAI_API_KEY: "" # 🤖 Opcional: insira sua chave da OpenAI se usar recursos com IA
+      #SUPABASE_SERVICE_ROLE_KEY: service_role_key_generated # 🔑 ALTERE: gere baseado no JWT real
+      #OPENAI_API_KEY: "" # 🤖 Opcional: insira sua chave da OpenAI se usar recursos com IA

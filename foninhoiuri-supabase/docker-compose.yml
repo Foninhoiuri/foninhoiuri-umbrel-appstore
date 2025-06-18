@@ -5,9 +5,9 @@ services:
     image: supabase/gotrue:v2.176.1
     restart: unless-stopped
     environment:
-      DB_URL: postgresql://default:changeme-postgres@foninhoiuri-postgresql:5432/supabase
+      DB_URL: postgresql://default:default@postgres:5432/supabase
       JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 ALTERE: use uma string aleatória com no mínimo 32 caracteres
-      SITE_URL: http://umbrel.local:8000/auth/v1 # 🌐 ALTERE se o domínio real do app for diferente
+      SITE_URL: http://umbrel.local:3000/auth/v1 # 🌐 ALTERE se o domínio real do app for diferente
       DISABLE_SIGNUP: "false" # 🚫 Você pode definir como "true" para desativar registros públicos
 
   storage:
@@ -16,7 +16,7 @@ services:
     ports:
       - 5000:5000
     environment:
-      DB_URL: postgresql://default:changeme-postgres@foninhoiuri-postgresql:5432/supabase
+      DB_URL: postgresql://default:default@postgres:5432/supabase
       JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MANTENHA igual ao JWT usado nos outros serviços
       STORAGE_BACKEND: s3 # ☁️ ALTERE para "file" se não for usar S3
       GLOBAL_S3_BUCKET: my-supabase-bucket # 📦 ALTERE: nome do bucket na AWS
@@ -32,7 +32,7 @@ services:
     ports:
       - 3001:3000
     environment:
-      PGRST_DB_URI: postgresql://default:changeme-postgres@foninhoiuri-postgresql:5432/supabase
+      PGRST_DB_URI: postgresql://default:default@postgres:5432/supabase
       PGRST_JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MANTENHA igual ao dos outros serviços
       PGRST_DB_SCHEMA: public,storage,auth,extensions # 📂 ALTERE se usar schemas personalizados
       PGRST_DB_ANON_ROLE: anon # 👤 ALTERE se quiser outro role default para acesso anônimo
@@ -43,7 +43,7 @@ services:
     ports:
       - 4000:4000
     environment:
-      DB_URL: postgresql://default:changeme-postgres@foninhoiuri-postgresql:5432/supabase
+      DB_URL: postgresql://default:default@postgres:5432/supabase
       JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MESMA JWT para autenticação
       REDIS_URL: redis://foninhoiuri-redis:6379 # ⚠️ Confirme o ID/nome do seu Redis no Umbrel
 

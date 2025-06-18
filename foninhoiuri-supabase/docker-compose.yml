@@ -4,17 +4,19 @@ services:
   auth:
     image: supabase/gotrue:v2.176.1
     restart: unless-stopped
+    ports:
+      - 8001:8000
     environment:
       DB_URL: postgresql://default:default@postgres:5432/supabase
       JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 ALTERE: use uma string aleatória com no mínimo 32 caracteres
-      SITE_URL: http://umbrel.local:3000/auth/v1 # 🌐 ALTERE se o domínio real do app for diferente
+      SITE_URL: http://${DEVICE_DOMAIN_NAME}:3000/auth/v1 # 🌐 ALTERE se o domínio real do app for diferente
       DISABLE_SIGNUP: "false" # 🚫 Você pode definir como "true" para desativar registros públicos
 
   storage:
     image: supabase/storage-api:latest
     restart: unless-stopped
     ports:
-      - 5000:5000
+      - 8002:5000
     environment:
       DB_URL: postgresql://default:default@postgres:5432/supabase
       JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MANTENHA igual ao JWT usado nos outros serviços
@@ -24,13 +26,13 @@ services:
       AWS_ACCESS_KEY_ID: myawsaccesskeyid # 🔑 ALTERE: sua chave de acesso da AWS
       AWS_SECRET_ACCESS_KEY: myawssecretaccesskey # 🔐 ALTERE: seu segredo da AWS
     volumes:
-      - /data/storage:/var/log/supabase/storage
+      - ${APP_DATA_DIR}/data/storage:/var/log/supabase/storage
 
   rest:
     image: postgrest/postgrest:latest
     restart: unless-stopped
     ports:
-      - 3001:3000
+      - 8003:3000
     environment:
       PGRST_DB_URI: postgresql://default:default@postgres:5432/supabase
       PGRST_JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MANTENHA igual ao dos outros serviços
@@ -41,19 +43,19 @@ services:
     image: supabase/realtime:latest
     restart: unless-stopped
     ports:
-      - 4000:4000
+      - 8004:4000
     environment:
       DB_URL: postgresql://default:default@postgres:5432/supabase
       JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MESMA JWT para autenticação
-      REDIS_URL: redis://foninhoiuri-redis:6379 # ⚠️ Confirme o ID/nome do seu Redis no Umbrel
+      REDIS_URL: redis://redis:6379 # ⚠️ Confirme o ID/nome do seu Redis no Umbrel
 
   studio:
     image: supabase/studio:latest
     restart: unless-stopped
     ports:
-      - 3000:3000
+      - 8000:3000
     environment:
-      SUPABASE_URL: http://umbrel.local:3000 # 🌍 ALTERE se o domínio mudar
+      SUPABASE_URL: http://${DEVICE_DOMAIN_NAME}:3000 # 🌍 ALTERE se o domínio mudar
       SUPABASE_ANON_KEY: anon_key_generated_from_jwt # 🔑 ALTERE: gere baseado no JWT real
       SUPABASE_SERVICE_ROLE_KEY: service_role_key_generated # 🔑 ALTERE: gere baseado no JWT real
       OPENAI_API_KEY: "" # 🤖 Opcional: insira sua chave da OpenAI se usar recursos com IA

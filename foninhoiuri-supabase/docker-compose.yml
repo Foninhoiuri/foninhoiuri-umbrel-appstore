@@ -5,10 +5,10 @@ services:
     image: supabase/gotrue:v2.176.1
     restart: unless-stopped
     environment:
-      DB_URL: postgresql://default:${POSTGRES_PASSWORD}@foninhoiuri-postgresql:5432/supabase
-      JWT_SECRET: ${JWT_SECRET}
-      SITE_URL: http://${DEVICE_DOMAIN_NAME}:8000/auth/v1
-      DISABLE_SIGNUP: "false"
+      DB_URL: postgresql://default:changeme-postgres@foninhoiuri-postgresql:5432/supabase
+      JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 ALTERE: use uma string aleatória com no mínimo 32 caracteres
+      SITE_URL: http://umbrel.local:8000/auth/v1 # 🌐 ALTERE se o domínio real do app for diferente
+      DISABLE_SIGNUP: "false" # 🚫 Você pode definir como "true" para desativar registros públicos
 
   storage:
     image: supabase/storage-api:latest
@@ -16,15 +16,15 @@ services:
     ports:
       - 5000:5000
     environment:
-      DB_URL: postgresql://default:${POSTGRES_PASSWORD}@foninhoiuri-postgresql:5432/supabase
-      JWT_SECRET: ${JWT_SECRET}
-      STORAGE_BACKEND: s3
-      GLOBAL_S3_BUCKET: ${GLOBAL_S3_BUCKET}
-      STORAGE_S3_REGION: ${STORAGE_S3_REGION}
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      DB_URL: postgresql://default:changeme-postgres@foninhoiuri-postgresql:5432/supabase
+      JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MANTENHA igual ao JWT usado nos outros serviços
+      STORAGE_BACKEND: s3 # ☁️ ALTERE para "file" se não for usar S3
+      GLOBAL_S3_BUCKET: my-supabase-bucket # 📦 ALTERE: nome do bucket na AWS
+      STORAGE_S3_REGION: us-east-1 # 🌍 ALTERE: região onde seu bucket S3 está hospedado
+      AWS_ACCESS_KEY_ID: myawsaccesskeyid # 🔑 ALTERE: sua chave de acesso da AWS
+      AWS_SECRET_ACCESS_KEY: myawssecretaccesskey # 🔐 ALTERE: seu segredo da AWS
     volumes:
-      - ${APP_DATA_DIR}/data/supabase-storage:/var/log/supabase/storage
+      - /data/storage:/var/log/supabase/storage
 
   rest:
     image: postgrest/postgrest:latest
@@ -32,10 +32,10 @@ services:
     ports:
       - 3001:3000
     environment:
-      PGRST_DB_URI: postgresql://default:${POSTGRES_PASSWORD}@foninhoiuri-postgresql:5432/supabase
-      PGRST_JWT_SECRET: ${JWT_SECRET}
-      PGRST_DB_SCHEMA: public,storage,auth,extensions
-      PGRST_DB_ANON_ROLE: anon
+      PGRST_DB_URI: postgresql://default:changeme-postgres@foninhoiuri-postgresql:5432/supabase
+      PGRST_JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MANTENHA igual ao dos outros serviços
+      PGRST_DB_SCHEMA: public,storage,auth,extensions # 📂 ALTERE se usar schemas personalizados
+      PGRST_DB_ANON_ROLE: anon # 👤 ALTERE se quiser outro role default para acesso anônimo
 
   realtime:
     image: supabase/realtime:latest
@@ -43,9 +43,9 @@ services:
     ports:
       - 4000:4000
     environment:
-      DB_URL: postgresql://default:${POSTGRES_PASSWORD}@foninhoiuri-postgresql:5432/supabase
-      JWT_SECRET: ${JWT_SECRET}
-      REDIS_URL: redis://foninhoiuri-redis:6379
+      DB_URL: postgresql://default:changeme-postgres@foninhoiuri-postgresql:5432/supabase
+      JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MESMA JWT para autenticação
+      REDIS_URL: redis://foninhoiuri-redis:6379 # ⚠️ Confirme o ID/nome do seu Redis no Umbrel
 
   studio:
     image: supabase/studio:latest
@@ -53,7 +53,7 @@ services:
     ports:
       - 3000:3000
     environment:
-      SUPABASE_URL: http://${DEVICE_DOMAIN_NAME}:3000
-      SUPABASE_ANON_KEY: ${ANON_KEY}
-      SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      SUPABASE_URL: http://umbrel.local:3000 # 🌍 ALTERE se o domínio mudar
+      SUPABASE_ANON_KEY: anon_key_generated_from_jwt # 🔑 ALTERE: gere baseado no JWT real
+      SUPABASE_SERVICE_ROLE_KEY: service_role_key_generated # 🔑 ALTERE: gere baseado no JWT real
+      OPENAI_API_KEY: "" # 🤖 Opcional: insira sua chave da OpenAI se usar recursos com IA

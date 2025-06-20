@@ -4,6 +4,9 @@ services:
     image: ngrok/ngrok:latest
     restart: unless-stopped
     container_name: foninhoiuri-ngrok
+    depends_on:
+      - n8n
+      - web
     ports:
       - "4551:4551"      # Interface web do ngrok (HTTP Inspector)
     environment:
@@ -17,5 +20,7 @@ services:
       PORT: 4550
       # Ativa logs de debug no terminal (opcional)
       DEBUG: "true"
+    # Comando direto para criar um túnel HTTPs apontando para o serviço 'n8n' na porta '5678'
+    command: ["http", "n8n:5678"]
     volumes:
       - ${APP_DATA_DIR}/data/ngrok.yml:/etc/ngrok.yml

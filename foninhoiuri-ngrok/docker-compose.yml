@@ -1,11 +1,8 @@
 version: "3.7"
-
 services:
   ngrok:
-    image: Foninhoiuri/docker-ngrok:latest
+    image: ngrok/ngrok:latest
     container_name: foninhoiuri-ngrok
-    depends_on:
-      - web
     ports:
       - "4551:4551"      # Interface web do ngrok (HTTP Inspector)
     environment:
@@ -16,6 +13,6 @@ services:
       # Nome do serviço Docker que será exposto (é o hostname)
       DOMAIN: web
       # Porta interna do serviço web que o ngrok deve encaminhar
-      PORT: 5678
+      PORT: 4550
       # Ativa logs de debug no terminal (opcional)
       DEBUG: "true"

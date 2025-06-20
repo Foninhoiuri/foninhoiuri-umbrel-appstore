@@ -1,0 +1,39 @@
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      # Usado pelo Umbrel para expor o app via proxy reverso
+      APP_HOST: web
+      APP_PORT: 5678
+
+  web:
+    image: <docker-image>:<tag>@sha256:<digest>
+    restart: on-failure
+    stop_grace_period: 1m
+    # Não precisa expor porta aqui, o ngrok e o proxy do Umbrel cuidam disso
+    # Se precisar de volumes, adicione aqui, conforme seu app
+    environment:
+      # Variáveis do Umbrel que seu app pode usar
+      DEVICE_HOSTNAME: ${DEVICE_HOSTNAME}
+      DEVICE_DOMAIN_NAME: ${DEVICE_DOMAIN_NAME}
+      TOR_PROXY_IP: ${TOR_PROXY_IP}
+      TOR_PROXY_PORT: ${TOR_PROXY_PORT}
+      APP_HIDDEN_SERVICE: ${APP_HIDDEN_SERVICE}
+      APP_PASSWORD: ${APP_PASSWORD}
+      APP_SEED: ${APP_SEED}
+
+  ngrok:
+    image: shkoliar/ngrok:latest
+    container_name: ngrok-app
+    depends_on:
+      - web
+    ports:
+      - "4551:4551"         # Interface web do ngrok
+    environment:
+      - AUTH_TOKEN=${NGROK_AUTH_TOKEN}  # se você já cadastrou no ngrok.com
+      - REGION=us                      # ou "eu", "ap", etc., conforme preferência
+      - DOMAIN=web                     # nome do serviço Docker a ser exposto
+      - PORT=5678                      # porta do seu app
+      - DEBUG=true                     # logs detalhados no terminal
+#    network_mode: bridge              # geralmente OK, mas se usar rede customizada, configure aqui

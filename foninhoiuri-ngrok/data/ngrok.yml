@@ -1,4 +1,5 @@
-authtoken: 2ymxUBRE20H7FLNvl1MPAOHG9hG_4qhSFQ9RWz2grHhkXiezy
+agent:
+  authtoken: 2ymxUBRE20H7FLNvl1MPAOHG9hG_4qhSFQ9RWz2grHhkXiezy
 tunnels:
   evolution-api:
     proto: http

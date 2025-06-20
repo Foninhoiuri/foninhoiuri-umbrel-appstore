@@ -1,0 +1,8 @@
+authtoken: ${NGROK_AUTH_TOKEN}
+tunnels:
+  evolution-api:
+    proto: http
+    addr: 8080
+  n8n-plus:
+    proto: http
+    addr: 5678

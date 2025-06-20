@@ -8,7 +8,7 @@ services:
       - "4551:4551"      # Interface web do ngrok (HTTP Inspector)
     environment:
       # Seu token obtido em https://dashboard.ngrok.com/auth
-      NGROK_AUTH_TOKEN: LDLEED2RKTLF6YUI2UUN4T5GNGJ6ZOII
+      NGROK_AUTH_TOKEN: 2ymxUBRE20H7FLNvl1MPAOHG9hG_4qhSFQ9RWz2grHhkXiezy
       # Região do túnel (us, eu, ap, au, sa, jp, in)
       REGION: us
       # Nome do serviço Docker que será exposto (é o hostname)

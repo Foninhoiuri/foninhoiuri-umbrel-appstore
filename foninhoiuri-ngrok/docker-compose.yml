@@ -1,21 +1,9 @@
-version: "3.7"
-
 services:
   ngrok:
-    image: shkoliar/ngrok:latest
+    image: ngrok/ngrok:main
     container_name: foninhoiuri-ngrok
-    depends_on:
-      - web
-    ports:
-      - "4551:4551"      # Interface web do ngrok (HTTP Inspector)
+    network_mode: "host"  # ngrok vai enxergar localhost:8080
+    restart: unless-stopped
     environment:
-      # Seu token obtido em https://dashboard.ngrok.com/auth
-      NGROK_AUTH_TOKEN: ${NGROK_AUTH_TOKEN}
-      # Região do túnel (us, eu, ap, au, sa, jp, in)
-      REGION: us
-      # Nome do serviço Docker que será exposto (é o hostname)
-      DOMAIN: web
-      # Porta interna do serviço web que o ngrok deve encaminhar
-      PORT: 5678
-      # Ativa logs de debug no terminal (opcional)
-      DEBUG: "true"
+      NGROK_AUTHTOKEN: ${NGROK_AUTH_TOKEN}  # defina em .env ou na UI do Umbrel
+    command: http 8080

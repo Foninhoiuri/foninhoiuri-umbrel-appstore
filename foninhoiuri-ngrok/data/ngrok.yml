@@ -1,4 +1,4 @@
-authtoken: ${NGROK_AUTH_TOKEN}
+authtoken: 2ymxUBRE20H7FLNvl1MPAOHG9hG_4qhSFQ9RWz2grHhkXiezy
 tunnels:
   evolution-api:
     proto: http

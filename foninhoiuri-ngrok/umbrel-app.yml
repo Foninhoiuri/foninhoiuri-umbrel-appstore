@@ -1,0 +1,19 @@
+manifestVersion: 1
+id: foninhoiuri-ngrok
+category: developer-tools
+name: Ngrok Tunnel
+version: "1.0.0"
+tagline: Tunelamento HTTPs para apps locais
+description: >-
+  Expõe um serviço local do Umbrel via túnel HTTPS usando ngrok, com interface web para monitoramento.
+  Ideal para habilitar OAuth, webhooks ou debug remoto sem precisar contar com DNS público.
+releaseNotes: >-
+  Versão inicial: expõe local:5678 via ngrok, interface disponível no porta 4551
+developer: Foninhoiuri
+website: https://ngrok.com
+repo: https://github.com/Foninhoiuri/docker-ngrok
+support: https://github.com/Foninhoiuri/docker-ngrok/issues
+port: 4551
+path: ""
+submitter: Foninhoiuri
+submission: https://github.com/Foninhoiuri/docker-ngrok

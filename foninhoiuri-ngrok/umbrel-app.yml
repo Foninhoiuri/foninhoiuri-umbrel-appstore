@@ -1,6 +1,6 @@
 manifestVersion: 1
 id: foninhoiuri-ngrok
-category: developer-tools
+category: em desenvolvimento...
 name: Ngrok Tunnel
 version: "1.0.0"
 tagline: Tunelamento HTTPs para apps locais
@@ -17,3 +17,6 @@ port: 4551
 path: ""
 submitter: Foninhoiuri
 submission: https://github.com/Foninhoiuri/docker-ngrok
+dependencies: []
+defaultUsername: ""
+defaultPassword: ""

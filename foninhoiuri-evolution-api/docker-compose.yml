@@ -1,6 +1,6 @@
 services:
   evolution_api:
-    image: evolution-api:v2.3.0
+    image: atendai/evolution-api:v2.2.1
     container_name: evolution_api_instance
     restart: unless-stopped
     #v2.3.0 - 2.3000.1024080502

@@ -1,4 +1,4 @@
-manifestVersion: 1.1
+manifestVersion: 1.2
 id: foninhoiuri-evolution-api # Seu ID único para este pacote do app
 name: Evolution API
 tagline: A maneira mais fácil de integrar o WhatsApp ao seu sistema.

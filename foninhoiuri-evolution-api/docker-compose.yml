@@ -14,7 +14,8 @@ services:
       # 5. Clique em "Copy to clipboard" para copiar a chave gerada.
       # 6. Cole a chave copiada em AUTHENTICATION_API_KEY, substituindo "sua_chave_secreta_aqui".
       - AUTHENTICATION_API_KEY=BXP377jz43g6haCWIkK2q1dA4OdXcC4F # MUDE ESTA CHAVE!
-      - CONFIG_SESSION_PHONE_VERSION=2.3000.1020885143
+      - CONFIG_SESSION_PHONE_VERSION=2.3000.1024080502
+      
 
       # Configurações do Redis - Essenciais para persistência de sessão e cache
       - CACHE_REDIS_ENABLED=true

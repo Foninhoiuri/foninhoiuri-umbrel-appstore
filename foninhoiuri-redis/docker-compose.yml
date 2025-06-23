@@ -6,8 +6,8 @@ services:
     image: redis:latest # Imagem oficial do Redis do Docker Hub
     container_name: foninhoiuri-redis # Nome específico para o contêiner do seu app Redis
     restart: unless-stopped # Garante que o contêiner reinicie automaticamente
-    # ports: # <--- LINHA DE EXPOSIÇÃO DE PORTA COMENTADA/REMOVIDA
-    #   - "6379:6379" # Não é necessário expor para o host se o Redis for usado apenas internamente por outros apps no Umbrel.
+    ports: # <--- LINHA DE EXPOSIÇÃO DE PORTA COMENTADA/REMOVIDA
+       - "6379:6379" # Não é necessário expor para o host se o Redis for usado apenas internamente por outros apps no Umbrel.
     volumes:
       - ${APP_DATA_DIR}/data:/data # Volume persistente para os dados do Redis
       # Se você tiver um arquivo redis.conf personalizado na raiz da sua pasta do app:

@@ -1,73 +1,441 @@
-version: '3.8'
-
+version: '3.7'
 services:
-  auth:
-    image: supabase/gotrue:v2.176.1
-    restart: unless-stopped
-    ports:
-      - 8001:8000
+  app_proxy:
+    depends_on:
+      - studio
     environment:
-      API_EXTERNAL_URL: http://supabase.umbrel.local # URL externa para o umbrelOS
-      DB_URL: postgresql://default:default@postgres:5432/supabase
-      JWT_SECRET: changesupersecretjwtwith32chars! # 🔐 ALTERE: use uma string aleatória com no mínimo 32 caracteres
-      SUPABASE_URL: http://${DEVICE_DOMAIN_NAME}:3000
-      DISABLE_SIGNUP: "false" # 🚫 Você pode definir como "true" para desativar registros públicos
-
-  storage:
-    image: supabase/storage-api:latest
-    restart: unless-stopped
-    ports:
-      - 8002:5000
-    environment:
-      DB_URL: postgresql://default:default@postgres:5432/supabase
-      JWT_SECRET: changesupersecretjwtwith32chars! # 🔐 MANTENHA igual ao JWT usado nos outros serviços
-      STORAGE_BACKEND: s3 # ☁️ ALTERE para "file" se não for usar S3
-      GLOBAL_S3_BUCKET: my-supabase-bucket # 📦 ALTERE: nome do bucket na AWS
-      STORAGE_S3_REGION: us-east-1 # 🌍 ALTERE: região onde seu bucket S3 está hospedado
-      AWS_ACCESS_KEY_ID: myawsaccesskeyid # 🔑 ALTERE: sua chave de acesso da AWS
-      AWS_SECRET_ACCESS_KEY: myawssecretaccesskey # 🔐 ALTERE: seu segredo da AWS
-      FILE_SIZE_LIMIT: 52428800
-    volumes:
-      - ${APP_DATA_DIR}/data/storage:/var/log/supabase/storage
-
-  rest:
-    image: postgrest/postgrest:latest
-    restart: unless-stopped
-    ports:
-      - 8003:3000
-    environment:
-      PGRST_DB_URI: postgresql://default:default@postgres:5432/supabase
-      PGRST_JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MANTENHA igual ao dos outros serviços
-      PGRST_DB_SCHEMA: public,storage,auth,extensions # 📂 ALTERE se usar schemas personalizados
-      PGRST_DB_ANON_ROLE: anon # 👤 ALTERE se quiser outro role default para acesso anônimo
-      PGRST_DB_PREFER_RATIO: "1.5" # Exemplo, ajuste conforme necessário
-      # Adicione outras variáveis de ambiente do PostgREST conforme necessário
-
-  realtime:
-    image: supabase/realtime:latest
-    restart: unless-stopped
-    ports:
-      - 8004:4000
-    environment:
-    # Variáveis de ambiente ESSENCIAIS
-      APP_NAME: realtime
-      PORT: 4000
-      NODE_ENV: production
-      DB_URL: postgresql://default:default@postgres:5432/supabase
-      JWT_SECRET: changeme-supersecretjwtwith32chars! # 🔐 MESMA JWT para autenticação
-      REDIS_URL: redis://redis:6379 # ⚠️ Confirme o ID/nome do seu Redis no Umbrel
-      # Ajuste RLIMIT_NOFILE se necessário, ou remova se o problema for no script de inicialização da imagem
-      # Se o problema for na imagem do Docker, pode ser necessário construir uma imagem customizada
-      # ou verificar se há uma variável de ambiente equivalente para o limite de arquivos.
-      # Por enquanto, vou supor que o erro RLIMIT_NOFILE vem de um script interno da imagem.
-
+      APP_HOST: denny-supabase_studio_1
+      APP_PORT: 3000
+      PROXY_AUTH_ADD: 'false'
+    container_name: denny-supabase_app_proxy_1
   studio:
-    image: supabase/studio:latest
-    restart: unless-stopped
-    ports:
-      - 8000:3000
+    image: >-
+      ghcr.io/supabase/studio:2025.05.21-sha-c9ee6bc@sha256:b398a3dec4d6cfada86d1a939cb0ea3ec35a759046b540fe763be5257c2ba348
+    restart: on-failure
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - '-e'
+        - >-
+          fetch('http://studio:3000/api/platform/profile').then((r) => {if
+          (r.status !== 200) throw new Error(r.status)})
+      timeout: 10s
+      interval: 5s
+      retries: 3
+    depends_on:
+      analytics:
+        condition: service_healthy
     environment:
-      SUPABASE_URL: http://supabase-rest:3000 # 🌍 ALTERE se o domínio mudar
-      SUPABASE_ANON_KEY: anon_key_generated_from_jwt # 🔑 ALTERE: gere baseado no JWT real
-      #SUPABASE_SERVICE_ROLE_KEY: service_role_key_generated # 🔑 ALTERE: gere baseado no JWT real
-      #OPENAI_API_KEY: "" # 🤖 Opcional: insira sua chave da OpenAI se usar recursos com IA
+      STUDIO_PG_META_URL: http://meta:8080
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DEFAULT_ORGANIZATION_NAME: ${STUDIO_DEFAULT_ORGANIZATION}
+      DEFAULT_PROJECT_NAME: ${STUDIO_DEFAULT_PROJECT}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      SUPABASE_URL: http://kong:8000
+      SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
+      SUPABASE_ANON_KEY: ${ANON_KEY}
+      SUPABASE_SERVICE_KEY: ${SERVICE_ROLE_KEY}
+      AUTH_JWT_SECRET: ${JWT_SECRET}
+      LOGFLARE_API_KEY: ${LOGFLARE_API_KEY}
+      LOGFLARE_URL: http://analytics:4000
+      NEXT_PUBLIC_ENABLE_LOGS: 'true'
+      NEXT_ANALYTICS_BACKEND_PROVIDER: postgres
+    container_name: denny-supabase_studio_1
+  kong:
+    image: >-
+      kong:2.8.1@sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/volumes/api/kong.yml:/home/kong/temp.yml:ro,z
+    depends_on:
+      analytics:
+        condition: service_healthy
+    environment:
+      KONG_DATABASE: 'off'
+      KONG_DECLARATIVE_CONFIG: /home/kong/kong.yml
+      KONG_DNS_ORDER: LAST,A,CNAME
+      KONG_PLUGINS: request-transformer,cors,key-auth,acl,basic-auth
+      KONG_NGINX_PROXY_PROXY_BUFFER_SIZE: 160k
+      KONG_NGINX_PROXY_PROXY_BUFFERS: 64 160k
+      SUPABASE_ANON_KEY: ${ANON_KEY}
+      SUPABASE_SERVICE_KEY: ${SERVICE_ROLE_KEY}
+      DASHBOARD_USERNAME: ${DASHBOARD_USERNAME}
+      DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD}
+    entrypoint: >-
+      bash -c 'eval "echo \"$$(cat ~/temp.yml)\"" > ~/kong.yml &&
+      /docker-entrypoint.sh kong docker-start'
+    container_name: denny-supabase_kong_1
+  auth:
+    image: >-
+      ghcr.io/supabase/gotrue:v2.172.1@sha256:b0dd7aa28dd1f9a8bd31f136c8b912661f701d9b863171e5843cb08f18f49de4
+    restart: on-failure
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - '--no-verbose'
+        - '--tries=1'
+        - '--spider'
+        - http://localhost:9999/health
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    depends_on:
+      db:
+        condition: service_healthy
+      analytics:
+        condition: service_healthy
+    environment:
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: 9999
+      API_EXTERNAL_URL: ${API_EXTERNAL_URL}
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: >-
+        postgres://supabase_auth_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      GOTRUE_SITE_URL: ${SITE_URL}
+      GOTRUE_URI_ALLOW_LIST: ${ADDITIONAL_REDIRECT_URLS}
+      GOTRUE_DISABLE_SIGNUP: ${DISABLE_SIGNUP}
+      GOTRUE_JWT_ADMIN_ROLES: service_role
+      GOTRUE_JWT_AUD: authenticated
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+      GOTRUE_JWT_EXP: ${JWT_EXPIRY}
+      GOTRUE_JWT_SECRET: ${JWT_SECRET}
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: ${ENABLE_EMAIL_SIGNUP}
+      GOTRUE_EXTERNAL_ANONYMOUS_USERS_ENABLED: ${ENABLE_ANONYMOUS_USERS}
+      GOTRUE_MAILER_AUTOCONFIRM: ${ENABLE_EMAIL_AUTOCONFIRM}
+      GOTRUE_SMTP_ADMIN_EMAIL: ${SMTP_ADMIN_EMAIL}
+      GOTRUE_SMTP_HOST: ${SMTP_HOST}
+      GOTRUE_SMTP_PORT: ${SMTP_PORT}
+      GOTRUE_SMTP_USER: ${SMTP_USER}
+      GOTRUE_SMTP_PASS: ${SMTP_PASS}
+      GOTRUE_SMTP_SENDER_NAME: ${SMTP_SENDER_NAME}
+      GOTRUE_MAILER_URLPATHS_INVITE: ${MAILER_URLPATHS_INVITE}
+      GOTRUE_MAILER_URLPATHS_CONFIRMATION: ${MAILER_URLPATHS_CONFIRMATION}
+      GOTRUE_MAILER_URLPATHS_RECOVERY: ${MAILER_URLPATHS_RECOVERY}
+      GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE: ${MAILER_URLPATHS_EMAIL_CHANGE}
+      GOTRUE_EXTERNAL_PHONE_ENABLED: ${ENABLE_PHONE_SIGNUP}
+      GOTRUE_SMS_AUTOCONFIRM: ${ENABLE_PHONE_AUTOCONFIRM}
+    container_name: denny-supabase_auth_1
+  rest:
+    image: >-
+      postgrest/postgrest:v12.2.12@sha256:5f4ce744539bbba786b4e24dbbd95bdb2a956dcf568c5374995a0ff4a68f5bd2
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+      analytics:
+        condition: service_healthy
+    environment:
+      PGRST_DB_URI: >-
+        postgres://authenticator:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      PGRST_DB_SCHEMAS: ${PGRST_DB_SCHEMAS}
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: ${JWT_SECRET}
+      PGRST_DB_USE_LEGACY_GUCS: 'false'
+      PGRST_APP_SETTINGS_JWT_SECRET: ${JWT_SECRET}
+      PGRST_APP_SETTINGS_JWT_EXP: ${JWT_EXPIRY}
+    command:
+      - postgrest
+    container_name: denny-supabase_rest_1
+  realtime:
+    image: >-
+      ghcr.io/supabase/realtime:v2.34.47@sha256:4d2460cb6eb081b7cfec0e6b0af57f547497f60cf897621555303992d299f6e8
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+      analytics:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - '-sSfL'
+        - '--head'
+        - '-o'
+        - /dev/null
+        - '-H'
+        - 'Authorization: Bearer ${ANON_KEY}'
+        - http://localhost:4000/api/tenants/realtime-dev/health
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    environment:
+      PORT: 4000
+      DB_HOST: ${POSTGRES_HOST}
+      DB_PORT: ${POSTGRES_PORT}
+      DB_USER: default
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+      DB_AFTER_CONNECT_QUERY: SET search_path TO _realtime
+      DB_ENC_KEY: supabaserealtime
+      API_JWT_SECRET: ${JWT_SECRET}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      ERL_AFLAGS: '-proto_dist inet_tcp'
+      DNS_NODES: ''''''
+      RLIMIT_NOFILE: '10000'
+      APP_NAME: realtime
+      SEED_SELF_HOST: 'true'
+      RUN_JANITOR: 'true'
+    container_name: denny-supabase_realtime_1
+  storage:
+    image: >-
+      ghcr.io/supabase/storage-api:v1.22.17@sha256:44ab8bb94101ca2914e689d77fa662f68897ef3bb27aa34c3af6c5f2c0c7b6c5
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/volumes/storage:/var/lib/storage:z
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - '--no-verbose'
+        - '--tries=1'
+        - '--spider'
+        - http://storage:5000/status
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    depends_on:
+      db:
+        condition: service_healthy
+      rest:
+        condition: service_started
+      imgproxy:
+        condition: service_started
+    environment:
+      ANON_KEY: ${ANON_KEY}
+      SERVICE_KEY: ${SERVICE_ROLE_KEY}
+      POSTGREST_URL: http://rest:3000
+      PGRST_JWT_SECRET: ${JWT_SECRET}
+      DATABASE_URL: >-
+        postgres://supabase_storage_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      FILE_SIZE_LIMIT: 52428800
+      STORAGE_BACKEND: file
+      FILE_STORAGE_BACKEND_PATH: /var/lib/storage
+      TENANT_ID: stub
+      REGION: stub
+      GLOBAL_S3_BUCKET: stub
+      ENABLE_IMAGE_TRANSFORMATION: 'true'
+      IMGPROXY_URL: http://imgproxy:5001
+    container_name: denny-supabase_storage_1
+  imgproxy:
+    image: >-
+      darthsim/imgproxy:v3.8.0@sha256:0facd355d50f3be665ebe674486f2b2e9cdaebd3f74404acd9b7fece2f661435
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/volumes/storage:/var/lib/storage:z
+    healthcheck:
+      test:
+        - CMD
+        - imgproxy
+        - health
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    environment:
+      IMGPROXY_BIND: ':5001'
+      IMGPROXY_LOCAL_FILESYSTEM_ROOT: /
+      IMGPROXY_USE_ETAG: 'true'
+      IMGPROXY_ENABLE_WEBP_DETECTION: ${IMGPROXY_ENABLE_WEBP_DETECTION}
+    container_name: denny-supabase_imgproxy_1
+  meta:
+    image: >-
+      ghcr.io/supabase/postgres-meta:v0.89.0@sha256:8f7f0090850690847d9e1fc30b75511eeb6cac0c63317ec593a5dd384af2ae76
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+      analytics:
+        condition: service_healthy
+    environment:
+      PG_META_PORT: 8080
+      PG_META_DB_HOST: ${POSTGRES_HOST}
+      PG_META_DB_PORT: ${POSTGRES_PORT}
+      PG_META_DB_NAME: ${POSTGRES_DB}
+      PG_META_DB_USER: default
+      PG_META_DB_PASSWORD: ${POSTGRES_PASSWORD}
+    container_name: denny-supabase_meta_1
+  functions:
+    image: >-
+      ghcr.io/supabase/edge-runtime:v1.67.4@sha256:358930e39ff36e0130c3afe3808a5c8f8322f7ff9c42624406dacce859ed0e24
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/volumes/functions:/home/deno/functions:Z
+    depends_on:
+      analytics:
+        condition: service_healthy
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+      SUPABASE_URL: http://kong:8000
+      SUPABASE_ANON_KEY: ${ANON_KEY}
+      SUPABASE_SERVICE_ROLE_KEY: ${SERVICE_ROLE_KEY}
+      SUPABASE_DB_URL: >-
+        postgresql://postgres:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      VERIFY_JWT: ${FUNCTIONS_VERIFY_JWT}
+    command:
+      - start
+      - '--main-service'
+      - /home/deno/functions/main
+    container_name: denny-supabase_functions_1
+  analytics:
+    image: >-
+      supabase/logflare:1.12.0@sha256:84d0cda731e1fe43c24531003660c7f5e82c460b80b48493041701381ec0eeee
+    restart: on-failure
+    ports:
+      - '54000:4000'
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - http://localhost:4000/health
+      timeout: 5s
+      interval: 5s
+      retries: 10
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      LOGFLARE_NODE_HOST: 127.0.0.1
+      DB_USERNAME: default
+      DB_DATABASE: _supabase
+      DB_HOSTNAME: ${POSTGRES_HOST}
+      DB_PORT: ${POSTGRES_PORT}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_SCHEMA: _analytics
+      LOGFLARE_API_KEY: ${LOGFLARE_API_KEY}
+      LOGFLARE_SINGLE_TENANT: 'true'
+      LOGFLARE_SUPABASE_MODE: 'true'
+      LOGFLARE_MIN_CLUSTER_SIZE: 1
+      POSTGRES_BACKEND_URL: >-
+        postgresql://default:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/_supabase
+      POSTGRES_BACKEND_SCHEMA: _analytics
+      LOGFLARE_FEATURE_FLAG_OVERRIDE: multibackend=true
+    container_name: denny-supabase_analytics_1
+  db:
+    image: >-
+      ghcr.io/supabase/postgres:15.8.1.060@sha256:0e2279598bc0224fb5960c3a61eb23270cd60119427f3a7bdec86ba282600dcc
+    restart: on-failure
+    volumes:
+      - >-
+        ${APP_DATA_DIR}/volumes/db/realtime.sql:/docker-entrypoint-initdb.d/migrations/99-realtime.sql:Z
+      - >-
+        ${APP_DATA_DIR}/volumes/db/webhooks.sql:/docker-entrypoint-initdb.d/init-scripts/98-webhooks.sql:Z
+      - >-
+        ${APP_DATA_DIR}/volumes/db/roles.sql:/docker-entrypoint-initdb.d/init-scripts/99-roles.sql:Z
+      - >-
+        ${APP_DATA_DIR}/volumes/db/jwt.sql:/docker-entrypoint-initdb.d/init-scripts/99-jwt.sql:Z
+      - ${APP_DATA_DIR}/volumes/db/data:/var/lib/postgresql/data:Z
+      - >-
+        ${APP_DATA_DIR}/volumes/db/_supabase.sql:/docker-entrypoint-initdb.d/migrations/97-_supabase.sql:Z
+      - >-
+        ${APP_DATA_DIR}/volumes/db/logs.sql:/docker-entrypoint-initdb.d/migrations/99-logs.sql:Z
+      - >-
+        ${APP_DATA_DIR}/volumes/db/pooler.sql:/docker-entrypoint-initdb.d/migrations/99-pooler.sql:Z
+      - db-config:/etc/postgresql-custom
+    healthcheck:
+      test:
+        - CMD
+        - pg_isready
+        - '-U'
+        - postgres
+        - '-h'
+        - localhost
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      vector:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: /var/run/postgresql
+      PGPORT: ${POSTGRES_PORT}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: ${POSTGRES_DB}
+      POSTGRES_DB: ${POSTGRES_DB}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXP: ${JWT_EXPIRY}
+    command:
+      - postgres
+      - '-c'
+      - config_file=/etc/postgresql/postgresql.conf
+      - '-c'
+      - log_min_messages=fatal
+    container_name: denny-supabase_db_1
+  vector:
+    image: >-
+      timberio/vector:0.28.1-alpine@sha256:4bc04aca94a44f04b427a490f346e7397ef7ce61fe589d718f744f7d92cb5c80
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/volumes/logs/vector.yml:/etc/vector/vector.yml:ro,z
+      - ${DOCKER_SOCKET_LOCATION}:/var/run/docker.sock:ro,z
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - '--no-verbose'
+        - '--tries=1'
+        - '--spider'
+        - http://vector:9001/health
+      timeout: 5s
+      interval: 5s
+      retries: 3
+    environment:
+      LOGFLARE_API_KEY: ${LOGFLARE_API_KEY}
+    command:
+      - '--config'
+      - /etc/vector/vector.yml
+    security_opt:
+      - label=disable
+    container_name: denny-supabase_vector_1
+  supavisor:
+    image: >-
+      ghcr.io/supabase/supavisor:2.5.1@sha256:d41621d44d728740c886bc90016df019351b4ecea54ce138340f02fedd57af3a
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/volumes/pooler/pooler.exs:/etc/pooler/pooler.exs:ro,z
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - '-sSfL'
+        - '--head'
+        - '-o'
+        - /dev/null
+        - http://127.0.0.1:4000/api/health
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      db:
+        condition: service_healthy
+      analytics:
+        condition: service_healthy
+    environment:
+      PORT: 4000
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_URL: postgresql://default:${POSTGRES_PASSWORD}@postgers:${POSTGRES_PORT}/_supabase
+      CLUSTER_POSTGRES: 'true'
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      VAULT_ENC_KEY: ${VAULT_ENC_KEY}
+      API_JWT_SECRET: ${JWT_SECRET}
+      METRICS_JWT_SECRET: ${JWT_SECRET}
+      REGION: local
+      ERL_AFLAGS: '-proto_dist inet_tcp'
+      POOLER_TENANT_ID: ${POOLER_TENANT_ID}
+      POOLER_DEFAULT_POOL_SIZE: ${POOLER_DEFAULT_POOL_SIZE}
+      POOLER_MAX_CLIENT_CONN: ${POOLER_MAX_CLIENT_CONN}
+      POOLER_POOL_MODE: transaction
+    command:
+      - /bin/sh
+      - '-c'
+      - >-
+        /app/bin/migrate && /app/bin/supavisor eval "$$(cat
+        /etc/pooler/pooler.exs)" && /app/bin/server
+    container_name: denny-supabase_supavisor_1
+volumes:
+  db-config: null

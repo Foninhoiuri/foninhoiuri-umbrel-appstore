@@ -414,7 +414,7 @@ services:
 
   vector:
     # https://hub.docker.com/r/timberio/vector/tags
-    image: timberio/vector:0.28.1-alpine@sha256:4bc04aca94a44f04b427a490f346e7397ef7ce61fe589d718f744f7d92cb5c80
+    image: timberio/vector:nightly-distroless-libc
     restart: on-failure
     volumes:
       - ${APP_DATA_DIR}/volumes/logs/vector.yml:/etc/vector/vector.yml:ro,z

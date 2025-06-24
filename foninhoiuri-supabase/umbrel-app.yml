@@ -1,7 +1,7 @@
 manifestVersion: 1
 id: foninhoiuri-supabase
 name: Supabase
-category: developer tools
+category: database
 icon: https://i.imgur.com/VvDRlIu.png
 tagline: An open source Firebase alternative
 version: "2025.05.21"

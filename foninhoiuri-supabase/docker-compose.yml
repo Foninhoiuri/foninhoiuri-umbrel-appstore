@@ -417,7 +417,7 @@ services:
     image: timberio/vector:nightly-distroless-libc
     restart: on-failure
     volumes:
-      - ${APP_DATA_DIR}/volumes/vector/vector.yml:/etc/vector/vector.yml:ro,z
+      - ${APP_DATA_DIR}/volumes/logs/vector.yml:/etc/vector/vector.yml:ro,z
       - ${DOCKER_SOCKET_LOCATION}:/var/run/docker.sock:ro,z
     healthcheck:
       test:

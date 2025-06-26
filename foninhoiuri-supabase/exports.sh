@@ -18,7 +18,7 @@ export VAULT_ENC_KEY=tF7dP2nL9cX4vB6sZ8mQ1aY3gK5hJ0rE
 # Database
 ############
 
-export POSTGRES_HOST=default
+export POSTGRES_HOST=postgresql
 export POSTGRES_PASSWORD=default
 export POSTGRES_DB=_supabase
 export POSTGRES_PORT=5432

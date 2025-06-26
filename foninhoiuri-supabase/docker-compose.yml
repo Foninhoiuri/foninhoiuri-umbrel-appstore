@@ -5,7 +5,7 @@ services:
     depends_on:
       - studio
     environment:
-      APP_HOST: denny-supabase_studio_1
+      APP_HOST: foninhoiuri-supabase_studio_1
       APP_PORT: 3000 # Supabase web app will be mapped to 53000
       PROXY_AUTH_ADD: "false"
 
@@ -103,7 +103,7 @@ services:
       API_EXTERNAL_URL: ${API_EXTERNAL_URL}
 
       GOTRUE_DB_DRIVER: postgres
-      GOTRUE_DB_DATABASE_URL: postgres://supabase_auth_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+      GOTRUE_DB_DATABASE_URL: postgres://default:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
 
       GOTRUE_SITE_URL: ${SITE_URL}
       GOTRUE_URI_ALLOW_LIST: ${ADDITIONAL_REDIRECT_URLS}

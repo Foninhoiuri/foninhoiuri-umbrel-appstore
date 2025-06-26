@@ -30,13 +30,13 @@ transforms:
     inputs:
       - project_logs
     route:
-      kong: '.appname == "denny-supabase_kong_1"'
-      auth: '.appname == "denny-supabase_auth_1"'
-      rest: '.appname == "denny-supabase_rest_1"'
-      realtime: '.appname == "denny-supabase_realtime_1"'
-      storage: '.appname == "denny-supabase_storage_1"'
-      functions: '.appname == "denny-supabase_functions_1"'
-      db: '.appname == "denny-supabase_db_1"'
+      kong: '.appname == "foninhoiuri-supabase_kong_1"'
+      auth: '.appname == "foninhoiuri-supabase_auth_1"'
+      rest: '.appname == "foninhoiuri-supabase_rest_1"'
+      realtime: '.appname == "foninhoiuri-supabase_realtime_1"'
+      storage: '.appname == "foninhoiuri-supabase_storage_1"'
+      functions: '.appname == "foninhoiuri-supabase_functions_1"'
+      db: '.appname == "foninhoiuri-supabase_db_1"'
   # Ignores non nginx errors since they are related with kong booting up
   kong_logs:
     type: remap

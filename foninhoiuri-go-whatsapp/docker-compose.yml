@@ -1,0 +1,12 @@
+services:
+  whatsapp-web:
+    image: aldinokemal2104/go-whatsapp-web-multidevice:latest
+    container_name: whatsapp-web
+    restart: unless-stopped
+    ports:
+      - 7788
+    environment:
+      - BASIC_AUTH_USER=admin       # Usuário para login web
+      - BASIC_AUTH_PASSWORD=senha   # Senha para login web
+    volumes:
+      - ${APP_DATA_DIR}/whatsapp_data:/app/session

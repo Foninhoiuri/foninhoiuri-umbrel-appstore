@@ -22,6 +22,6 @@ gallery:
   - https://i.imgur.com/U4BGop1.png
   - https://i.imgur.com/hb7Lqxv.png
 port: 7788
-path: /
+path:
 defaultUsername: admin
 defaultPassword: senha

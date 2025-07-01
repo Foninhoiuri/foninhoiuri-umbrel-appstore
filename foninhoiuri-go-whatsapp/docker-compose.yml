@@ -1,12 +1,39 @@
+version: "3.8"
+
 services:
   whatsapp-web:
     image: aldinokemal2104/go-whatsapp-web-multidevice:latest
     container_name: whatsapp-web
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "7788:3000"
     environment:
-      - BASIC_AUTH_USER=admin       # Usuário para login web
-      - BASIC_AUTH_PASSWORD=senha   # Senha para login web
-    volumes:
-      - ${APP_DATA_DIR}/whatsapp_data:/app/session
+      # Porta de acesso
+      APP_PORT: 3000
+
+      # Modo debug ativado
+      APP_DEBUG: true
+
+      # Nome do app no WhatsApp (ex: aparece no celular como o "dispositivo")
+      APP_OS: FoninhoApp
+
+      # Login com usuário e senha (você pode adicionar mais separados por vírgula)
+      APP_BASIC_AUTH: igor:senha123,flavia:amor123
+
+      # Webhook para receber mensagens recebidas
+      WHATSAPP_WEBHOOK: https://webhook.site/seu-endereco
+
+      # Chave de verificação HMAC para o webhook
+      WHATSAPP_WEBHOOK_SECRET: super-secreta
+
+      # Mensagem de auto resposta
+      WHATSAPP_AUTO_REPLY: "Desculpe, estou ocupado. Te retorno em breve."
+
+      # Intervalo de flush do chat (em dias)
+      APP_CHAT_FLUSH_INTERVAL: 7
+
+      # Validação de conta (desligue se der problemas)
+      WHATSAPP_ACCOUNT_VALIDATION: true
+
+      # Salvar histórico do chat
+      WHATSAPP_CHAT_STORAGE: true

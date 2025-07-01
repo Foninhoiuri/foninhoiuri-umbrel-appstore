@@ -4,7 +4,7 @@ services:
     container_name: whatsapp-web
     restart: unless-stopped
     ports:
-      - 7788
+      - "3000:3000"
     environment:
       - BASIC_AUTH_USER=admin       # Usuário para login web
       - BASIC_AUTH_PASSWORD=senha   # Senha para login web

@@ -1,0 +1,27 @@
+manifestVersion: 1.2
+id: foninhoiuri-GoWhatsapp
+name: WhatsApp Web
+tagline: Acesse seu WhatsApp Web de qualquer lugar com segurança e praticidade.
+icon: https://i.pinimg.com/736x/d0/e6/42/d0e64290ad01a1b9c68a9c5ac131d088.jpg
+category: comunicação
+version: "v1.0.0"
+description: >-
+  Este app permite que você rode o WhatsApp Web em seu Umbrel, acessível de qualquer dispositivo via navegador.
+  Ele fornece uma interface com autenticação básica para manter sua conta segura, com sessões persistentes
+  mesmo se o dispositivo principal for desconectado temporariamente.
+
+releaseNotes: >-
+  Versão inicial do aplicativo WhatsApp Web para UmbrelOS, empacotado por Foninho.
+developer: Aldino Kemal
+website: https://github.com/aldinokemal2104/go-whatsapp-web-multidevice
+repo: https://github.com/aldinokemal2104/go-whatsapp-web-multidevice
+support: https://github.com/aldinokemal2104/go-whatsapp-web-multidevice/issues
+submitter: Foninho
+submission: https://github.com/foninhoiuri/umbrel-app-whatsapp-web
+gallery:
+  - https://i.imgur.com/U4BGop1.png
+  - https://i.imgur.com/hb7Lqxv.png
+port: 7788
+path: /
+defaultUsername: admin
+defaultPassword: senha

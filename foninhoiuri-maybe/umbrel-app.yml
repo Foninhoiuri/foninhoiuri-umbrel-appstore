@@ -1,0 +1,41 @@
+manifestVersion: 1.1
+id: foninhoiuri-maybe
+name: Maybe Finance
+tagline: Gerencie suas finanças com segurança e privacidade no seu Umbrel.
+icon: https://avatars.githubusercontent.com/u/80786585?s=200&v=4
+category: finance
+version: "1.0.0"
+port: 6260
+description: >-
+  💰 O Maybe é uma aplicação web para rastreamento e gestão financeira totalmente auto-hospedada, com foco em privacidade e simplicidade. 
+  Com ele, você pode importar automaticamente transações bancárias, visualizar gráficos, acompanhar investimentos e entender melhor seus gastos, tudo sem depender de serviços de terceiros.
+
+  Com este app, você pode rodar o Maybe Finance diretamente no seu Umbrel, acessando pela interface web local em `http://umbrel.local:6260`.
+
+  🛡️ Seus dados permanecem apenas com você: tudo é armazenado localmente no seu node Umbrel.
+
+  ✨ Recursos:
+    - Importação automática de transações bancárias e cartões
+    - Suporte a múltiplas contas e instituições
+    - Categorias personalizáveis
+    - Visualizações e dashboards em tempo real
+    - Segurança garantida com variável `SECRET_KEY_BASE` e banco Postgres isolado
+
+  🛠️ Para configurar, é necessário fornecer um segredo no `exports.sh` (SECRET_KEY_BASE) e senha do banco (POSTGRES_PASSWORD). Recomenda-se gerar o segredo com `openssl rand -hex 64`.
+
+  Acesse e comece a rastrear seus gastos como um(a) verdadeiro(a) hacker financeiro(a) 🚀
+
+developer: Maybe Finance
+website: https://maybe.co
+submitter: Foninho
+submission: https://github.com/foninhoiuri/umbrel-app-maybe
+repo: https://github.com/maybe-finance/maybe
+support: https://github.com/maybe-finance/maybe/issues
+gallery:
+  - https://maybe.co/_next/image?url=%2Fimages%2Fdashboard-light.png&w=1080&q=75
+  - https://maybe.co/_next/image?url=%2Fimages%2Faccounts-light.png&w=1080&q=75
+  - https://maybe.co/_next/image?url=%2Fimages%2Ftransactions-light.png&w=1080&q=75
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

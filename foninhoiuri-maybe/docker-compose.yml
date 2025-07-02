@@ -8,20 +8,7 @@ services:
       - "6260:6260" 
     environment:
       - SECRET_KEY_BASE=712ac7624abad6ec987b1678f67c8ecbff06ddb8bbecae1451a82e4ae0190387141829adad9b77826f7c93a4a33fafc8ecb462d922dbf08eef1d6a37f7a530e2
-      - DATABASE_URL=postgres://maybe:maybe@db:5432/maybe_production
+      - DATABASE_URL=postgresql://default:default@postgres:5432/maybe_production
     volumes:
       - ${APP_DATA_DIR}/data:/app/data
-    depends_on:
-      - db
-    restart: on-failure
-
-  db:
-    container_name: maybe_db
-    image: postgres:14.18-bookworm
-    environment:
-      - POSTGRES_DB=maybe_production
-      - POSTGRES_USER=maybe
-      - POSTGRES_PASSWORD=maybe
-    volumes:
-      - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
     restart: on-failure

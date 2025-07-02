@@ -31,7 +31,7 @@ submitter: Foninho
 submission: https://github.com/foninhoiuri/umbrel-app-maybe
 repo: https://github.com/maybe-finance/maybe
 support: https://github.com/maybe-finance/maybe/issues
-gallery:
+gallery: []
 dependencies:
   - foninhoiuri-postgresql
 path: ""

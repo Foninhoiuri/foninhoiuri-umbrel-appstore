@@ -3,7 +3,7 @@ version: '3.7'
 services:
   maybe:
     container_name: maybe_app
-    image: ghcr.io/maybe-finance/maybe@sha256:ba7e8d38939b98ddc74e0f73510805a69ea29418
+    image: ghcr.io/maybe-finance/maybe:latest
     ports:
       - "6260:6260"
     environment:

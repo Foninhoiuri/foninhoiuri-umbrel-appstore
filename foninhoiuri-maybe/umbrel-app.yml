@@ -3,7 +3,7 @@ id: foninhoiuri-maybe
 name: Maybe Finance
 tagline: Gerencie suas finanças com segurança e privacidade no seu Umbrel.
 icon: https://avatars.githubusercontent.com/u/80786585?s=200&v=4
-category: finance
+category: Financeiro
 version: "1.0.0"
 port: 6260
 description: >-

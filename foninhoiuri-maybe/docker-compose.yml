@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  maybe:
+    container_name: maybe_app
+    image: ghcr.io/maybe-finance/maybe:stable
+    ports:
+      - "6260:6260"
+    environment:
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ${APP_DATA_DIR}/data:/app/data
+    depends_on:
+      - db
+    restart: on-failure
+
+  db:
+    container_name: maybe_db
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=maybe_production
+      - POSTGRES_USER=maybe
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
+    restart: on-failure

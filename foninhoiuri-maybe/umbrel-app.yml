@@ -4,7 +4,7 @@ name: Maybe Finance
 tagline: Gerencie suas finanças com segurança e privacidade no seu Umbrel.
 icon: https://avatars.githubusercontent.com/u/80786585?s=200&v=4
 category: Financeiro
-version: "1.0.0"
+version: "1.0.1"
 port: 6260
 description: >-
   💰 O Maybe é uma aplicação web para rastreamento e gestão financeira totalmente auto-hospedada, com foco em privacidade e simplicidade. 

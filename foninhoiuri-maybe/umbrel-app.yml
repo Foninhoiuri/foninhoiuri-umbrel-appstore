@@ -33,6 +33,7 @@ repo: https://github.com/maybe-finance/maybe
 support: https://github.com/maybe-finance/maybe/issues
 gallery: []
 dependencies:
+  - foninhoiuri-redis  
   - foninhoiuri-postgresql
 path: ""
 defaultUsername: ""

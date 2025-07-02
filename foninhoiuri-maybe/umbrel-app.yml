@@ -35,7 +35,8 @@ gallery:
   - https://maybe.co/_next/image?url=%2Fimages%2Fdashboard-light.png&w=1080&q=75
   - https://maybe.co/_next/image?url=%2Fimages%2Faccounts-light.png&w=1080&q=75
   - https://maybe.co/_next/image?url=%2Fimages%2Ftransactions-light.png&w=1080&q=75
-dependencies: []
+dependencies:
+  - foninhoiuri-postgresql
 path: ""
 defaultUsername: ""
 defaultPassword: ""

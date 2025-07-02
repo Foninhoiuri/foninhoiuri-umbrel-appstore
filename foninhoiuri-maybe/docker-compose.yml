@@ -5,10 +5,10 @@ services:
     container_name: maybe_app
     image: ghcr.io/maybe-finance/maybe:latest
     ports:
-      - "6260:6260"
+      - 6260
     environment:
-      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - SECRET_KEY_BASE=712ac7624abad6ec987b1678f67c8ecbff06ddb8bbecae1451a82e4ae0190387141829adad9b77826f7c93a4a33fafc8ecb462d922dbf08eef1d6a37f7a530e2
+      - POSTGRES_PASSWORD=maybe
       - DATABASE_URL=postgres://maybe:${POSTGRES_PASSWORD}@db:5432/maybe_production
     volumes:
       - ${APP_DATA_DIR}/data:/app/data
@@ -18,11 +18,11 @@ services:
 
   db:
     container_name: maybe_db
-    image: postgres:14
+    image: postgres:14.18-bookworm
     environment:
       - POSTGRES_DB=maybe_production
       - POSTGRES_USER=maybe
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PASSWORD=maybe
     volumes:
       - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
     restart: on-failure

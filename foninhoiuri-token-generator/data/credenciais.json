@@ -2,35 +2,7 @@
   "type": "service_account",
   "project_id": "credenciaisn8n-463214",
   "private_key_id": "715f0b01f4a886a884b238695438ec7e87decac0",
-  "private_key": "-----BEGIN PRIVATE KEY-----
-  MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCRDLmWSQPrDbix
-  kehWAimKJpmbk0DB3fDU+nFGZXEhGg55bt++EsZ09cz2PBBNLAIlv5WFNZJIt4K7
-  NwRM8TeuRMmhwyDtmQUulSYGQVjCuzs3vmyU1eigIUCizVaOlI//9hZqkJTUwUCr
-  25XCirXTetbqjkwqI2ccUMFuirTZW57QWsXxePY4MoaJ39GEjzwG40/03PszC4/o
-  XJOcqPN4kqMqWjFxSK4Aa/jsvAz/Ak2Iov/vTw8vLiCl/2x7D7B3ztv5+29E+rR+
-  Z0VNlj9fu3DaT1gWLh/9OCYSA158XsYhIWSFKFwrv7FHnP6TqWCybPlkv6wokwVv
-  wnQu5uMDAgMBAAECggEAPoh74jysQcPyoitDPQFFo1es1ZOQUYQ7dbZa63yEXz76
-  ioOwViOGB5qIuIeAh6S3cEq+TWWhIVRsOgYoBnvgA3OIcgLLyWM1BrYqZHv7pkhN
-  6WRhL3FhDtgHI6je7i1CP5l6ZIrcfzSpiu3qDKr8ZKYKzah3UZtdsqlmGyAVg7cD
-  uUODOuJIVG9go4tXM+GSzS4SFgBELKYAadc5OD04kfo5Y9wHqDdVz5pwP+I4hb+q
-  sBvamts2tHYCHMtvCAH6rP7Wqy0T5tyc6UPDAfxYo2zHsMzVd6zgLW8VHWDY0eS0
-  UmKNmXzuIB8XOb/TvnwlYHyyXe8T9pG/6Q0cofS2QQKBgQDMb4/PN+CRQi7aL+gH
-  hX2oJzoLDSKRCKJLGowSAmEiJcqndFAAC0jb0jec2TMuK50FCWFilVklwfRvNvJa
-  a5EygRyCNX0cQ0wMTLRwVgAnNfYeUUtWLVcJjcpMSw78W8LfOlk0N6MTuEeluWZY
-  eV8t1wpvVa89dwclVbqf9jvLMwKBgQC1opkpcWeCmdoX219dIWbLyg18nAg+hW7b
-  z3eAuDaFyGZHXevKLVfRZIxSaisgBs3bf9TOx6szmacDjWiMcFyQDttYGap+iNg2
-  FdJlk97Yio/j/7lFzjeDNvzlPmknxR5kRek5WFDvGnbM+ZdGvtUeNgbyRNXPksdq
-  8KZ77LEI8QKBgE064AMSQt3dOMHoUyl0PpIlr4G5RpOvxU/GCaBMEdHKoRI9mHNL
-  0AxrD+NLElCg3UKn1ohdjz36VZMmGMwb0tBXgiOWfVsN+U60M340nv4xHnc5ktJN
-  cpIDZKcJu/GN4MJf0o8tbYfnl/l9XrKRt2kj0adZoUgBDUwHZOdFKDWNAoGAFvH2
-  dUTNNbNn2LGux14L1Vyt/Xrck8FZcs0vpIQg5x+cxBE6Uy0NNfeEvniJAB+766mn
-  YYPZvcgAUDOR7IPZPZ2S2ftMDXYOEi8JiCl48lP2v2+zoPzfCGVu5yrOL+b34uTu
-  BH+CoeHu9g/lq1s6IvniQMKvW+yH4puJ/Ie3CZECgYAh0FZx1LFU16l3Hiiy3ZxM
-  sugAs6j5dC9sMdXvL0XAjua62Jn4y0asm/2hO/riZzOokA4FPoqggOQzOqzkyJc8
-  VW+HPy3Lvgn0hqHTQ7Kj2ZWUA1LR/fU9Vy47sKoALzbmNtUixT+ia+oj0sKTsRRH
-  w/nwC1HRU4KBrND0M074Xg==
-  -----END PRIVATE KEY-----
-  ",
+  "private_key": "-----BEGIN PRIVATE KEY-----\\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCRDLmWSQPrDbix\\nkehWAimKJpmbk0DB3fDU+nFGZXEhGg55bt++EsZ09cz2PBBNLAIlv5WFNZJIt4K7\\n...continua...\\n-----END PRIVATE KEY-----\\n",
   "client_email": "igoriurialves@credenciaisn8n-463214.iam.gserviceaccount.com",
   "client_id": "115886890634366160189",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",

@@ -14,3 +14,7 @@ port: 3000
 icon: https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/google.svg
 gallery:
   - https://n8n.io/images/home/heroes/hero.png
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

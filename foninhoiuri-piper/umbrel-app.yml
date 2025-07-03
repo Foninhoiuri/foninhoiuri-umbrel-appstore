@@ -3,9 +3,8 @@ id: foninhoiuri-piper
 category: ai
 name: Piper LLM
 icon: https://i.imgur.com/eCz26UU.png
-version: "1.0.0"
+version: "1.0.1"
 tagline: Conversão de texto em fala (TTS) local e privada, otimizada para o umbrelOS
-mainApp: false
 
 description: >-
   Piper LLM é um sistema neural de conversão de texto em fala (TTS), rápido e local, otimizado para funcionar no umbrelOS.

@@ -1,14 +1,19 @@
-version: '3.7'
-
+version: '3.8'
 services:
-  token-generator:
+  app_proxy:
+    environment:
+      APP_HOST: token-generator_server_1
+      APP_PORT: 3000
+    container_name: token-generator_app_proxy_1
+
+  server:
     image: node:20
-    container_name: token-generator
+    restart: on-failure
     volumes:
-      - ${APP_DATA_DIR}/app:/usr/src/app
       - ${APP_DATA_DIR}/data/credenciais.json:/usr/src/app/credenciais.json
+      - ${APP_DATA_DIR}/app:/usr/src/app
     working_dir: /usr/src/app
     command: bash -c "npm install express google-auth-library && node index.js"
-    ports:
-      - 3000:3000
-    restart: unless-stopped
+    environment:
+      - TZ=America/Sao_Paulo
+    container_name: token-generator_server_1

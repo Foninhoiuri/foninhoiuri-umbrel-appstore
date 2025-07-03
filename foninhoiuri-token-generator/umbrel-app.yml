@@ -1,6 +1,7 @@
 id: foninhoiuri-token-generator
 name: Token Generator
 version: "1.0.0"
+category: token
 releaseNotes: Gera access_token para Google API usando Service Account.
 tagline: Gerador de Token Google
 description: >

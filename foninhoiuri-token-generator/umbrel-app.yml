@@ -1,18 +1,21 @@
+manifestVersion: 1.1
 id: foninhoiuri-token-generator
 name: Token Generator
+tagline: Gere tokens JWT do Google com Service Account
+icon: https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/google.svg
+category: automação
 version: "1.0.0"
-category: token
-releaseNotes: Gera access_token para Google API usando Service Account.
-tagline: Gerador de Token Google
+port: 3000
 description: >
-  Um microserviço local que gera access_token para Google Drive, Sheets, etc.
-  Ideal para uso com n8n local.
-developer: igor
+  Este microserviço gera access_token JWT com base em uma chave de Service Account
+  do Google Cloud. Ideal para uso com n8n local, onde o fluxo OAuth não é possível.
+releaseNotes: Primeira versão estável
+developer: Igor Iuri
 website: https://github.com/igoriurialves
+submitter: Foninho
+submission: https://github.com/foninhoiuri/foninhoiuri-token-generator
 repo: https://github.com/igoriurialves/token-generator
 support: https://github.com/igoriurialves/token-generator/issues
-port: 3000
-icon: https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/google.svg
 gallery:
   - https://n8n.io/images/home/heroes/hero.png
 dependencies: []

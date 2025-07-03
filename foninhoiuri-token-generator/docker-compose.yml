@@ -2,11 +2,11 @@ version: '3.8'
 services:
   app_proxy:
     environment:
-      APP_HOST: token-generator_server_1
+      APP_HOST: token-generator
       APP_PORT: 3000
     container_name: token-generator_app_proxy_1
 
-  server:
+  token-generator:
     image: node:20
     restart: on-failure
     volumes:

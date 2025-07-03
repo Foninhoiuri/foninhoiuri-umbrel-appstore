@@ -3,7 +3,7 @@ version: "3.7"
 services:
   app_proxy:
     environment:
-      APP_HOST: web
+      APP_HOST: piper
       APP_PORT: 5000
       PROXY_AUTH_ADD: "false"
       # Adiciona cabeçalhos de tipo de conteúdo para áudio e CORS

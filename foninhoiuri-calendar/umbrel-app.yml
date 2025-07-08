@@ -2,7 +2,7 @@ manifestVersion: 1
 id: foninhoiuri-calendar
 category: pessoal
 name: calendar
-icon: https://igoriurialves.com.br
+icon: https://open-web-calendar.quelltext.eu/assets/img/logo/github-social-preview.svg
 version: "1.0"
 releaseNotes: versao 1tagline: Build complex workflows, really fast
 description: calendario no umbrel

@@ -1,15 +1,16 @@
 manifestVersion: 1
 id: foninhoiuri-calendar
 category: pessoal
-name: calendar
+name: Calendar
 icon: https://open-web-calendar.quelltext.eu/assets/img/logo/github-social-preview.svg
 version: "1.0"
-releaseNotes: versao 1tagline: Build complex workflows, really fast
-description: calendario no umbrel
-developer: igor
+releaseNotes: Versão 1
+tagline: Calendário no Umbrel
+description: Calendário baseado em arquivos .ics para visualizar compromissos de forma local e segura.
+developer: Igor
 website: https://igoriurialves.com.br
 dependencies: []
-repo: https://igoriurialves.com.br
+repo: https://github.com/niccokunzmann/open-web-calendar
 support: https://igoriurialves.com.br
 port: 3333
 gallery: []

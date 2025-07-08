@@ -1,0 +1,8 @@
+services:
+  open-web-calendar:
+    image: niccokunzmann/open-web-calendar:master
+    restart: unless-stopped
+    ports:
+      - 3333:3333
+    environment:
+      - ALLOWED_HOSTS=*

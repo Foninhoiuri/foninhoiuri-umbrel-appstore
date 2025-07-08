@@ -1,0 +1,19 @@
+manifestVersion: 1
+id: foninhoiuri-calendar
+category: pessoal
+name: calendar
+version: "1.0"
+releaseNotes: versao 1tagline: Build complex workflows, really fast
+description: calendario no umbrel
+developer: igor
+website: https://igoriurialves.com.br
+dependencies: []
+repo: https://igoriurialves.com.br
+support: https://igoriurialves.com.br
+port: 3333
+gallery: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+submitter: igoriuri
+submission: https://igoriurialves.com.br

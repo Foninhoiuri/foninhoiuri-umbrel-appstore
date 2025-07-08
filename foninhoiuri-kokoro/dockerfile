@@ -1,0 +1,23 @@
+# Use uma imagem Python leve como base
+FROM python:3.9-slim-buster
+
+# Define o diretório de trabalho dentro do contêiner
+WORKDIR /app
+
+# Instala as dependências do sistema (espeak-ng é essencial para o Kokoro)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    espeak-ng \
+    && rm -rf /var/lib/apt/lists/
+
+# Copia o arquivo de requisitos e instala as dependências Python
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia o código da sua aplicação FastAPI
+COPY app.py .
+
+# Expõe a porta em que sua aplicação FastAPI será executada
+EXPOSE 8880
+
+# Comando para iniciar a aplicação FastAPI usando Uvicorn
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8880"]

@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  app:
+    image: ghcr.io/remsky/kokoro-fastapi-cpu:v0.2.2
+    restart: unless-stopped
+    # A porta interna que o aplicativo Kokoro-TTS expõe.
+    # O Umbrel redirecionará o tráfego externo para esta porta.
+    expose:
+      - "8880"

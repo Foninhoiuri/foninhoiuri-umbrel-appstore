@@ -1,0 +1,46 @@
+manifestVersion: 1
+id: remsky-kokoro-tts
+category: ai
+name: Kokoro TTS
+icon: https://i.imgur.com/generic_audio_icon.png # Por favor, substitua por um ícone adequado para o Kokoro TTS
+version: "0.2.2"
+tagline: Conversão de texto em fala (TTS) com Kokoro, otimizada para o umbrelOS.
+
+description: >-
+  Kokoro TTS é um sistema de conversão de texto em fala (TTS) baseado em FastAPI, otimizado para funcionar no umbrelOS.
+  Ele transforma texto em áudio de alta qualidade diretamente no seu dispositivo, ideal para assistentes de voz,
+  narração de conteúdo e qualquer aplicação que exija síntese de fala offline e eficiente.
+
+  ⚠️ Importante: Este aplicativo fornece apenas uma API HTTP de Text-to-Speech. Não possui interface web para uso direto.
+
+  📡 Uso da API (interno no Umbrel ou via SSH):
+  Envie uma requisição POST para `http://web:8880/tts` com o texto desejado.
+
+  Exemplo via cURL:
+    curl -X POST \
+      http://web:8880/tts \
+      -H "Content-Type: application/json" \
+      -d '{
+        "text": "Esta é uma mensagem de teste do Kokoro TTS."
+      }' \
+      --output voice.wav
+
+  Consulte a documentação da API do Kokoro-TTS para parâmetros adicionais (se houver).
+
+  ℹ️ Observação: A imagem `ghcr.io/remsky/kokoro-fastapi-cpu:v0.2.2` é usada para este aplicativo.
+
+developer: remsky (adaptado para Umbrel por Criador de apps para Umbrel)
+website: https://github.com/remsky/kokoro-fastapi-cpu
+repo: https://github.com/remsky/kokoro-fastapi-cpu
+support: https://github.com/remsky/kokoro-fastapi-cpu/issues
+dependencies: []
+port: 8880
+releaseNotes: >-
+  Versão inicial do aplicativo Kokoro TTS para umbrelOS.
+  - Suporte à conversão TTS via API HTTP.
+  - Baseado em `ghcr.io/remsky/kokoro-fastapi-cpu:v0.2.2`.
+
+gallery: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

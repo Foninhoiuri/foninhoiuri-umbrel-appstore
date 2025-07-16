@@ -5,7 +5,7 @@ tagline: Crie fluxos de trabalho complexos com automação de ponta. # Tagline a
 icon: https://cdn.ead.guru/34583/media/public/n8n-capa-udemy.png
 category: automação
 version: "1.97.1" # Versão do seu pacote de app para Umbrel
-port: 5678
+port: 5679
 description: >-
   n8n (pronuncia-se "n-oito-n") é uma ferramenta extensível para automação de fluxos de trabalho.
   Com um modelo de distribuição fair-code, o n8n garante que seu código-fonte seja sempre visível,

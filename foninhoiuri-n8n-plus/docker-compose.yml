@@ -2,12 +2,12 @@ version: '3.8'
 services:
   app_proxy:
     environment:
-      APP_HOST: n8n-plus_server_1
+      APP_HOST: n8n_plus_server_1
       APP_PORT: 5678
       PROXY_AUTH_WHITELIST: /webhook-test/*,/webhook/*
-    container_name: n8n_app_proxy_1
+    container_name: n8n_plus_app_proxy_1
   server:
-    image: n8nio/n8n:1.99.1
+    image: n8nio/n8n:latest
     restart: on-failure
     volumes:
       - ${APP_DATA_DIR}/data:/home/node/.n8n
@@ -22,4 +22,4 @@ services:
       - N8N_RUNNERS_ENABLED=true
       - WEBHOOK_TUNNEL_URL=https://n8n.igoriurialves.com.br
       - TZ=America/Sao_Paulo
-    container_name: n8n-plus_server_1
+    container_name: n8n_plus_server_1

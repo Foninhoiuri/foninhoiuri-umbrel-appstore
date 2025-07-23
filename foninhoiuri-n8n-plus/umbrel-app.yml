@@ -1,39 +1,47 @@
-manifestVersion: 1.1 # Mantenha a versão do manifesto atualizada
+manifestVersion: 1
 id: foninhoiuri-n8n-plus # Seu ID único para este pacote do app
 name: n8n+ # Nome do aplicativo
-tagline: Crie fluxos de trabalho complexos com automação de ponta. # Tagline aprimorada
-icon: https://i.imgur.com/2vGsN7O.png
 category: automação
-version: "1.104.1" # Versão do seu pacote de app para Umbrel
-port: 5679
-description: >-
-  n8n (pronuncia-se "n-oito-n") é uma ferramenta extensível para automação de fluxos de trabalho.
-  Com um modelo de distribuição fair-code, o n8n garante que seu código-fonte seja sempre visível,
-  permitindo auto-hospedagem e a capacidade de integrar funções, lógicas e aplicativos personalizados.
-  Sua abordagem baseada em nós oferece uma versatilidade excepcional, possibilitando a conexão de
-  praticamente qualquer sistema com outro.
-
-  Esta versão aprimorada, n8n+, foi cuidadosamente empacotada para o umbrelOS, focando em:
-  - **Flexibilidade**: Workflows altamente personalizáveis com a opção de criar nós customizados.
-  - **Privacidade e Segurança**: A possibilidade de auto-hospedar o n8n no seu Umbrel para um controle total dos seus dados.
-  - **Funcionalidades Expandidas**: Inclui configurações otimizadas para depuração avançada e permissão para o uso de ferramentas em pacotes da comunidade.
+version: "1.104.1"
 releaseNotes: >-
-  Esta atualização aprimora o n8n+ para o UmbrelOS, introduzindo otimizações nas variáveis de ambiente.
-  As melhorias incluem a configuração de `N8N_LOG_LEVEL` para `debug`, que oferece maior detalhe
-  para diagnóstico e monitoramento, e a ativação de `N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE`
-  para `true`, permitindo o uso de ferramentas adicionais em pacotes da comunidade,
-  ampliando as capacidades de automação do aplicativo.
-developer: n8n inc. # Desenvolvedor original
+  This release includes bug fixes and feature enhancements.
+
+
+  Some key highlights:
+    - Fixed issue with restricted file access order
+    - Added new ways to discover templates in the editor
+    - Improved token splitting performance
+    - Enhanced AI Agent node with better tool usage and log viewing
+    - Updated user interface with new icons and improved grid alignment
+
+
+  Full release notes are found at https://github.com/n8n-io/n8n/releases
+tagline: Build complex workflows, really fast
+description: >-
+  n8n is an extendable workflow automation tool. With a fair-code distribution model, n8n will always have visible source code, 
+  be available to self-host, and allow you to add your own custom functions, logic and apps. 
+  n8n's node-based approach makes it highly versatile, enabling you to connect anything to everything.
+
+
+  n8n (pronounced n-eight-n) helps you to connect any app with an API with any other, and manipulate its data with little or no code.
+
+
+  Customizable: highly flexible workflows and the option to build custom nodes.
+
+
+  Privacy-focused: self-host n8n for privacy and security.
+developer: n8n
 website: https://n8n.io
-submitter: Foninho # Seu nome como o submitter
-submission: https://github.com/foninhoiuri/foninhoiuri-n8n-plus # <--- SEU repositório para este app no GitHub
-repo: https://github.com/n8n-io/n8n # Repositório oficial do n8n
-support: https://docs.n8n.io/ # Documentação/suporte oficial do n8n
+dependencies: []
+repo: https://github.com/n8n-io/n8n
+support: https://docs.n8n.io/
+port: 5678
 gallery:
   - https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/2a97cda09078b03f54d49c34b2fbca423eedb23a/n8n/1.jpg
   - https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/2a97cda09078b03f54d49c34b2fbca423eedb23a/n8n/2.jpg
   - https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/2a97cda09078b03f54d49c34b2fbca423eedb23a/n8n/3.jpg
-dependencies: []
 path: ""
 defaultUsername: ""
 defaultPassword: ""
+submitter: Foninho
+submission: https://github.com/foninhoiuri/foninhoiuri-n8n-plus

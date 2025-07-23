@@ -36,7 +36,7 @@ website: https://n8n.io
 dependencies: []
 repo: https://github.com/n8n-io/n8n
 support: https://docs.n8n.io/
-port: 5678
+port: 5465
 gallery:
   - https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/2a97cda09078b03f54d49c34b2fbca423eedb23a/n8n/1.jpg
   - https://raw.githubusercontent.com/getumbrel/umbrel-apps-gallery/2a97cda09078b03f54d49c34b2fbca423eedb23a/n8n/2.jpg

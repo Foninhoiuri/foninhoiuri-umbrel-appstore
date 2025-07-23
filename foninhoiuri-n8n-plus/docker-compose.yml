@@ -21,7 +21,7 @@ services:
       
       - N8N_PROTOCOL=https
       - N8N_HOST=nn.igoriurialves.com.br
-      - N8N_PORT=5678
+      - N8N_PORT=5465
       - WEBHOOK_URL=https://nn.igoriurialves.com.br
       - N8N_EDITOR_BASE_URL=https://nn.igoriurialves.com.br
       - N8N_SECURE_COOKIE=false

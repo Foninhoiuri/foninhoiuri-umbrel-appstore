@@ -1,6 +1,7 @@
 manifestVersion: 1
 id: foninhoiuri-n8n-plus # Seu ID único para este pacote do app
 name: n8n+ # Nome do aplicativo
+icon: https://i.imgur.com/2vGsN7O.png
 category: automação
 version: "1.104.1"
 releaseNotes: >-

@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     working_dir: /app
     ports:
-      - "57342:5000"  # porta do seu Flask
+      - "57342:57342"  # porta do seu Flask
     volumes:
       - ${APP_DATA_DIR}/app:/app   # código do app (montado via GitHub)
       - ${APP_DATA_DIR}/app/downloads:/app/downloads  # onde salva vídeos

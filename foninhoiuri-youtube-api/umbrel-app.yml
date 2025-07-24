@@ -28,7 +28,7 @@ support: https://github.com/seuusuario/youtube-api-download/issues  # Ajuste com
 submitter: Foninho
 submission: https://github.com/foninhoiuri/umbrel-app-youtube-api  # Ajuste se for outro repo
 gallery: []
-port: 5000
+port: 57342
 dependencies: []
 path: /
 defaultUsername: ""

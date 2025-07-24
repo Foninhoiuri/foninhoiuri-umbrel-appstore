@@ -10,7 +10,7 @@ os.makedirs(DOWNLOAD_FOLDER, exist_ok=True)
 
 def is_yt_dlp_installed():
     try:
-        import yt_dlp
+        import yt_dlp  # só importa para checar
         return True
     except ImportError:
         return False
@@ -93,9 +93,6 @@ def download(link, format_id):
         new_files = path_after - path_before
         downloaded_file = new_files.pop() if new_files else None
 
-        # Se for vídeo sem áudio embutido, baixa áudio automaticamente (formato 140 = m4a)
-        # Pra verificar isso, usa o 'note' na listagem, mas aqui vamos supor que se format_id não tiver audio, baixa áudio.
-
         return downloaded_file, None
     except Exception as e:
         app.logger.error(f"Erro no download: {e}")
@@ -152,13 +149,11 @@ def api_download():
     if not is_yt_dlp_installed():
         install_yt_dlp()
 
-    # Baixa o vídeo
     filename, error = download(url, format_id)
     if error:
         return jsonify({"error": error}), 500
 
-    # Verifica se o formato baixado é "video only" para baixar o áudio separado automaticamente
-    # Faz consulta rápida na listagem para saber
+    # Se formato é "video only", baixa áudio separado automaticamente
     info = get_video_formats(url)
     formats = parse_formats(info)
     note = formats.get(format_id, {}).get('note', '').lower()

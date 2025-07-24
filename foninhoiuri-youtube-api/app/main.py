@@ -58,7 +58,7 @@ def video_resolutions():
     try:
         data = request.get_json()
         app.logger.info(f"Requisição recebida em /video_resolutions")
-        app.logger.debug(f"Payload recebido: {data}")
+        app.logger.info(f"Payload recebido: {data}")
 
         url = data.get('url')
         if not url:

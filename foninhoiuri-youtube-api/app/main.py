@@ -91,4 +91,4 @@ def download_by_resolution(resolution):
         return jsonify({"error": err}), 500
 
 if __name__ == '__main__':
-    app.run(host='umbrel.local', port=57342, debug=True)
+    app.run(host='0.0.0.0', port=57342, debug=True)

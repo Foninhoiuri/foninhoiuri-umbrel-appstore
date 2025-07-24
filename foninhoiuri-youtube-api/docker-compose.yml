@@ -1,6 +1,6 @@
 services:
   youtube-api:
-    build: .                  # Builda a imagem usando o Dockerfile na raiz
+    build: .
     container_name: youtube_api
     restart: unless-stopped
     working_dir: /app
@@ -9,11 +9,5 @@ services:
     volumes:
       - ${APP_DATA_DIR}/app:/app
       - ${APP_DATA_DIR}/app/downloads:/app/downloads
-    command: >
-      /bin/sh -c "
-      pip install --upgrade pip &&
-      pip install --no-cache-dir flask yt-dlp &&
-      python main.py
-      "
     environment:
       - TZ=America/Sao_Paulo

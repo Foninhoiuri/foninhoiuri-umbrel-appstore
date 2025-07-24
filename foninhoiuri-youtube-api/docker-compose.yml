@@ -11,7 +11,7 @@ services:
       - ${APP_DATA_DIR}/app/downloads:/app/downloads
     command: >
       /bin/sh -c "
-      pip install --no-cache-dir flask yt-dlp &&
+      pip install --no-cache-dir flask pytube &&
       python main.py
       "
     environment:

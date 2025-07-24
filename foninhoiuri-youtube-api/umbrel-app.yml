@@ -1,0 +1,35 @@
+manifestVersion: 1.2
+id: foninhoiuri-youtube-api
+name: YouTube API Download
+tagline: API simples para baixar vídeos do YouTube via Flask
+icon: https://cdn-icons-png.flaticon.com/512/1384/1384060.png
+category: automação
+version: "v1.0.0"
+description: >-
+  API para baixar vídeos do YouTube de forma simples e rápida.
+  Para baixar um vídeo em uma resolução específica, envie uma requisição POST para:
+  
+  curl -X POST http://localhost:5000/download/720p \
+    -H "Content-Type: application/json" \
+    -d '{"url": "https://www.youtube.com/watch?v=EXEMPLO"}'
+
+  Para obter informações do vídeo, use:
+
+  curl -X POST http://localhost:5000/video_info \
+    -H "Content-Type: application/json" \
+    -d '{"url": "https://www.youtube.com/watch?v=EXEMPLO"}'
+
+releaseNotes: >-
+  Versão inicial do aplicativo YouTube API Download para UmbrelOS, empacotado por Foninho.
+developer: Igor Iuri Alves
+website: https://github.com/seuusuario/youtube-api-download  # Ajuste com seu repo real
+repo: https://github.com/seuusuario/youtube-api-download  # Ajuste com seu repo real
+support: https://github.com/seuusuario/youtube-api-download/issues  # Ajuste com seu repo real
+submitter: Foninho
+submission: https://github.com/foninhoiuri/umbrel-app-youtube-api  # Ajuste se for outro repo
+gallery: []
+port: 5000
+dependencies: []
+path: /
+defaultUsername: ""
+defaultPassword: ""

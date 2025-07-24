@@ -1,17 +1,17 @@
 services:
   youtube_downloader:
-    image: python:3.11-slim  # imagem base do Python para rodar seu app
+    image: python:3.11-slim
     container_name: youtube_downloader_instance
     restart: unless-stopped
     working_dir: /app
     ports:
-      - "57342:57342"  # porta do seu Flask
+      - "57342:57342"
     volumes:
-      - ${APP_DATA_DIR}/app:/app   # código do app (montado via GitHub)
-      - ${APP_DATA_DIR}/app/downloads:/app/downloads  # onde salva vídeos
+      - ${APP_DATA_DIR}/app:/app
+      - ${APP_DATA_DIR}/app/downloads:/app/downloads
     command: >
       /bin/sh -c "
-      pip install --no-cache-dir flask pytube &&
+      pip install --no-cache-dir flask yt-dlp &&
       python main.py
       "
     environment:

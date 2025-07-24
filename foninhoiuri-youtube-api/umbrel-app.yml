@@ -2,7 +2,7 @@ manifestVersion: 1.2
 id: foninhoiuri-youtube-api
 name: YouTube API Download
 tagline: API simples para baixar vídeos do YouTube via Flask
-icon: https://i.imgur.com/tNonc0q.png
+icon: https://i.imgur.com/mmHhDkg.png
 category: automação
 version: "v1.0.1"
 description: >-

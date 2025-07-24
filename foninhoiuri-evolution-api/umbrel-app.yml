@@ -2,7 +2,7 @@ manifestVersion: 1.2
 id: foninhoiuri-evolution-api # Seu ID único para este pacote do app
 name: Evolution API
 tagline: A maneira mais fácil de integrar o WhatsApp ao seu sistema.
-icon: https://i.imgur.com/CA2SZVA.png
+icon: https://icons.iconarchive.com/icons/papirus-team/papirus-apps/512/youtube-icon.png
 category: automação
 version: "v2.3.0 - 2.3000.1024946964" # Versão do seu pacote de app para Umbrel (pode ser a mesma da Evolution API se preferir)
 description: >-

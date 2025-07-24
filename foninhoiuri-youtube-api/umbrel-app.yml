@@ -4,29 +4,36 @@ name: YouTube API Download
 tagline: API simples para baixar vídeos do YouTube via Flask
 icon: https://cdn-icons-png.flaticon.com/512/1384/1384060.png
 category: automação
-version: "v1.0.0"
+version: "v1.0.1"
 description: >-
   API para baixar vídeos do YouTube de forma simples e rápida.
-  Para baixar um vídeo em uma resolução específica, envie uma requisição POST para:
   
-  curl -X POST http://localhost:5000/download/720p \
+  Para obter as resoluções disponíveis de um vídeo, envie uma requisição POST para:
+
+  curl -X POST http://umbrel.local:57342/video_resolutions \
     -H "Content-Type: application/json" \
     -d '{"url": "https://www.youtube.com/watch?v=EXEMPLO"}'
 
-  Para obter informações do vídeo, use:
+  Para baixar o vídeo ou áudio, envie uma requisição POST para:
 
-  curl -X POST http://localhost:5000/video_info \
+  curl -X POST http://umbrel.local:57342/download \
     -H "Content-Type: application/json" \
-    -d '{"url": "https://www.youtube.com/watch?v=EXEMPLO"}'
+    -d '{"url": "https://www.youtube.com/watch?v=EXEMPLO", "choice": "720p"}'
+
+  Ou para baixar só o áudio:
+
+  curl -X POST http://umbrel.local:57342/download \
+    -H "Content-Type: application/json" \
+    -d '{"url": "https://www.youtube.com/watch?v=EXEMPLO", "choice": "audio"}'
 
 releaseNotes: >-
-  Versão inicial do aplicativo YouTube API Download para UmbrelOS, empacotado por Foninho.
+  Atualização para suportar listagem de resoluções e download com escolha de qualidade ou áudio.
 developer: Igor Iuri Alves
-website: https://github.com/seuusuario/youtube-api-download  # Ajuste com seu repo real
-repo: https://github.com/seuusuario/youtube-api-download  # Ajuste com seu repo real
-support: https://github.com/seuusuario/youtube-api-download/issues  # Ajuste com seu repo real
+website: https://github.com/seuusuario/youtube-api-download
+repo: https://github.com/seuusuario/youtube-api-download
+support: https://github.com/seuusuario/youtube-api-download/issues
 submitter: Foninho
-submission: https://github.com/foninhoiuri/umbrel-app-youtube-api  # Ajuste se for outro repo
+submission: https://github.com/foninhoiuri/umbrel-app-youtube-api
 gallery: []
 port: 57342
 dependencies: []

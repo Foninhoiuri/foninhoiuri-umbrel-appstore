@@ -1,0 +1,18 @@
+services:
+  youtube_downloader:
+    image: python:3.11-slim  # imagem base do Python para rodar seu app
+    container_name: youtube_downloader_instance
+    restart: unless-stopped
+    working_dir: /app
+    ports:
+      - "5000:5000"  # porta do seu Flask
+    volumes:
+      - ${APP_DATA_DIR}/data/youtube-downloader/app:/app   # código do app (montado via GitHub)
+      - ${APP_DATA_DIR}/data/youtube-downloader/downloads:/app/downloads  # onde salva vídeos
+    command: >
+      /bin/sh -c "
+      pip install --no-cache-dir flask pytube &&
+      python main.py
+      "
+    environment:
+      - TZ=America/Sao_Paulo

@@ -8,7 +8,7 @@ services:
     container_name: n8n_plus_app_proxy_1
   server:
     image: >-
-      n8nio/n8n:1.104.1@sha256:9407654247bf815a3e389242a3ef5db7b100b62c7e563e6f59d379efecde6dcc
+      n8nio/n8n:1.113.2
     restart: on-failure
     volumes:
       - ${APP_DATA_DIR}/data:/home/node/.n8n
@@ -18,15 +18,22 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      
       - N8N_PROTOCOL=https
-      - N8N_HOST=nn.igoriurialves.com.br
-      - N8N_PORT=5465
-      - WEBHOOK_URL=https://nn.igoriurialves.com.br
-      - N8N_EDITOR_BASE_URL=https://nn.igoriurialves.com.br
+      - N8N_HOST=n8n.igoriurialves.com.br
+      - WEBHOOK_URL=https://n8n.igoriurialves.com.br
+      - N8N_EDITOR_BASE_URL=https://n8n.igoriurialves.com.br
       - N8N_SECURE_COOKIE=false
-      
       - N8N_DIAGNOSTICS_ENABLED=false
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
       - N8N_RUNNERS_ENABLED=true
+      - N8N_PROTOCOL=https
+      - N8N_HOST=n8n.igoriurialves.com.br
+      - N8N_PORT=5465
+      - WEBHOOK_URL=https://n8n.igoriurialves.com.br
+      - N8N_EDITOR_BASE_URL=https://n8n.igoriurialves.com.br
+      - N8N_SECURE_COOKIE=false
+      - N8N_DIAGNOSTICS_ENABLED=false
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - N8N_RUNNERS_ENABLED=true
+      - N8N_EXPERIMENTAL_FEATURES=python
     container_name: n8n_plus_server_1

@@ -2,15 +2,13 @@ version: '3.7'
 
 services:
   # ----------------------------------------------------
-  # 1. Serviço Web Principal (Servidor Front-end)
+  # 1. Serviço Web Principal (Chatwoot Server)
   # ----------------------------------------------------
   web:
     image: chatwoot/chatwoot:v3.10.0 # Utilize a versão estável mais recente
     restart: unless-stopped
     depends_on:
-      - postgres
-      - redis
-    # O comando inicia o servidor Rails na porta 3000
+      - worker # O worker não é uma dependência estrita, mas é boa prática ter ambos.
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
     ports:
       - 3000:3000 # Porta interna que o Umbrel usará para o proxy
@@ -21,28 +19,29 @@ services:
       - RAILS_ENV=production
       - NODE_ENV=production
       - INSTALLATION_ENV=docker
-      - FRONTEND_URL=http://chatwoot.local:3000 # O Umbrel fará o proxy reverso
+      - FRONTEND_URL=http://chatwoot.local:3000 
       - FORCE_SSL=false 
       
       # Variável Secreta (Chave de Segurança)
       - SECRET_KEY_BASE=$APP_SECRET_CHATWOOT_SECRET_KEY_BASE
       
-      # Configuração do Banco de Dados
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_USERNAME=chatwoot
-      - POSTGRES_PASSWORD=$APP_SECRET_CHATWOOT_POSTGRES_PASSWORD
+      # Configuração do Banco de Dados (USANDO VARIÁVEIS DE DEPENDÊNCIA DO UMBREL)
+      # Assume que o Umbrel injeta as variáveis POSTGRES_IP e POSTGRES_PORT
+      - POSTGRES_HOST=$POSTGRESQL_HOST
+      - POSTGRES_PORT=$POSTGRESQL_PORT
+      - POSTGRES_USERNAME=$POSTGRESQL_USERNAME
+      - POSTGRES_PASSWORD=$POSTGRESQL_PASSWORD
+      # Você deve usar o mesmo banco de dados (database name) que outros apps não estão usando.
       - POSTGRES_DATABASE=chatwoot
       
-      # Configuração do Redis
-      - REDIS_URL=redis://redis:6379/1
+      # Configuração do Redis (USANDO VARIÁVEIS DE DEPENDÊNCIA DO UMBREL)
+      # Assume que o Umbrel injeta as variáveis REDIS_HOST e REDIS_PORT
+      - REDIS_URL=redis://$REDIS_HOST:$REDIS_PORT/1
       
-      # Configuração de Email (ESSENCIAL para redefinição de senha e convites)
-      # Remova o comentário e preencha com seu servidor SMTP real
+      # Configuração de Email (Recomendado)
       # - MAILER_SENDER_EMAIL=chatwoot@$UMBREL_WEB_DOMAIN
       # - SMTP_ADDRESS=
-      # - SMTP_USERNAME=
-      # - SMTP_PASSWORD=
+      # ...
       
   # ----------------------------------------------------
   # 2. Serviço Worker (Sidekiq para tarefas em segundo plano)
@@ -50,22 +49,26 @@ services:
   worker:
     image: chatwoot/chatwoot:v3.10.0
     restart: unless-stopped
-    depends_on:
-      - postgres
-      - redis
-    # O comando inicia o worker Sidekiq
-    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     volumes:
       - chatwoot_storage:/app/storage
     environment:
-      # Repete as configurações essenciais
       - RAILS_ENV=production
       - NODE_ENV=production
       - INSTALLATION_ENV=docker
       - SECRET_KEY_BASE=$APP_SECRET_CHATWOOT_SECRET_KEY_BASE
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PASSWORD=$APP_SECRET_CHATWOOT_POSTGRES_PASSWORD
-      - POSTGRES_USERNAME=chatwoot
+      
+      # Configuração do Banco de Dados
+      - POSTGRES_HOST=$POSTGRESQL_HOST
+      - POSTGRES_PORT=$POSTGRESQL_PORT
+      - POSTGRES_USERNAME=$POSTGRESQL_USERNAME
+      - POSTGRES_PASSWORD=$POSTGRESQL_PASSWORD
       - POSTGRES_DATABASE=chatwoot
-      - REDIS_URL=redis://redis:6379/1
 
+      # Configuração do Redis
+      - REDIS_URL=redis://$REDIS_HOST:$REDIS_PORT/1
+
+# ----------------------------------------------------
+# Definição de Volumes para Persistência de Dados
+# ----------------------------------------------------
+volumes:
+  chatwoot_storage:

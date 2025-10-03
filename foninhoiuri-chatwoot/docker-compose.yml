@@ -1,30 +1,18 @@
-version: '3.7'
-
 services:
-  # ----------------------------------------------------
-  # 1. Serviço Web Principal (Chatwoot Server)
-  # ----------------------------------------------------
-  web:
-    image: chatwoot/chatwoot:v4.6.0-ce # Versão estável
+  chatwoot:
+    image: chatwoot/chatwoot:v4.6.0-ce
     container_name: chatwoot_web
     restart: unless-stopped
-    depends_on:
-      - worker
-    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
-    ports:
-      - 3000:3000
-    volumes:
-      - chatwoot_storage:/app/storage # Volume para persistência de arquivos (avatares, anexos)
     environment:
       # Configurações Essenciais
-      - RAILS_ENV=production
+      #- RAILS_ENV=production
       - NODE_ENV=production
-      - INSTALLATION_ENV=docker
-      - FRONTEND_URL=http://chatwoot.local:3000 
+      #- INSTALLATION_ENV=docker
+      - FRONTEND_URL=http://umbrel.local:3000 
       - FORCE_SSL=false 
       
       # Variável Secreta (Gerada pelo Umbrel)
-      - SECRET_KEY_BASE=$APP_SECRET_CHATWOOT_SECRET_KEY_BASE
+      - SECRET_KEY_BASE=pRVuIMatO4Le0L3xsihHl5Zl0yINlHXAYW2QhuzgxtWRrf0lGQfdX9zQ61xx5k1f
       
       # Configuração do Banco de Dados POSTGRESQL (Compartilhado)
       - POSTGRES_HOST=postgres       # Nome do serviço do seu foninhoiuri-postgresql
@@ -34,35 +22,11 @@ services:
       - POSTGRES_DATABASE=chatwoot   # Novo database exclusivo para este app
       
       # Configuração do Redis (Compartilhado)
-      - REDIS_URL=redis://redis:6379/1 # Nome do serviço do seu foninhoiuri-redis
-      
-  # ----------------------------------------------------
-  # 2. Serviço Worker (Sidekiq para tarefas em segundo plano)
-  # ----------------------------------------------------
-  worker:
-    image: chatwoot/chatwoot:v3.10.0
-    container_name: chatwoot_worker
-    restart: unless-stopped
-    volumes:
-      - chatwoot_storage:/app/storage
-    environment:
-      - RAILS_ENV=production
-      - NODE_ENV=production
-      - INSTALLATION_ENV=docker
-      - SECRET_KEY_BASE=$APP_SECRET_CHATWOOT_SECRET_KEY_BASE
-      
-      # Credenciais do PostgreSQL
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_USERNAME=default
-      - POSTGRES_PASSWORD=default
-      - POSTGRES_DATABASE=chatwoot
+      - REDIS_URL=redis://redis:6379/chatwoot # Nome do serviço do seu foninhoiuri-redis
 
-      # Conexão do Redis
-      - REDIS_URL=redis://redis:6379/1
+   ports:
+      - 3000:3000
+   volumes:
+      - ${APP_DATA_DIR}/data/chatwoot/storage:/app/storage 
 
-# ----------------------------------------------------
-# Definição de Volumes
-# ----------------------------------------------------
-volumes:
-  chatwoot_storage:
+  

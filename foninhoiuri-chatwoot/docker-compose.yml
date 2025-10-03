@@ -5,7 +5,7 @@ services:
   # 1. Serviço Web Principal (Chatwoot Server)
   # ----------------------------------------------------
   web:
-    image: chatwoot/chatwoot:v3.10.0 # Versão estável
+    image: chatwoot/chatwoot:v4.6.0-ce # Versão estável
     container_name: chatwoot_web
     restart: unless-stopped
     depends_on:

@@ -2,11 +2,11 @@ manifestVersion: 1.2
 id: foninhoiuri-chatwoot # Seu ID único para este pacote do app
 name: Chatwoot
 tagline: Plataforma de atendimento ao cliente (Omnichannel) de código aberto.
-icon: https://raw.githubusercontent.com/chatwoot/chatwoot/develop/app/javascript/images/chatwoot_logo.svg
+icon: https://www.gravatar.com/avatar/a45f44b8b64e43ab10deb015b25d58a1?s=120&r=g&d=404
 category: communication
 port: 3000
 main: web
-version: 3.10.0 # Deve corresponder à versão da imagem no docker-compose.yml
+version: v4.6.0 # Deve corresponder à versão da imagem no docker-compose.yml
 repo: https://github.com/chatwoot/chatwoot
 support: https://github.com/chatwoot/chatwoot/issues
 submitter: Seu Nome Aqui # <--- Seu nome como a pessoa que submeteu/empacotou

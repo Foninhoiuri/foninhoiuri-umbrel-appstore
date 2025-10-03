@@ -23,7 +23,7 @@ services:
       - REDIS_URL=redis://redis:6379/0   # mesmo nome do container
 
       - ACTIVE_STORAGE_SERVICE=local
-      - LOG_LEVEL=debug,info,warn,error,fatal,unknown
+      - LOG_LEVEL=debug
     ports:
       - "3000:3000"
 

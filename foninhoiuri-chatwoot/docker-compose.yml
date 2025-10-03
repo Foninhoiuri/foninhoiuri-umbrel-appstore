@@ -23,7 +23,9 @@ services:
       
       # Configuração do Redis (Compartilhado)
       - REDIS_URL=redis://redis:6379/chatwoot # Nome do serviço do seu foninhoiuri-redis
-	ports:
+
+    ports:
       - "3000:3000"
-	volumes:
+
+    volumes:
       - ${APP_DATA_DIR}/data/chatwoot/storage:/app/storage

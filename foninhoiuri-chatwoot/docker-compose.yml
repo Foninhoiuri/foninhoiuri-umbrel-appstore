@@ -6,9 +6,9 @@ services:
     environment:
       # Configurações Essenciais
       - NODE_ENV=production
-      - FRONTEND_URL=http://umbrel.local:3000 
+      #- FRONTEND_URL=http://localhost:3000 
       - FORCE_SSL=false 
-
+      - RAILS_ENV=production
       # Variável Secreta (Gerada pelo Umbrel)
       - SECRET_KEY_BASE=pRVuIMatO4Le0L3xsihHl5Zl0yINlHXAYW2QhuzgxtWRrf0lGQfdX9zQ61xx5k1f
 
@@ -20,8 +20,10 @@ services:
       - POSTGRES_DATABASE=chatwoot
 
       # Configuração do Redis
-      - REDIS_URL=redis://foninhoiuri-redis:6379/0   # mesmo nome do container
+      - REDIS_URL=redis://redis:6379/0   # mesmo nome do container
 
+      - ACTIVE_STORAGE_SERVICE=local
+      - LOG_LEVEL=debug,info,warn,error,fatal,unknown
     ports:
       - "3000:3000"
 

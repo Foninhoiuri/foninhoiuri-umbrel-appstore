@@ -3,27 +3,33 @@ services:
     image: chatwoot/chatwoot:v4.6.0-ce
     container_name: chatwoot_web
     restart: unless-stopped
+    depends_on:
+      - foninhoiuri-postgresql
+      - foninhoiuri-redis
     environment:
       # Configurações Essenciais
       - NODE_ENV=production
       #- FRONTEND_URL=http://localhost:3000 
       - FORCE_SSL=false 
       - RAILS_ENV=production
-      # Variável Secreta (Gerada pelo Umbrel)
+
+      # Variável Secreta (gerar nova se quiser)
       - SECRET_KEY_BASE=pRVuIMatO4Le0L3xsihHl5Zl0yINlHXAYW2QhuzgxtWRrf0lGQfdX9zQ61xx5k1f
 
       # Configuração do Banco de Dados POSTGRESQL
-      - POSTGRES_HOST=postgresql         # mesmo nome definido em container_name
+      - POSTGRES_HOST=foninhoiuri-postgresql
       - POSTGRES_PORT=5432
       - POSTGRES_USERNAME=default
       - POSTGRES_PASSWORD=default
       - POSTGRES_DATABASE=chatwoot
 
       # Configuração do Redis
-      - REDIS_URL=redis://redis:6379/0   # mesmo nome do container
+      - REDIS_URL=redis://foninhoiuri-redis:6379/0
 
+      # Storage e logs
       - ACTIVE_STORAGE_SERVICE=local
       - LOG_LEVEL=debug
+
     ports:
       - "3000:3000"
 

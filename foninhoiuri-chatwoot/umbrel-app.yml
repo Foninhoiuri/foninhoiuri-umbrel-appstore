@@ -1,0 +1,20 @@
+manifestVersion: 1.2
+id: foninhoiuri-chatwoot # Seu ID único para este pacote do app
+name: Chatwoot
+tagline: Plataforma de atendimento ao cliente (Omnichannel) de código aberto.
+icon: https://raw.githubusercontent.com/chatwoot/chatwoot/develop/app/javascript/images/chatwoot_logo.svg
+category: communication
+port: 3000
+main: web
+version: 3.10.0 # Deve corresponder à versão da imagem no docker-compose.yml
+repo: https://github.com/chatwoot/chatwoot
+support: https://github.com/chatwoot/chatwoot/issues
+submitter: Seu Nome Aqui # <--- Seu nome como a pessoa que submeteu/empacotou
+submission: SEU_REPOSITORIO_GITHUB # <--- Seu repositório Umbrel
+gallery: [] # Adicione URLs de screenshots se quiser
+dependencies:
+  # Use os IDs exatos dos seus apps de dependência:
+  - foninhoiuri-redis     # ID do seu app Redis (Exemplo do seu arquivo)
+  - foninhoiuri-postgresql # ID do seu app PostgreSQL (Exemplo do seu arquivo)
+defaultUsername: ""
+defaultPassword: ""

@@ -5,49 +5,43 @@ services:
   # 1. Serviço Web Principal (Chatwoot Server)
   # ----------------------------------------------------
   web:
-    image: chatwoot/chatwoot:v3.10.0 # Utilize a versão estável mais recente
+    image: chatwoot/chatwoot:v3.10.0 # Versão estável
+    container_name: chatwoot_web
     restart: unless-stopped
     depends_on:
-      - worker # O worker não é uma dependência estrita, mas é boa prática ter ambos.
+      - worker
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
     ports:
-      - 3000:3000 # Porta interna que o Umbrel usará para o proxy
+      - 3000:3000
     volumes:
-      - chatwoot_storage:/app/storage # Volume para armazenamento de arquivos
+      - chatwoot_storage:/app/storage # Volume para persistência de arquivos (avatares, anexos)
     environment:
-      # Variáveis de Ambiente Essenciais para Produção
+      # Configurações Essenciais
       - RAILS_ENV=production
       - NODE_ENV=production
       - INSTALLATION_ENV=docker
       - FRONTEND_URL=http://chatwoot.local:3000 
       - FORCE_SSL=false 
       
-      # Variável Secreta (Chave de Segurança)
+      # Variável Secreta (Gerada pelo Umbrel)
       - SECRET_KEY_BASE=$APP_SECRET_CHATWOOT_SECRET_KEY_BASE
       
-      # Configuração do Banco de Dados (USANDO VARIÁVEIS DE DEPENDÊNCIA DO UMBREL)
-      # Assume que o Umbrel injeta as variáveis POSTGRES_IP e POSTGRES_PORT
-      - POSTGRES_HOST=$POSTGRESQL_HOST
-      - POSTGRES_PORT=$POSTGRESQL_PORT
-      - POSTGRES_USERNAME=$POSTGRESQL_USERNAME
-      - POSTGRES_PASSWORD=$POSTGRESQL_PASSWORD
-      # Você deve usar o mesmo banco de dados (database name) que outros apps não estão usando.
-      - POSTGRES_DATABASE=chatwoot
+      # Configuração do Banco de Dados POSTGRESQL (Compartilhado)
+      - POSTGRES_HOST=postgres       # Nome do serviço do seu foninhoiuri-postgresql
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=default    # Usuário fixo conforme Evolution API
+      - POSTGRES_PASSWORD=default    # Senha fixa conforme Evolution API
+      - POSTGRES_DATABASE=chatwoot   # Novo database exclusivo para este app
       
-      # Configuração do Redis (USANDO VARIÁVEIS DE DEPENDÊNCIA DO UMBREL)
-      # Assume que o Umbrel injeta as variáveis REDIS_HOST e REDIS_PORT
-      - REDIS_URL=redis://$REDIS_HOST:$REDIS_PORT/1
-      
-      # Configuração de Email (Recomendado)
-      # - MAILER_SENDER_EMAIL=chatwoot@$UMBREL_WEB_DOMAIN
-      # - SMTP_ADDRESS=
-      # ...
+      # Configuração do Redis (Compartilhado)
+      - REDIS_URL=redis://redis:6379/1 # Nome do serviço do seu foninhoiuri-redis
       
   # ----------------------------------------------------
   # 2. Serviço Worker (Sidekiq para tarefas em segundo plano)
   # ----------------------------------------------------
   worker:
     image: chatwoot/chatwoot:v3.10.0
+    container_name: chatwoot_worker
     restart: unless-stopped
     volumes:
       - chatwoot_storage:/app/storage
@@ -57,18 +51,18 @@ services:
       - INSTALLATION_ENV=docker
       - SECRET_KEY_BASE=$APP_SECRET_CHATWOOT_SECRET_KEY_BASE
       
-      # Configuração do Banco de Dados
-      - POSTGRES_HOST=$POSTGRESQL_HOST
-      - POSTGRES_PORT=$POSTGRESQL_PORT
-      - POSTGRES_USERNAME=$POSTGRESQL_USERNAME
-      - POSTGRES_PASSWORD=$POSTGRESQL_PASSWORD
+      # Credenciais do PostgreSQL
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=default
+      - POSTGRES_PASSWORD=default
       - POSTGRES_DATABASE=chatwoot
 
-      # Configuração do Redis
-      - REDIS_URL=redis://$REDIS_HOST:$REDIS_PORT/1
+      # Conexão do Redis
+      - REDIS_URL=redis://redis:6379/1
 
 # ----------------------------------------------------
-# Definição de Volumes para Persistência de Dados
+# Definição de Volumes
 # ----------------------------------------------------
 volumes:
   chatwoot_storage:

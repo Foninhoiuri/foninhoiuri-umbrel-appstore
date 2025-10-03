@@ -3,9 +3,9 @@ services:
     image: chatwoot/chatwoot:v4.6.0-ce
     container_name: chatwoot_web
     restart: unless-stopped
-    depends_on:
-      - foninhoiuri-postgresql
-      - foninhoiuri-redis
+    #depends_on:
+    #  - foninhoiuri-postgresql
+    #  - foninhoiuri-redis
     environment:
       # Configurações Essenciais
       - NODE_ENV=production
@@ -34,4 +34,4 @@ services:
       - "3000:3000"
 
     volumes:
-      - ${APP_DATA_DIR}/data/chatwoot/storage:/app/storage
+      - ${APP_DATA_DIR}/data/storage:/app/storage
